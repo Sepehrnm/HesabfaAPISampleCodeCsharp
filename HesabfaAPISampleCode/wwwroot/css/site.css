@@ -1,0 +1,16 @@
+@import "navbar.css";
+
+html {
+  direction: rtl;
+}
+
+.index-description {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+    gap: 2rem;
+}
+
+.index-description div img {
+    height: 350px;
+}

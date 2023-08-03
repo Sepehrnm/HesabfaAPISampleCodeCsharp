@@ -1,0 +1,136 @@
+﻿nav {
+    background: #F8F9FA;
+    padding: 0.5rem;
+    float: right;
+    min-height: 100vh !important;
+    height: max-content !important;
+    margin-left: 1rem;
+}
+
+nav a {
+    border-radius: 5px;
+    display: block;
+}
+
+    nav a:active {
+        opacity: 0.7;
+    }
+
+    nav a:hover {
+        background: #00B9F2 !important;
+        color: #F8F9FA !important;
+    }
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
+}
+
+li {
+    margin: 0.5rem 0;
+    list-style: none;
+    direction: rtl;
+    width: 100%;
+    text-align: right !important;
+    background: #F8F9FA !important;
+}
+
+    li a {
+        color: #333 !important;
+    }
+
+a {
+    color: #00B9F2 !important;
+    font-weight: bold;
+    font-size: 0.8rem !important;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    padding: 0.5rem;
+    text-decoration: none !important;
+}
+
+h3 {
+    color: #707070;
+}
+
+.dropbtn {
+    background-color: transparent;
+    color: #3e3e3e;
+    font-weight: bold;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border-radius: 5px 0 0 5px;
+    width: 100%;
+    text-align: right;
+    border-right: 3px solid #00AEEF;
+}
+
+.home-list a {
+    border-radius: 5px 0 0 5px;
+    border-right: 3px solid #00AEEF;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background: #00B9F2 !important;
+    color: #F8F9FA !important;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    background: #F8F9FA !important;
+}
+
+.dropdown-content {
+    display: none;
+    position: relative;
+    width: 200px;
+    overflow: auto;
+    background: #F8F9FA !important;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 0.8rem 0.5rem;
+    text-align: right !important;
+    text-decoration: none;
+    display: block;
+    font-weight: 400 !important;
+}
+
+.dropdown-content a:hover {
+    background: rgba(0, 185, 242, 0.19) !important;
+    color: #333 !important;
+}
+
+.dropdown a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+}
+
+#dropdown-category {
+    display: none;
+    position: relative;
+    overflow: auto;
+}
+
+.visible {
+    display: block;
+}
+
+.dropdown-icon {
+    width: 20px;
+    height: 100%;
+    transform: rotate(0deg);
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}

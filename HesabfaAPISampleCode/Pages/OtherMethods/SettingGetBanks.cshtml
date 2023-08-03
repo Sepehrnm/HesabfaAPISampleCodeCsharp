@@ -1,0 +1,20 @@
+﻿@page
+@model HesabfaAPISampleCode.Pages.OtherMethods.SettingGetBanksModel
+
+@using HesabfaAPISampleCode.Models
+
+@{
+    ViewData["Title"] = "دریافت لیست بانک ها";
+}
+
+@foreach (var bank in Model.ResultItems)
+{
+    <div>
+        <p>Id: @bank.Id</p>
+        <p>Code: @bank.Code</p>
+        <p>Account Number: @bank.AccountNumber</p>
+        <p>Name: @bank.Name</p>
+        <p>Branch: @bank.Branch</p>
+        <p>Currency: @bank.Currency</p>
+    </div>
+}

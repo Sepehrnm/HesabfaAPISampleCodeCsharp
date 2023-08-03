@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HesabfaAPISampleCode</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HesabfaAPISampleCode.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <img style="width: 40px;height: 40px" src="../assets/hesabfaIcon.png" alt="hesabfaIcon">
+                    <img style="width: 70px;height: 60px" src="../assets/hesabfa-logo.png" alt="logo">
+                </li>
+
+                <li class="home-list">
+                    <a asp-page="/Index">خانه</a>
+                </li>
+
+                <li class="home-list">
+                    <a asp-page="/Errors/Errors">جدول کدهای خطا</a>
+                </li>
+
+                <li class="dropdown">
+                    <button class="dropbtn">متد های کالاها و خدمات</button>
+                    <div class="dropdown-content">
+                        <a asp-page="/ItemMethods/ItemGet">دریافت</a>
+                        <a asp-page="/ItemMethods/ItemSave">ذخیره</a>
+                        <a asp-page="/ItemMethods/ItemGetByBarcode">دریافت از طریق بارکد</a>
+                        <a asp-page="/ItemMethods/ItemGetById">دریافت از طریق Id</a>
+                        <a asp-page="/ItemMethods/Item">دریافت لیست</a>
+                        <a asp-page="/ItemMethods/ItemDelete">حذف</a>
+                        <a asp-page="/ItemMethods/ItemGetInventoryList">لیست موجودی کالاها</a>
+                        <a asp-page="/ItemMethods/ItemUpdateOpeningQuantity">به روز رسانی موجودی اول دوره کالاها</a>
+                    </div>
+                </li>
+
+                <li class="dropdown">
+                    <button class="dropbtn">متد های فاکتور</button>
+                    <div class="dropdown-content">
+                        <a asp-page="/InvoiceMethods/InvoiceSave">ذخیره فاکتور</a>
+                        <a asp-page="/InvoiceMethods/InvoiceDelete">حذف فاکتور</a>
+                        <a asp-page="/InvoiceMethods/InvoiceGet">دریافت لیست</a>
+                        <a asp-page="/InvoiceMethods/InvoiceGet">دریافت فاکتور</a>
+                        <a asp-page="/InvoiceMethods/InvoiceSavePayment"> ثبت دریافت و پرداخت فاکتور</a>
+                        <a asp-page="/InvoiceMethods/InvoiceGetInvoiceById">دریافت از طریق Id</a>
+                        <a asp-page="/InvoiceMethods/InvoiceGetOnlineURL">دریافت URL فاکتور آنلاین</a>
+                        <a asp-page="/InvoiceMethods/InvoiceSaveWarehouseReceipt">ذخیره حواله انبار</a>
+                    </div>
+                </li>
+
+                <li class="dropdown">
+                    <button class="dropbtn">متد های اشخاص</button>
+                    <div class="dropdown-content">
+                        <a asp-page="/ContactMethods/ContactGet">دریافت</a>
+                        <a asp-page="/ContactMethods/ContactGetList">دریافت لیست</a>
+                        <a asp-page="/ContactMethods/ContactGetContactById">دریافت از طریق Id</a>
+                        <a asp-page="/ContactMethods/ContactSave">ذخیره</a>
+                        <a asp-page="/ContactMethods/ContactDelete">حذف</a>
+                        <a asp-page="/ContactMethods/ContactGetContactLink">لینک کارت حساب</a>
+                    </div>
+                </li>
+
+                <li class="dropdown">
+                    <button class="dropbtn">متد های دریافت و پرداخت</button>
+                    <div class="dropdown-content">
+                        <a asp-page="/ReceiptMethods/ReceiptGetList">نمایش لیست رسیدهای دریافت یا پرداخت</a>
+                        <a asp-page="/ReceiptMethods/ReceiptGet">دریافت رسید دریافت یا پرداخت</a>
+                        <a asp-page="/ReceiptMethods/ReceiptSave">ذخیره رسید</a>
+                        <a asp-page="/ReceiptMethods/ReceiptDelete">حذف رسید</a>
+                    </div>
+                </li>
+
+                <li class="dropdown">
+                    <button class="dropbtn">متد های ثبت سند حسابداری</button>
+                    <div class="dropdown-content">
+                        <a asp-page="/AccountingMethods/AccountingGet">دریافت</a>
+                        <a asp-page="/AccountingMethods/AccountingSave">ذخیره</a>
+                        <a asp-page="/AccountingMethods/AccountingGetList">دریافت لیست</a>
+                        <a asp-page="/AccountingMethods/AccountingDelete">حذف سند</a>
+                    </div>
+                </li>
+
+                <li class="dropdown">
+                    <button class="dropbtn">سایر متدها</button>
+                    <div class="dropdown-content">
+                        <a asp-page="/OtherMethods/SettingGetLastChanges">دریافت آخرین تغییرات</a>
+                        <a asp-page="/OtherMethods/SettingGetFiscalYearsList">دریافت لیست سال مالی</a>
+                        <a asp-page="/OtherMethods/SettingGetBanks">دریافت لیست بانک ها</a>
+                        <a asp-page="/OtherMethods/SettingGetCashes">دریافت لیست صندوق ها</a>
+                        <a asp-page="/OtherMethods/SettingGetPettyCashes">دریافت لیست تنخواه گردان ها</a>
+                        <a asp-page="/OtherMethods/SettingGetCurrency">دریافت واحد پول</a>
+                        <a asp-page="/OtherMethods/SettingGetWarehouses">دریافت لیست انبار ها</a>
+                        <a asp-page="/OtherMethods/SettingGetProductCategories">دریافت لیست دسته بندی کالا ها</a>
+                        <a asp-page="/OtherMethods/SettingGetServiceCategories">دریافت لیست دسته بندی خدمات</a>
+                        <a asp-page="/OtherMethods/SettingGetContactCategories">دریافت لیست دسته بندی اشخاص</a>
+                        <a asp-page="/OtherMethods/SettingGetFiscalYear">دریافت اطلاعات سال مالی جاری</a>
+                        <a asp-page="/OtherMethods/SettingGetProjectsList">دریافت لیست پروژه ها</a>
+                        <a asp-page="/OtherMethods/SettingGetSalesmenList">دریافت لیست فروشنده ها</a>
+                        <a asp-page="/OtherMethods/SettingGetCurrencyTable">دریافت جدول نرخ برابری ارزها</a>
+                        <a asp-page="/OtherMethods/SettingSetCurrencyTable">تنظیم جدول نرخ برابری ارزها</a>
+                        <a asp-page="/OtherMethods/SettingGetAccounts">دریافت جدول حساب ها</a>
+                        <a asp-page="/OtherMethods/SettingGetBusinessInfo">دریافت اطلاعات کسب و کار</a>
+                    </div>
+                </li>
+
+                <li class="dropdown">
+                    <button class="dropbtn">متد های دریافت گزارش</button>
+                    <div class="dropdown-content">
+                        <a asp-page="/ReportMethods/ReportBalancesheet">گزارش ترازنامه</a>
+                        <a asp-page="/ReportMethods/ReportDebtorsCreditors">گزارش بدهکاران و بستانکاران</a>
+                        <a asp-page="/ReportMethods/ReportProfitandLossStatement"> گزارش صورت سود و زیان</a>
+                        <a asp-page="/ReportMethods/ReportInventory">گزارش موجودی کالا</a>
+                        <a asp-page="/ReportMethods/ReportTrialBalance">گزارش تراز آزمایشی</a>
+                        <a asp-page="/ReportMethods/ReportTrialBalanceItems">گزارش آیتم های تفضیلی تراز آزمایشی</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <h4>@ViewData["Title"]</h4>
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script type='text/javascript'>
+        function init() {
+            $('button.dropbtn').on('click', (e) => {
+                $(".dropdown-content").slideUp();
+                $(e.target).next().stop().slideToggle();
+            });
+        }
+
+        $(document).ready(() => {
+            init();
+        });
+
+        var url = window.location.href;
+        var path = url.split('/').slice(3).join('/');
+        if(path != '')  $('a[href="/' + path + '"]').parent().slideDown();
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
