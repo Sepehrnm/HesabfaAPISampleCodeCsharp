@@ -1,4 +1,6 @@
+using HesabfaAPISampleCode.Controllers;
 using HesabfaAPISampleCode.Middlewares;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<HomeController>(); // Register HomeController
 
 var app = builder.Build();
 
