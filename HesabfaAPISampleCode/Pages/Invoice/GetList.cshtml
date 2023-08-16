@@ -1,0 +1,31 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Invoice.GetListModel
+@{
+    ViewData["Title"] = "دریافت لیست فاکتورها";
+    var data = (Invoice)ViewData["invoices"];
+    <div class="row">
+        <div class="container">
+            <form method="post" class="d-flex flex-column justify-content-center">
+                <div class="form-group">
+                    <label for="type">نوع فاکتور </label>
+                    <select name="type" class="form-select">
+                        <option value="0">فروش</option>
+                        <option value="1">خرید</option>
+                        <option value="2">برگشت از فروش</option>
+                        <option value="3">برگشت از خرید</option>
+                        <option value="4">ضایعات</option>
+                    </select>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">نمایش</button>
+            </form>
+            <div id="invoicesGridContainer"></div>
+        </div>
+    </div>
+}
+
+<script>
+    var invoices = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(data?.List));
+    initializeGetInvoicesListPage();
+</script>

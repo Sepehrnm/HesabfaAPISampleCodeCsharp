@@ -1,0 +1,35 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetContactCategoriesModel
+@{
+    ViewData["Title"] = "دریافت دسته بندی اشخاص";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div id="fullPath">نام دسته بندی</div>
+                <div id="simple-treeview">
+                    <div id="contact-details">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    fetch("/api/setting/GetContactCategories", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            getContactCategories(data)
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

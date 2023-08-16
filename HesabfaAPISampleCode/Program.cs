@@ -1,5 +1,6 @@
 using HesabfaAPISampleCode.Controllers;
 using HesabfaAPISampleCode.Middlewares;
+using HesabfaAPISampleCode.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
 
@@ -8,7 +9,21 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
-builder.Services.AddScoped<HomeController>(); // Register HomeController
+builder.Services.AddControllers(options =>
+{
+    options.RespectBrowserAcceptHeader = true;
+});
+builder.Services.AddControllers()
+    .AddXmlSerializerFormatters();
+
+builder.Services.AddSingleton<IBaseService, BaseService>();
+builder.Services.AddSingleton<ISettingService, SettingService>();
+builder.Services.AddSingleton<IProductService, ProductService>();
+builder.Services.AddSingleton<IContactService, ContactService>();
+builder.Services.AddSingleton<IInvoiceService, InvoiceService>();
+builder.Services.AddSingleton<IReceiptService, ReceiptService>();
+builder.Services.AddSingleton<IReportService, ReportService>();
+
 
 var app = builder.Build();
 
@@ -29,4 +44,7 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+app.MapControllers();
+
 app.Run();
+

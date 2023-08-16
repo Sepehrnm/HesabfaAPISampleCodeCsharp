@@ -1,0 +1,59 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetSalesmenListModel
+@{
+    ViewData["Title"] = "دریافت لیست فروشنده ها";
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>کد فروشنده</th>
+                        <th>نام فروشنده</th>
+                        <th>فعال بودن فروشنده</th>
+                        <th>یادداشت</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<script>
+    fetch("/api/setting/GetSalesmen", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            let tbody = document.getElementById("tbody");
+            data.map(item => {
+                let tableRow = document.createElement("tr");
+
+                let id = document.createElement("td");
+                let code = document.createElement("td");
+                let name = document.createElement("td");
+                let active = document.createElement("td");
+                let note = document.createElement("td");
+
+                id.innerText = item.id;
+                code.innerText = item.code;
+                name.innerText = item.name;
+                active.innerText = item.active;
+                note.innerText = item.note;
+
+
+                tableRow.append(id, code, name, active, note);
+                tbody.append(tableRow);
+            })
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

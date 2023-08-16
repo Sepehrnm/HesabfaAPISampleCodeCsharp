@@ -1,0 +1,38 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Contact.DeleteModel
+@{
+    ViewData["Title"] = "حذف شخص";
+    var result = (ResultResponse)ViewData["result"];
+    <div class="row">
+        <div class="container">
+            <div class="col-12">
+                <form method="post" class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="code">کد شخص مورد نظر</label>
+                        <input id="code" class="form-control" name="code" />
+                    </div>
+                    <br />
+                    <button type="submit" class="btn btn-danger">حذف</button>
+                </form>
+                <br />
+
+        @if (result != null) {
+        if(result.Success == true) {
+                <div class="alert alert-success">
+                    کاربر حذف گردید
+                </div>
+        } else {
+                <div class="alert alert-danger">
+                    @result.ErrorMessage;
+                </div>
+        }
+    } else {
+            <div class="alert alert-danger">
+                خطا در حذف کاربر
+            </div>
+    }
+            </div>
+        </div>
+    </div>
+}

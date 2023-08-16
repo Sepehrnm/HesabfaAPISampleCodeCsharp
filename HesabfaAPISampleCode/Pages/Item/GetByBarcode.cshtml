@@ -1,0 +1,69 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Item.GetByBarcodeModel
+@{
+    ViewData["Title"] = "دریافت کالا یا خدمات از طریق بارکد";
+    var item = (ProductItem)ViewData["item"];
+    <div class="row">
+        <div class="container">
+            <div class="col-12">
+                <form method="post" class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="barcode">کد حسابداری کالای مورد نظر </label>
+                        <input type="text" name="barcode" class="form-control" />
+                    </div>
+                    <br />
+                    <button type="submit" class="btn btn-primary">نمایش</button>
+                </form>
+                <div id="receiptGridContainer"></div>
+                @if (item != null)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>کد حسابداری کالا یا خدمات</th>
+                                    <th>نام کالا یا خدمات</th>
+                                    <th>بارکد کالا یا خدمات</th>
+                                    <th>نوع</th>
+                                    <th>واحد خرید و فروش</th>
+                                    <th>موجودی</th>
+                                    <th>قیمت خرید</th>
+                                    <th>قیمت فروش</th>
+                                    <th>عنوان در فاکتور فروش</th>
+                                    <th>عنوان در فاکتور خرید</th>
+                                    <th>مسیر دسته بندی</th>
+                                    <th>Tag</th>
+                                    <th>توضیحات</th>
+                                    <th>کد کالا یا خدمات</th>
+                                    <th>وضعیت کالا</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Code</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Barcode</td>
+                                    <td>@item.ItemType</td>
+                                    <td>@item.Unit</td>
+                                    <td>@item.Stock</td>
+                                    <td>@item.BuyPrice</td>
+                                    <td>@item.SellPrice</td>
+                                    <td>@item.PurchasesTitle</td>
+                                    <td>@item.SalesTitle</td>
+                                    <td>@item.NodeFamily</td>
+                                    <td>@item.Tag</td>
+                                    <td>@item.Description</td>
+                                    <td>@item.ProductCode</td>
+                                    <td>@item.Active</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

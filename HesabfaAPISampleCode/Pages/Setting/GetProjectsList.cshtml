@@ -1,0 +1,53 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetProjectsListModel
+@{
+    ViewData["Title"] = "دریافت لیست پروژه ها";
+
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>نام پروژه</th>
+                        <th>فعال بودن پروژه</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<script>
+    fetch("/api/setting/GetProjects", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            data.map(item => {
+                let tableRow = document.createElement("tr");
+
+                let id = document.createElement("td");
+                let title = document.createElement("td");
+                let active = document.createElement("td");
+
+
+                id.innerText = item.id;
+                title.innerText = item.title;
+                active.innerText = item.active;
+
+                tableRow.append(id, title, active);
+                document.getElementById("tbody").append(tableRow);
+            })
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

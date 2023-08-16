@@ -1,0 +1,60 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetCashesModel
+@{
+    ViewData["Title"] = "دریافت لیست صندوق ها";
+}
+
+@{
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>کد صندوق</th>
+                        <th>نام صندوق</th>
+                        <th>واحد پول</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<script>
+    fetch("/api/setting/GetCashes", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            let tbody = document.getElementById("tbody");
+            data.map(item => {
+                let tableRow = document.createElement("tr");
+
+                let id = document.createElement("td");
+                let code = document.createElement("td");
+                let name = document.createElement("td");
+                let currency = document.createElement("td");
+
+
+                id.innerText = item.id;
+                code.innerText = item.code;
+                name.innerText = item.name;
+                currency.innerText = item.currency;
+
+
+                tableRow.append(id, code, name, currency);
+                tbody.append(tableRow);
+            })
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

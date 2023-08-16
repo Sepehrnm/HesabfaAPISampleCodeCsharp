@@ -1,0 +1,37 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetProductCategoriesModel
+@{
+    ViewData["Title"] = "دریافت دسته بندی کالا ها";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+            <div id="fullPath">نام دسته بندی</div>
+                <div id="simple-treeview">
+                    <div id="product-details">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    fetch("/api/setting/GetProductCategories", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Accept-Charset': 'utf-8'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data)
+            getProductCategories(data)
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

@@ -1,0 +1,66 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetBussinesInfoModel
+@{
+    ViewData["Title"] = "دریافت اطلاعات کسب و کار";
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>نام کسب و کار</th>
+                        <th>نام قانونی</th>
+                        <th>تقویم</th>
+                        <th>واحد پول اصلی</th>
+                        <th>امکان استفاده از سیستم چند ارزی</th>
+                        <th>سایر ارزها</th>
+                        <th>طرح</th>
+                        <th>اعتبار سند</th>
+                        <th>تاریخ انقضا</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<script>
+    fetch("/api/setting/GetBusinessInfo", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            let name = document.createElement("td");
+            let legalName = document.createElement("td");
+            let calendar = document.createElement("td");
+            let currency = document.createElement("td");
+            let supportMultiCurrency = document.createElement("td");
+            let otherCurrencies = document.createElement("td");
+            let subscription = document.createElement("td");
+            let credit = document.createElement("td");
+            let expireDate = document.createElement("td");
+
+            name.innerText = data.name;
+            legalName.innerText = data.legalName;
+            calendar.innerText = data.calendar;
+            currency.innerText = data.currency;
+            supportMultiCurrency.innerText = data.supportMultiCurrency;
+            otherCurrencies.innerText = data.otherCurrencies;
+            subscription.innerText = data.subscription;
+            credit.innerText = data.credit;
+            expireDate.innerText = data.expireDate;
+
+            let tableRow = document.createElement("tr");
+            tableRow.append(name, legalName, calendar, currency, supportMultiCurrency, otherCurrencies, subscription, credit, expireDate);
+            document.getElementById("tbody").append(tableRow);
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

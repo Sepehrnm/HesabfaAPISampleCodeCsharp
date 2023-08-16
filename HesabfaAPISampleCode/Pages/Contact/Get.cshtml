@@ -1,0 +1,148 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Contact.GetModel
+@{
+    ViewData["Title"] = "دریافت اطلاعات شخص";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="code">کد حسابداری کالا و خدمات</label>
+                        <input id="code" class="form-control" name="code" />
+                    </div>
+                    <br />
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>کد شخص</th>
+                                <th>نام شخص</th>
+                                <th>شرکت</th>
+                                <th>نام</th>
+                                <th>نام خانوادگی</th>
+                                <th>
+                                    <a href="https://hesabfa.com/help/api/TypesTable#contact-types" target="_blank">
+                                        نوع شخص
+                                    </a>
+                                </th>
+                                <th>کد/شناسه ملی</th>
+                                <th>کد اقتصادی</th>
+                                <th>شماره ثبت</th>
+                                <th>آدرس شخص</th>
+                                <th>شهر</th>
+                                <th>استان</th>
+                                <th>کد پستی</th>
+                                <th>شماره تلفن</th>
+                                <th>شماره فکس</th>
+                                <th>شماره موبایل</th>
+                                <th>ایمیل</th>
+                                <th>وب سایت</th>
+                                <th>تاریخ ثبت نام</th>
+                                <th>یادداشت</th>
+                                <th>درصد سهام</th>
+                                <th>بدهکاری</th>
+                                <th>بستانکاری</th>
+                                <th>اعتبار مالی</th>
+                                <th>Tag</th>
+                                <th>وضعیت شخص: فعال یا غیرفعال</th>
+                                <th>
+                                    <a href="https://hesabfa.com/help/api/TypesTable#tax-types-contact">نوع مالیات</a>
+                                </th>
+                                <th>دسته بندی شخص</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $('.submitButton').on('click', () => {
+        let code = document.getElementById('code').value;
+
+        fetch("/api/contact/Get", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(code)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data.name)
+                let tableRow = document.createElement("tr");
+                code = document.createElement("td");
+                nameCell = document.createElement("td");
+                company = document.createElement("td");
+                firstName = document.createElement("td");
+                lastName = document.createElement("td");
+                contactType = document.createElement("td");
+                nationalCode = document.createElement("td");
+                economicCode = document.createElement("td");
+                registrationNumber = document.createElement("td");
+                address = document.createElement("td");
+                city = document.createElement("td");
+                state = document.createElement("td");
+                postalCode = document.createElement("td");
+                phone = document.createElement("td");
+                fax = document.createElement("td");
+                mobile = document.createElement("td");
+                email = document.createElement("td");
+                website = document.createElement("td");
+                registrationDate = document.createElement("td");
+                note = document.createElement("td");
+                sharePercent = document.createElement("td");
+                liability = document.createElement("td");
+                credits = document.createElement("td");
+                contactCredit = document.createElement("td");
+                tag = document.createElement("td");
+                active = document.createElement("td");
+                taxType = document.createElement("td");
+                nodeFamily = document.createElement("td");
+
+                code.innerText = data.code;
+                nameCell.innerText = data.name;
+                company.innerText = data.company;
+                firstName.innerText = data.firstName;
+                lastName.innerText = data.lastName;
+                contactType.innerText = data.contactType;
+                nationalCode.innerText = data.nationalCode;
+                economicCode.innerText = data.economicCode;
+                registrationNumber.innerText = data.registrationNumber;
+                address.innerText = data.address;
+                city.innerText = data.city;
+                state.innerText = data.state;
+                postalCode.innerText = data.postalCode;
+                phone.innerText = data.phone;
+                fax.innerText = data.fax;
+                mobile.innerText = data.mobile;
+                email.innerText = data.email;
+                website.innerText = data.website;
+                registrationDate.innerText = data.registrationDate;
+                note.innerText = data.note;
+                sharePercent.innerText = data.sharePercent;
+                liability.innerText = data.liability;
+                credits.innerText = data.credits;
+                contactCredit.innerText = data.contactCredit;
+                tag.innerText = data.tag;
+                active.innerText = data.active;
+                taxType.innerText = data.taxType;
+                nodeFamily.innerText = data.nodeFamily;
+
+                tableRow.append(code, nameCell, company, firstName, lastName, contactType, nationalCode, economicCode, registrationNumber, address, city, state, postalCode, phone, fax, mobile, email, website, registrationDate, note, sharePercent, liability, credits, contactCredit, tag, active, taxType, nodeFamily);
+                document.getElementById('tbody').append(tableRow);
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+
+</script>

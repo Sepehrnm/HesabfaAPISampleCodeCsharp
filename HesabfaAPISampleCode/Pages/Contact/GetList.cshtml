@@ -1,0 +1,30 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Contact.GetListModel
+@{
+    ViewData["Title"] = "دریافت لیست اشخاص";
+    <div class="row">
+        <div class="container">
+            <div class="col-12" style="overflow: auto; width: 100%;">
+                <div id="contactGridContainer" style="height: 100%;"></div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    fetch("/api/Contact/GetList", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            initializeGetContactListPage(data)
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

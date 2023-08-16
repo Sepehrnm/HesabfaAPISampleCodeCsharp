@@ -1,0 +1,55 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Report.TrialBalanceModel
+@{
+    ViewData["Title"] = "گزارش تراز آزمایشی";
+    <div class="row">
+        <div class="container">
+            <div class="col-12">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="startDate">تاریخ شروع</label>
+                        <input id="startDate" class="form-control" name="startDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">تاریخ پایان</label>
+                        <input id="endDate" class="form-control" name="endDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="project">عنوان پروژه</label>
+                        <input id="project" class="form-control" name="project" />
+                    </div>
+                    <br />
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
+                <div id="trialBalanceGridContainer"></div>
+            </div>
+        </div>
+    </div>
+
+}
+<script>
+    $('.submitButton').on('click', () => {
+        let startDate = document.getElementById('startDate').value;
+        let endDate = document.getElementById('endDate').value
+        let project = document.getElementById('project').value;
+        
+        fetch("/api/Report/TrialBalance", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ startDate: startDate, endDate: endDate, project: project })
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                initializeGetTrialBalanceListPage(data);
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+
+</script>

@@ -1,0 +1,45 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Contact.GetContactLinkModel
+@{
+    ViewData["Title"] = "دریافت لینک کارت حساب شخص";
+    var link = (ContactLink)ViewData["link"];
+}
+<div class="row">
+    <div class="container">
+        <div class="col-12">
+            <form method="post" class="d-flex flex-column justify-content-center">
+                <div class="form-group">
+                    <label for="code">کد شخص مورد نظر</label>
+                    <input id="code" class="form-control" name="code" />
+                </div>
+                <div class="form-group">
+                    <label for="showAllAccounts">نمایش سایر حسابها (پیشفرض false)</label>
+                    <input id="showAllAccounts" class="form-control" name="showAllAccounts" />
+                </div>
+                <div class="form-group">
+                    <label for="days">تعداد روز اعتبار (پیشفرض 30 روز)</label>
+                    <input id="days" class="form-control" name="days" />
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">نمایش</button>
+            </form>
+            <br />
+            @if (@link != null)
+            {
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="text-center">لینک کارت حساب شخص</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <td class ="text-center">@link.Link</td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

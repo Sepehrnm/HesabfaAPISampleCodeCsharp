@@ -1,4 +1,4 @@
-@import "navbar.css";
+﻿@import "navbar.css";
 
 html {
   direction: rtl;
@@ -13,4 +13,28 @@ html {
 
 .index-description div img {
     height: 350px;
+}
+
+th {
+    min-width: 150px;
+}
+
+.dropdown-icon {
+    width: 25px;
+    transform: rotate(90deg);
+}
+
+#fullPath {
+    border: 1px solid black;
+    padding: 0.5rem;
+    margin: 1rem;
+    text-align: center;
+}
+
+.category-content {
+    cursor: pointer;
+}
+
+.rotate {
+    transform: rotate(0deg);
 }

@@ -1,0 +1,52 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetFiscalYearModel
+@{
+    ViewData["Title"] = "دریافت اطلاعات سال مالی";
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover table-striped">
+                <thead style="text-align: center;">
+                    <tr>
+                        <th>نام سال مالی</th>
+                        <th>تاریخ شروع سال مالی</th>
+                        <th>تاریخ پایان سال مالی</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+<script>
+    fetch("/api/setting/GetFiscalYear", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            let tableRow = document.createElement("tr");
+
+            let Name = document.createElement("td");
+            let StartDate = document.createElement("td");
+            let EndDate = document.createElement("td");
+
+
+            Name.innerText = data.name;
+            StartDate.innerText = data.startDate;
+            EndDate.innerText = data.endDate;
+
+            tableRow.append(Name, StartDate, EndDate);
+            document.getElementById("tbody").append(tableRow);
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>
+

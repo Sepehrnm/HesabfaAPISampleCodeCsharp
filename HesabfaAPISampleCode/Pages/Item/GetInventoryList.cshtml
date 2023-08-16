@@ -1,0 +1,32 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Item.InventoryListModel
+@{
+    ViewData["Title"] = "لیست موجودی کالاها";
+    var inventory = (List<QuantityItem>)ViewData["inventory"];
+
+    <div class="row">
+        <div class="container">
+            <div class="col-12" style="overflow: auto; width: 100%;">
+                <form method="post" class="d-flex justify-content-center flex-column">
+                    <div class="form-group">
+                        <label for="warehouseCode">	کد انبار (اختیاری)</label>
+                        <input id="warehouseCode" class="form-control" name="warehouseCode" />
+                    </div>
+                    <div class="form-group">
+                        <label for="codes">	کد کالاها (اختیاری)</label>
+                        <input id="codes" class="form-control" name="codes" />
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">نمایش</button>
+                </form>
+                <div id="inventoryGridContainer" style="height: 100%;"></div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    var inventory = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(inventory));
+    initializeGetInventoryListPage();
+</script>

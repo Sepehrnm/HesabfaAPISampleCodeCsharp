@@ -1,0 +1,44 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetCurrencyModel
+@{
+    ViewData["Title"] = "دریافت  واحد پول";
+
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover table-striped">
+                <thead style="text-align: center;">
+                    <tr>
+                        <th>واحد پول</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<script>
+    fetch("/api/setting/GetCurrency", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            let tbody = document.getElementById("tbody");
+            let tableRow = document.createElement("tr");
+
+            let currency = document.createElement("td");
+            currency.innerText = data.currency;
+
+            tableRow.append(currency);
+            tbody.append(tableRow);
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

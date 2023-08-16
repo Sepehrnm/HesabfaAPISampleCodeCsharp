@@ -1,0 +1,50 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Invoice.GetModel
+@{
+    ViewData["Title"] = "دریافت فاکتور";
+    var invoice = (InvoiceItem)ViewData["invoice"];
+    <div class="row">
+        <div class="container">
+            <div class="col-12">
+                <form method="post" class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="type" class="form-label">نوع فاکتور </label>
+                        <select name="type" class="form-select">
+                            <option value="0">فروش</option>
+                            <option value="1">خرید</option>
+                            <option value="2">برگشت از فروش</option>
+                            <option value="3">برگشت از خرید</option>
+                            <option value="4">ضایعات</option>
+                        </select>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label for="number" class="form-label">شماره فاکتور</label>
+                        <input type="text" name="number" class="form-control" />
+                    </div>
+                    <br />
+                    <button type="submit" class="btn btn-primary">نمایش</button>
+                </form>
+                <div id="invoiceGridContainer"></div>
+                @if (invoice != null)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@invoice.Number</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

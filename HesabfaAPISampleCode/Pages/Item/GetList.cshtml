@@ -1,0 +1,18 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Item.GetListModel
+@{
+    ViewData["Title"] = "دریافت لیست کالا یا خدمات";
+    <div class="row">
+        <div class="container">
+            <div class="col-12" style="overflow: auto; height: 100vh; width: 100%;">
+                <div id="productGridContainer" style="height: 100%;"></div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    var productList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(((Product) ViewData["List"]).List));
+    initializeGetProductListPage();
+</script>

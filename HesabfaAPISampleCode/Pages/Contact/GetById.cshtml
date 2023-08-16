@@ -1,0 +1,45 @@
+﻿@page
+@model HesabfaAPISampleCode.Pages.Contact.GetByIDModel
+@using HesabfaAPISampleCode.Models
+@{
+    ViewData["Title"] = "دریافت اطلاعات شخص از طریق ID";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="idList">کد شخص مورد نظر</label>
+                        <input id="idList" class="form-control" name="idList" placeholder="1,2,3,..." />
+                    </div>
+                    <br />
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
+                <br />
+                <div id="contactGridContainer"></div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $('.submitButton').on('click', () => {
+        let idList = [$('#idList').val()];
+        idList = idList[0].split(',').map(Number);
+
+        fetch("/api/Contact/GetById", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(idList)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                initializeGetContactListPage(data)
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

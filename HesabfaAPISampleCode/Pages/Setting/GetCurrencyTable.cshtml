@@ -1,0 +1,53 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetCurrecyTableModel
+@{
+    ViewData["Title"] = "دریافت جدول نرخ برابری ارزها";
+
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>از</th>
+                        <th>به</th>
+                        <th>ضریب تبدیل</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+<script>
+    fetch("/api/setting/GetCurrencyTable", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            let tbody = document.getElementById("tbody");
+            data.map(currency => {
+                let tableRow = document.createElement("tr");
+                let from = document.createElement("td");
+                let to = document.createElement("td");
+                let rate = document.createElement("td");
+
+                from.innerText = currency.from;
+                to.innerText = currency.to;
+                rate.innerText = currency.rate;
+
+                tableRow.append(from, to, rate);
+                tbody.append(tableRow);
+            })
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

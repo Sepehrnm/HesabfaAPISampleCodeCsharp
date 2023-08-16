@@ -1,0 +1,46 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetLastChangesModel
+@{
+    ViewData["Title"] = "دریافت آخرین تغییرات";
+
+    <div class="container">
+        <div class="row">
+            <div class="d-flex flex-column justify-content-center">
+                <div class="form-group">
+                    <label for="start">شروع از ID</label>
+                    <input id="start" name="start" class="form-control" />
+                </div>
+                <br>
+                <button class="btn btn-primary submitButton" type="button">نمایش</button>
+            </div>
+            <div class="col-12" style="overflow: auto; width: 100%;">
+                <div id="changeGridContainer" style="height: 100%;"></div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(".submitButton").on('click', () => {
+        let start = $('#start').val();
+
+        fetch("/api/setting/GetLastChanges", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(start)
+
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+                initializeGetChangesPage(data);
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+
+</script>

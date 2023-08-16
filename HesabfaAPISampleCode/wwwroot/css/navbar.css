@@ -2,8 +2,8 @@
     background: #F8F9FA;
     padding: 0.5rem;
     float: right;
-    min-height: 100vh !important;
-    height: max-content !important;
+    min-height: 100vh;
+    height: max-content;
     margin-left: 1rem;
 }
 
@@ -17,8 +17,8 @@ nav a {
     }
 
     nav a:hover {
-        background: #00B9F2 !important;
-        color: #F8F9FA !important;
+        background: #00B9F2;
+        color: #F8F9FA;
     }
 
 ul {
@@ -33,26 +33,22 @@ li {
     list-style: none;
     direction: rtl;
     width: 100%;
-    text-align: right !important;
-    background: #F8F9FA !important;
+    text-align: right;
+    background: #F8F9FA;
 }
 
     li a {
-        color: #333 !important;
+        color: #333;
     }
 
 a {
-    color: #00B9F2 !important;
+    color: #00B9F2;
     font-weight: bold;
-    font-size: 0.8rem !important;
+    font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     padding: 0.5rem;
-    text-decoration: none !important;
-}
-
-h3 {
-    color: #707070;
+    text-decoration: none;
 }
 
 .dropbtn {
@@ -76,15 +72,14 @@ h3 {
 }
 
 .dropbtn:hover, .dropbtn:focus {
-    background: #00B9F2 !important;
-    color: #F8F9FA !important;
+    background: #00B9F2;
+    color: #F8F9FA;
 }
 
 .dropdown {
     position: relative;
     display: inline-block;
     width: 200px;
-    background: #F8F9FA !important;
 }
 
 .dropdown-content {
@@ -92,21 +87,21 @@ h3 {
     position: relative;
     width: 200px;
     overflow: auto;
-    background: #F8F9FA !important;
+    background: #F8F9FA;
 }
 
 .dropdown-content a {
     color: black;
     padding: 0.8rem 0.5rem;
-    text-align: right !important;
+    text-align: right;
     text-decoration: none;
     display: block;
-    font-weight: 400 !important;
+    font-weight: 400;
 }
 
 .dropdown-content a:hover {
-    background: rgba(0, 185, 242, 0.19) !important;
-    color: #333 !important;
+    background: rgba(0, 185, 242, 0.19);
+    color: #333;
 }
 
 .dropdown a:hover {

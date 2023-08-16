@@ -1,0 +1,34 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Report.DebtsorCreditsModel
+@{
+    ViewData["Title"] = "گزارش بدهکاران و بستانکاران";
+    <div class="row">
+        <div class="container">
+            <div class="col-12">
+                <form method="post" class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="startDate">تاریخ شروع</label>
+                        <input id="startDate" class="form-control" name="startDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">تاریخ پایان</label>
+                        <input id="endDate" class="form-control" name="endDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="project">عنوان پروژه</label>
+                        <input id="project" class="form-control" name="project" />
+                    </div>
+                    <br />
+                    <button type="submit" class="btn btn-primary">نمایش</button>
+                </form>
+                <div id="debtorsCreditorsListGridContainer"></div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    var debtorsCreditors = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject((List<DebtorsCreditors>)ViewData["debtorsCreditors"]));
+    initializeGetDebtorsCreditorsListPage();
+</script>

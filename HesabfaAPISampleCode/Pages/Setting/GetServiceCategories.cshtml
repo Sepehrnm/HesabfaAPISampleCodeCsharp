@@ -1,0 +1,36 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetServiceCategoriesModel
+@{
+    ViewData["Title"] = "دریافت دسته بندی خدمات";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div id="fullPath">نام دسته بندی</div>
+                <div id="simple-treeview">
+                    <div id="service-details">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    fetch("/api/setting/GetServiceCategories", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data)
+            getServiceCategories(data)
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

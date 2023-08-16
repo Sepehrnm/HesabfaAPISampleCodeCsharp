@@ -1,0 +1,30 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.GetAccountsModel
+@{
+    ViewData["Title"] = "دریافت جدول حساب ها";
+
+    <div class="container">
+        <div class="row">
+            <div id="accountGridContainer"></div>
+        </div>
+    </div>
+}
+
+<script>
+    fetch("/api/setting/GetAccounts", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            initializeGetAccountsListPage(data);
+        })
+        .catch(error => console.error('Error Occured.', error));
+</script>

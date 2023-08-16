@@ -1,0 +1,81 @@
+﻿@page
+@using HesabfaAPISampleCode.Models
+@model HesabfaAPISampleCode.Pages.Setting.SetCurrencyTableModel
+@{
+    ViewData["Title"] = "تنظیم جدول نرخ برابری ارزها";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>از</th>
+                            <th>به</th>
+                            <th>ضریب تبدیل</th>
+                        </tr>
+                    </thead>
+                    <tbody id="set-currency-tbody">
+                    </tbody>
+                </table>
+                <br />
+                <div class="d-flex justify-content-center align-items-center">
+                    <button id="submit-button" type="button" class="btn btn-primary">ثبت</button>
+                </div>
+                <br />
+                <div class="button-container">
+                    <button class="btn btn-secondary" id="addRowBtn">+ افزودن ردیف </button>
+                    <button class="btn btn-danger" id="deleteRowBtn">- حذف ردیف</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    var i = 1;
+    $("#addRowBtn").on('click', (e) => {
+        e.preventDefault();
+        let html = `
+            <tr>
+                <td><input id="from${i}" name="from${i}" type="text" class="form-control" /></td>
+                <td><input id="to${i}" name="to${i}" type="text" class="form-control" /></td>
+                <td><input id="rate${i}" name="rate${i}" type="text" class="form-control" /></td>
+            </tr>
+        `;
+        document.getElementById("set-currency-tbody").innerHTML += html;
+        i = i + 1;
+    })
+    $("#deleteRowBtn").on('click', (e) => {
+        e.preventDefault();
+        if (i > 1) {
+            $("#set-currency-tbody").children().last().remove();
+            i = i - 1;
+        }
+    })
+    $("#submit-button").on("click", (e) => {
+        let table = [];
+        for (let j = 1; j < i; j++) {
+            table.push({
+                "From": document.getElementById(`from${j}`).value,
+                "To": document.getElementById(`to${j}`).value,
+                "Rate": document.getElementById(`rate${j}`).value
+            });
+        }
+
+        fetch("/api/setting/setCurrencyTable", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(table)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>
