@@ -6,20 +6,8 @@ namespace HesabfaAPISampleCode.Pages.Receipt
 {
     public class GetModel : PageModel
     {
-        private readonly IReceiptService receiptService;
-        public GetModel(IReceiptService receiptService)
+        public void OnGet()
         {
-            this.receiptService = receiptService;
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-        public IActionResult OnPost(int type, int number)
-        {
-            ViewData["receipt"] = receiptService.GetReceipt(type, number);
-            return Page();
         }
     }
 }

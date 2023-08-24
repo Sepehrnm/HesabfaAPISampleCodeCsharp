@@ -2,4 +2,91 @@
 @model HesabfaAPISampleCode.Pages.Item.UpdateOpeningQuantityModel
 @{
     ViewData["Title"] = "به روز رسانی موجودی اول دوره کالاها";
+    <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>کد کالا</th>
+                                                <th>تعداد</th>
+                                                <th>مبلغ واحد</th>
+                                                <th>کد انبار</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody">
+                                        </tbody>
+                                    </table>
+                                    <br />
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <button class="btn btn-primary submitButton" type="button">بروزرسانی</button>
+                                    </div>
+                                    <br />
+                                    <div class="button-container">
+                                        <button class="btn btn-secondary" id="addRowBtn">+ افزودن ردیف </button>
+                                        <button class="btn btn-danger" id="deleteRowBtn">- حذف ردیف</button>
+                                    </div>
+                                </div>
+                            </div>
+    </div>
 }
+
+<script>
+    var i = 1;
+    $("#addRowBtn").on('click', (e) => {
+        e.preventDefault();
+        let html = `
+            <tr>
+                <td><input id="code${i}" name="code${i}" type="text" class="form-control" /></td>
+                <td><input id="quantity${i}" name="quantity${i}" type="text" class="form-control" /></td>
+                <td><input id="unitPrice${i}" name="unitPrice${i}" type="text" class="form-control" /></td>
+                <td><input id="warehouseCode${i}" name="warehouseCode${i}" type="text" class="form-control" /></td>
+            </tr>
+            `;
+        document.getElementById("tbody").innerHTML += html;
+        i = i + 1;
+    })
+    $("#deleteRowBtn").on('click', (e) => {
+        e.preventDefault();
+        if (i > 1) {
+            $("#tbody").children().last().remove();
+            i = i - 1;
+        }
+    })
+    $(".submitButton").on("click", (e) => {
+        var items = [];
+        for (let j = 1; j < i; j++) {
+            let item = {
+                "Code": $(`#code${j}`).val(),
+                "Quantity": parseInt($(`#quantity${j}`).val()),
+                "UnitPrice": parseInt($(`#unitPrice${j}`).val()),
+            };
+
+            if ($(`#warehouseCode${j}`).val()) {
+                item.WarehouseCode = parseInt($(`#warehouseCode${j}`).val());
+            }
+
+            items.push(item);
+        }
+
+        fetch("/api/Item/UpdateOpeningQuantity", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(items)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data) {
+                    alert("بروز گردید");
+                } else {
+                    alert("خطا در عملیات");
+                }
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

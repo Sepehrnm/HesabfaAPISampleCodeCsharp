@@ -3,10 +3,10 @@
 @model HesabfaAPISampleCode.Pages.Report.DebtsorCreditsModel
 @{
     ViewData["Title"] = "گزارش بدهکاران و بستانکاران";
-    <div class="row">
-        <div class="container">
+    <div class="container">
+        <div class="row">
             <div class="col-12">
-                <form method="post" class="d-flex flex-column justify-content-center">
+                <div class="d-flex flex-column justify-content-center">
                     <div class="form-group">
                         <label for="startDate">تاریخ شروع</label>
                         <input id="startDate" class="form-control" name="startDate" />
@@ -20,8 +20,8 @@
                         <input id="project" class="form-control" name="project" />
                     </div>
                     <br />
-                    <button type="submit" class="btn btn-primary">نمایش</button>
-                </form>
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
                 <div id="debtorsCreditorsListGridContainer"></div>
             </div>
         </div>
@@ -29,6 +29,29 @@
 }
 
 <script>
-    var debtorsCreditors = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject((List<DebtorsCreditors>)ViewData["debtorsCreditors"]));
-    initializeGetDebtorsCreditorsListPage();
+    $(".submitButton").on('click', (e) => {
+        e.preventDefault();
+        const jsonBody = {
+            startDate: $("#startDate").val(),
+            endDate: $("#endDate").val(),
+            project: $("#project").val(),
+        };
+
+        fetch("/api/Report/DebtorsCreditors", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonBody)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+                initializeGetDebtorsCreditorsListPage(data);
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
 </script>

@@ -2,4 +2,114 @@
 @model HesabfaAPISampleCode.Pages.Report.BalancesheetModel
 @{
     ViewData["Title"] = "گزارش ترازنامه";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="startDate">تاریخ شروع</label>
+                        <input id="startDate" class="form-control" name="startDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">تاریخ پایان</label>
+                        <input id="endDate" class="form-control" name="endDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="project">عنوان پروژه</label>
+                        <input id="project" class="form-control" name="project" />
+                    </div>
+                    <br />
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
+                <br>
+                <br>
+                <div id="simple-treeview">
+                </div>
+                <br>
+                <hr>
+                <br>
+                <div id="total">
+                    <div id="assets"></div>
+                    <div id="equity"></div>
+                    <div id="liabilities"></div>
+                    <div id="profitOrLoss"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
+<script>
+    $(() => {
+    });
+
+
+    $('.submitButton').on('click', () => {
+        let startDate = document.getElementById('startDate').value;
+        let endDate = document.getElementById('endDate').value
+        let project = document.getElementById('project').value;
+
+        fetch("/api/Report/Balancesheet", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ startDate: startDate, endDate: endDate, project: project })
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                var list = [];
+                formatBalanceSheetData(data.Accounts, list, 1, 0);
+
+                $('#simple-treeview').dxTreeList({
+                    dataSource: list,
+                    keyExpr: 'id',
+                    parentIdExpr: 'parentId',
+                    rtlEnabled: true,
+                    columns: [
+                        {
+                            dataField: 'Account',
+                            caption: 'حساب',
+                            cellTemplate: function (container, options) {
+                                $('<div>').text(options.data.Account.Name).appendTo(container);
+                            }
+                        },
+                        {
+                            dataField: 'Balance',
+                            caption: 'تراز حساب'
+                        },
+                        {
+                            dataField: 'Credit',
+                            caption: 'گردش بستانکار'
+                        },
+                        {
+                            dataField: 'Debit',
+                            caption: 'گردش بدهکار'
+                        },
+                        {
+                            dataField: 'TotalCredit',
+                            caption: 'تراز - بستانکار'
+                        },
+                        {
+                            dataField: 'TotalDebit',
+                            caption: 'تراز - بدهکار'
+                        },
+                        {
+                            dataField: 'TotalBalance',
+                            caption: 'تراز کل حساب'
+                        },
+                    ]
+                });
+
+                $("#assets").text("سرجمع دارایی ها:" + "\t \t" + data.Assets);
+                $("#equity").text("بدهی ها:" + "\t \t" + data.Equity);
+                $("#liabilities").text("حقوق صاحبان سهام:" + "\t \t" + data.Liabilities);
+                $("#profitOrLoss").text("سود و زیان:" + "\t \t" + data.ProfitOrLoss);
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+
+</script>

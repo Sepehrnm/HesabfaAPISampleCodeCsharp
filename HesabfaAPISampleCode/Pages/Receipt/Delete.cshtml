@@ -2,4 +2,55 @@
 @model HesabfaAPISampleCode.Pages.Receipt.DeleteModel
 @{
     ViewData["Title"] = "حذف رسید";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="type">نوع رسید </label>
+                        <select id="type" name="type" class="form-select">
+                            <option value="1">دریافت</option>
+                            <option value="2">پرداخت</option>
+                        </select>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label for="number">شماره رسید </label>
+                        <input id="number" type="text" name="number" class="form-control" />
+                    </div>
+                    <br />
+                    <button type="submit" class="btn btn-danger submitButton">حذف</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
+<script type="text/javascript">
+    $('.submitButton').on('click', () => {
+        const jsonBody = {
+            type: parseInt($("#type").val()),
+            number: parseInt($("#number").val())
+        };
+
+        fetch("/api/Receipt/Delete", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonBody)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data == true) {
+                    alert("رسید حذف گردید");
+                } else {
+                    alert("خطا در عملیات");
+                }
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

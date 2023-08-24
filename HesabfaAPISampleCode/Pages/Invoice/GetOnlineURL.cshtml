@@ -3,11 +3,10 @@
 @model HesabfaAPISampleCode.Pages.Invoice.GetOnlineURLModel
 @{
     ViewData["Title"] = "دریافت لینک فاکتور آنلاین";
-    var onlineInvoiceURL = (OnlineInvoiceURL)ViewData["OnlineInvoiceURL"];
-    <div class="row">
-        <div class="container">
+    <div class="container">
+        <div class="row">
             <div class="col-12">
-                <form method="post" class="d-flex flex-column justify-content-center">
+                <div class="d-flex flex-column justify-content-center">
                     <div class="form-group">
                         <label for="number">شماره فاکتور مورد نظر</label>
                         <input id="number" class="form-control" name="number" />
@@ -17,24 +16,44 @@
                         <input id="type" class="form-control" name="type" />
                     </div>
                     <br />
-                    <button type="submit" class="btn btn-primary">نمایش</button>
-                </form>
-                @if (onlineInvoiceURL != null)
-                {
-                <table>
-                    <thead>
-                        <tr>
-                            <th>مقدار URL فاکتور آنلاین</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@onlineInvoiceURL.Result</td>
-                        </tr>
-                    </tbody>
-                </table>
-                }
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
+                <div id="gridContainer"></div>
             </div>
         </div>
     </div>
 }
+<script type="text/javascript">
+    $(".submitButton").on("click", () => {
+        const jsonBody = {
+            number: $("#number").val(),
+            type: $("#type").val()
+        }
+        fetch("/api/Invoice/GetOnlineInvoiceURL", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonBody)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                $("#gridContainer").dxDataGrid({
+                    dataSource: [data],
+                    columnMinWidth: 150,
+                    columnHidingEnabled: true,
+                    showBorders: true,
+                    scrolling: {
+                        mode: "standard"
+                    },
+                    onContentReady: function (e) {
+                        e.component.updateDimensions();
+                    }
+                });
+            })
+            .catch(error => console.error('Error Occured.', error));
+    });
+</script>

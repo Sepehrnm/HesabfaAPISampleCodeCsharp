@@ -7,8 +7,8 @@ namespace HesabfaAPISampleCode.Services
     {
         Receipt GetReceipts(int type);
         ReceiptItem GetReceipt(int type, int number);
-        ReceiptItem SaveReceipt(object receipt);
-        ResultResponse DeleteReceipt(int type, int number);
+        ReceiptItem SaveReceipt(SaveReceiptItem receipt);
+        object DeleteReceipt(int type, int number);
     }
     public class ReceiptService : IReceiptService
     {
@@ -48,20 +48,17 @@ namespace HesabfaAPISampleCode.Services
 
            return result.Result;
         }
-        public ReceiptItem SaveReceipt(object receipt)
+        public ReceiptItem SaveReceipt(SaveReceiptItem receipt)
         {
 
             var parameters = new List<(string, object)>
             {
-                //("type", receipt.type),
-                //("description", receipt.description),
-                //("amount", receipt.amount),
-                //("contactCode", receipt.contactCode),
-                //("bankCode", receipt.bankCode),
-                //("cashCode", receipt.cashCode),
-                //("pettyCashCode", receipt.pettyCashCode),
-                //("currency", receipt.currency),
-                //("currencyRate", receipt.currencyRate)            
+                ("type", receipt.Type),
+                ("amount", receipt.Amount),
+                ("contactCode", receipt.ContactCode),
+                ("bankCode", receipt.BankCode),
+                ("Number", receipt.Number),
+                ("description", receipt.Description),
             };
 
             var result = BaseService.Post<ReceiptItem>("receipt/save", parameters);
@@ -69,7 +66,7 @@ namespace HesabfaAPISampleCode.Services
             return result.Result;
         }
 
-        public ResultResponse DeleteReceipt(int type, int number)
+        public object DeleteReceipt(int type, int number)
         {
 
             var parameters = new List<(string, object)>
@@ -77,7 +74,7 @@ namespace HesabfaAPISampleCode.Services
                 ("type", type),
                 ("number", number),
             };
-            var result = BaseService.Post<ResultResponse>("receipt/delete", parameters);
+            var result = BaseService.Post<object>("receipt/delete", parameters);
 
             return result.Result;
         }

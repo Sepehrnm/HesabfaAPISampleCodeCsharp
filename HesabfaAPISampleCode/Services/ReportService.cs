@@ -6,10 +6,10 @@ namespace HesabfaAPISampleCode.Services
 {
     public interface IReportService
     {
-        List<Balancesheet> ReportBalancesheet(string startDate, string endDate, string project);
+        Balancesheet ReportBalancesheet(string startDate, string endDate, string project);
         List<DebtorsCreditors> ReportDebtorsCreditors(string startDate, string endDate, string project);
         List<Inventory> ReportInventory(string startDate, string endDate, string project);
-        List<ProfitAndLossStatement> ReportProfitAndLossStatement(string startDate, string endDate, string project);
+        ProfitAndLossStatement ReportProfitAndLossStatement(string startDate, string endDate, string project);
         List<TrialBalance> ReportTrialBalance(string startDate, string endDate, string project);
         List<TrialBalanceItem> ReportTrialBalanceItems(string startDate, string endDate, string project, string accountPath);
 
@@ -21,27 +21,48 @@ namespace HesabfaAPISampleCode.Services
         {
             this.BaseService = BaseService;
         }
-        public List<Balancesheet> ReportBalancesheet(string startDate, string endDate, string project)
+        public Balancesheet ReportBalancesheet(string startDate, string endDate, string project)
         {
-            var parameters = new List<(string, object)>
+            var parameters = new List<(string, object)>();
+
+            if (!string.IsNullOrEmpty(startDate))
             {
-                ("startDate", startDate),
-                ("endDate", endDate),
-                ("project", project)
-            };
-            var result = BaseService.Post<List<Balancesheet>>("report/balancesheet", parameters);
+                parameters.Add(("startDate", startDate));
+            }
+
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                parameters.Add(("endDate", endDate));
+            }
+
+            if (!string.IsNullOrEmpty(project))
+            {
+                parameters.Add(("project", project));
+            }
+            var result = BaseService.Post<Balancesheet>("report/balancesheet", parameters);
 
             return result.Result;
         }
 
         public List<DebtorsCreditors> ReportDebtorsCreditors(string startDate, string endDate, string project)
         {
-            var parameters = new List<(string, object)>
+            var parameters = new List<(string, object)>();
+
+            if (!string.IsNullOrEmpty(startDate))
             {
-                ("startDate", startDate),
-                ("endDate", endDate),
-                ("project", project)
-            };
+                parameters.Add(("startDate", startDate));
+            }
+
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                parameters.Add(("endDate", endDate));
+            }
+
+            if (!string.IsNullOrEmpty(project))
+            {
+                parameters.Add(("project", project));
+            }
+
             var result = BaseService.Post<List<DebtorsCreditors>>("report/debtorscreditors", parameters);
 
             return result.Result;
@@ -49,38 +70,68 @@ namespace HesabfaAPISampleCode.Services
 
         public List<Inventory> ReportInventory(string startDate, string endDate, string project)
         {
-            var parameters = new List<(string, object)>
+            var parameters = new List<(string, object)>();
+
+            if (!string.IsNullOrEmpty(startDate))
             {
-                ("startDate", startDate),
-                ("endDate", endDate),
-                ("project", project)
-            };
+                parameters.Add(("startDate", startDate));
+            }
+
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                parameters.Add(("endDate", endDate));
+            }
+
+            if (!string.IsNullOrEmpty(project))
+            {
+                parameters.Add(("project", project));
+            }
             var result = BaseService.Post<List<Inventory>>("report/inventory", parameters);
 
             return result.Result;
         }
 
-        public List<ProfitAndLossStatement> ReportProfitAndLossStatement(string startDate, string endDate, string project)
+        public ProfitAndLossStatement ReportProfitAndLossStatement(string startDate, string endDate, string project)
         {
-            var parameters = new List<(string, object)>
+            var parameters = new List<(string, object)>();
+
+            if (!string.IsNullOrEmpty(startDate))
             {
-                ("startDate", startDate),
-                ("endDate", endDate),
-                ("project", project)
-            };
-            var result = BaseService.Post<List<ProfitAndLossStatement>>("report/profitandlossstatement", parameters);
+                parameters.Add(("startDate", startDate));
+            }
+
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                parameters.Add(("endDate", endDate));
+            }
+
+            if (!string.IsNullOrEmpty(project))
+            {
+                parameters.Add(("project", project));
+            }
+            var result = BaseService.Post<ProfitAndLossStatement>("report/profitandlossstatement", parameters);
 
             return result.Result;
         }
 
         public List<TrialBalance> ReportTrialBalance(string startDate, string endDate, string project)
         {
-            var parameters = new List<(string, object)>
+            var parameters = new List<(string, object)>();
+
+            if (!string.IsNullOrEmpty(startDate))
             {
-                ("startDate", startDate),
-                ("endDate", endDate),
-                ("project", project)
-            };
+                parameters.Add(("startDate", startDate));
+            }
+
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                parameters.Add(("endDate", endDate));
+            }
+
+            if (!string.IsNullOrEmpty(project))
+            {
+                parameters.Add(("project", project));
+            }
             var result = BaseService.Post<List<TrialBalance>>("report/trialbalance", parameters);
 
             return result.Result;
@@ -88,13 +139,27 @@ namespace HesabfaAPISampleCode.Services
 
         public List<TrialBalanceItem> ReportTrialBalanceItems(string startDate, string endDate, string project, string accountPath)
         {
-            var parameters = new List<(string, object)>
+            var parameters = new List<(string, object)>();
+
+            if (!string.IsNullOrEmpty(startDate))
             {
-                ("startDate", startDate),
-                ("endDate", endDate),
-                ("project", project),
-                ("accountPath", accountPath),
-            };
+                parameters.Add(("startDate", startDate));
+            }
+
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                parameters.Add(("endDate", endDate));
+            }
+
+            if (!string.IsNullOrEmpty(project))
+            {
+                parameters.Add(("project", project));
+            }
+
+            if (!string.IsNullOrEmpty(accountPath))
+            {
+                parameters.Add(("accountPath", accountPath));
+            }
             var result = BaseService.Post<List<TrialBalanceItem>>("report/trialbalanceitems", parameters);
 
             return result.Result;

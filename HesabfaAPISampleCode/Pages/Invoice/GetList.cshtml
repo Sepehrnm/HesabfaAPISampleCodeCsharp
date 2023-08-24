@@ -3,13 +3,12 @@
 @model HesabfaAPISampleCode.Pages.Invoice.GetListModel
 @{
     ViewData["Title"] = "دریافت لیست فاکتورها";
-    var data = (Invoice)ViewData["invoices"];
-    <div class="row">
-        <div class="container">
-            <form method="post" class="d-flex flex-column justify-content-center">
+    <div class="container">
+        <div class="row">
+            <div class="d-flex flex-column justify-content-center">
                 <div class="form-group">
                     <label for="type">نوع فاکتور </label>
-                    <select name="type" class="form-select">
+                    <select id="type" name="type" class="form-select">
                         <option value="0">فروش</option>
                         <option value="1">خرید</option>
                         <option value="2">برگشت از فروش</option>
@@ -18,14 +17,30 @@
                     </select>
                 </div>
                 <br />
-                <button type="submit" class="btn btn-primary">نمایش</button>
-            </form>
+                <button type="button" class="btn btn-primary submitButton">نمایش</button>
+            </div>
             <div id="invoicesGridContainer"></div>
         </div>
     </div>
 }
 
-<script>
-    var invoices = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(data?.List));
-    initializeGetInvoicesListPage();
+<script type="text/javascript">
+    $('.submitButton').on('click', () => {
+        fetch("/api/Invoice/GetList", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(parseInt(document.getElementById('type').value))
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                initializeGetInvoicesListPage(data);
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+
 </script>

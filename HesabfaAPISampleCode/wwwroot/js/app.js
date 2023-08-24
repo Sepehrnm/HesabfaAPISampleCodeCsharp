@@ -1,7 +1,7 @@
-﻿function initializeGetTrialBalanceItemsListPage() {
+﻿function initializeGetTrialBalanceItemsListPage(data) {
     $('#trialBalanceItemsGridContainer').dxDataGrid({
-        dataSource: trialBalanceItems,
-        keyExpr: 'Code',
+        dataSource: data,
+        keyExpr: 'code',
         rtlEnabled: true,
         columnMinWidth: 150,
         filterRow: {
@@ -159,9 +159,9 @@ function initializeGetChangesPage(data) {
     });
 }
 
-function initializeGetProductListPage() {
+function initializeGetProductListPage(data) {
     $('#productGridContainer').dxDataGrid({
-        dataSource: productList,
+        dataSource: data,
         keyExpr: 'Code',
         rtlEnabled: true,
         columnMinWidth: 150,
@@ -215,10 +215,10 @@ function initializeGetContactListPage(data) {
     });
 }
 
-function initializeGetInventoryListPage() {
+function initializeGetInventoryListPage(data) {
     $('#inventoryGridContainer').dxDataGrid({
-        dataSource: inventory,
-        keyExpr: 'Code',
+        dataSource: data,
+        keyExpr: 'code',
         rtlEnabled: true,
         columnMinWidth: 150,
         filterRow: {
@@ -290,36 +290,10 @@ function initializeGetAccountsListPage(data) {
     });
 }
 
-function initializeGetInventoryListPage() {
-    $('#inventoryListGridContainer').dxDataGrid({
-        dataSource: inventory,
-        keyExpr: 'Code',
-        rtlEnabled: true,
-        columnMinWidth: 150,
-        filterRow: {
-            visible: true
-        },
-        paging: {
-            pageSize: 25,
-        },
-        focusedRowEnabled: true,
-        showColumnLines: true,
-        showRowLines: true,
-        rowAlternationEnabled: true,
-        showBorders: true,
-        headerFilter: {
-            visible: true,
-        },
-        groupPanel: {
-            visible: true,
-        },
-    });
-}
-
-function initializeGetDebtorsCreditorsListPage() {
+function initializeGetDebtorsCreditorsListPage(data) {
     $('#debtorsCreditorsListGridContainer').dxDataGrid({
-        dataSource: debtorsCreditors,
-        keyExpr: 'Code',
+        dataSource: data,
+        keyExpr: 'code',
         rtlEnabled: true,
         columnMinWidth: 150,
         filterRow: {
@@ -342,9 +316,9 @@ function initializeGetDebtorsCreditorsListPage() {
     });
 }
 
-function initializeGetInvoicesListPage() {
+function initializeGetInvoicesListPage(data) {
     $('#invoicesGridContainer').dxDataGrid({
-        dataSource: invoices,
+        dataSource: data,
         keyExpr: 'Number',
         rtlEnabled: true,
         columnMinWidth: 150,
@@ -368,9 +342,9 @@ function initializeGetInvoicesListPage() {
     });
 }
 
-function initializeGetReceiptsListPage() {
+function initializeGetReceiptsListPage(data) {
     $('#receiptsGridContainer').dxDataGrid({
-        dataSource: receipts,
+        dataSource: data,
         keyExpr: 'Id',
         rtlEnabled: true,
         columnMinWidth: 150,
@@ -394,7 +368,33 @@ function initializeGetReceiptsListPage() {
     });
 }
 
-function getContactCategories(data) {
+function initializeGetDocumentListPage(data) {
+    $('#documentsGridContainer').dxDataGrid({
+        dataSource: data,
+        keyExpr: 'Id',
+        rtlEnabled: true,
+        columnMinWidth: 150,
+        filterRow: {
+            visible: true
+        },
+        paging: {
+            pageSize: 25,
+        },
+        focusedRowEnabled: true,
+        showColumnLines: true,
+        showRowLines: true,
+        rowAlternationEnabled: true,
+        showBorders: true,
+        headerFilter: {
+            visible: true,
+        },
+        groupPanel: {
+            visible: true,
+        },
+    });
+}
+
+function formatContactCategories(data) {
     var contactCategories = data;
     let contactDetails = document.getElementById("contact-details");
     showCategory(contactCategories, contactDetails, 0);
@@ -431,7 +431,7 @@ function getContactCategories(data) {
     });
 }
 
-function getProductCategories(data) {
+function formatProductCategories(data) {
     var productCategories = data;
     let productDetails = document.getElementById("product-details");
     showCategory(productCategories, productDetails, 0);
@@ -468,7 +468,7 @@ function getProductCategories(data) {
     });
 }
 
-function getServiceCategories(data) {
+function formatServiceCategories(data) {
     var serviceCategories = data;
     let serviceDetails = document.getElementById("service-details");
     showCategory(serviceCategories, serviceDetails, 0);
@@ -503,4 +503,24 @@ function getServiceCategories(data) {
         $(this).toggleClass("rotate");
         $(this).parent().next().stop().slideToggle();
     });
+}
+
+function formatBalanceSheetData(data, ret, id, parentId) {
+    for (const d of data) {
+        d.id = id++;
+        d.parentId = parentId;
+        ret.push(d);
+        id = formatBalanceSheetData(d.Children, ret, id, d.id);
+    }
+    return id;
+}
+
+function formatProfitAndLossStatementData(data, ret, id, parentId) {
+    for (const d of data) {
+        d.id = id++;
+        d.parentId = parentId;
+        ret.push(d);
+        id = formatBalanceSheetData(d.Children, ret, id, d.id);
+    }
+    return id;
 }

@@ -8,8 +8,8 @@ namespace HesabfaAPISampleCode.Services
         ContactList GetContactList();
         Contact GetContact(string code);
         List<Contact> GetContactById(Array idList);
-        //Contact SaveContact(object contact);
-        ResultResponse DeleteContact(string code);
+        Contact SaveContact(object contact);
+        object DeleteContact(string code);
         ContactLink GetContactLink(string code, bool showAllAccounts, int days);
     }
     public class ContactService : IContactService
@@ -34,16 +34,16 @@ namespace HesabfaAPISampleCode.Services
             return result.Result;
         }
 
-        //public Contact SaveContact(object contact)
-        //{
-        //var result = BaseService.Post<Contact>("contact/save", ("contact", contact));
-
-        //return result.Result;
-        //}
-
-        public ResultResponse DeleteContact(string code)
+        public Contact SaveContact(object contact)
         {
-            var result = BaseService.Post<ResultResponse>("contact/delete", ("code", code));
+            var result = BaseService.Post<Contact>("contact/save", ("contact", contact));
+
+            return result.Result;
+        }
+
+        public object DeleteContact(string code)
+        {
+            var result = BaseService.Post<object>("contact/delete", ("code", code));
 
             return result.Result;
         }

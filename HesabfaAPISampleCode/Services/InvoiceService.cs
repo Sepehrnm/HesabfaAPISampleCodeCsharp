@@ -7,7 +7,9 @@ namespace HesabfaAPISampleCode.Services
     {
         Invoice GetInvoicesList(int type);
         InvoiceItem GetInvoice(int number, int type);
+        InvoiceItem GetInvoiceById(int id);
         OnlineInvoiceURL GetOnlineInvoiceURL(int number, int type);
+        object SavePayment(PaymentRequest requestObject);
     }
     public class InvoiceService : IInvoiceService
     {
@@ -50,6 +52,18 @@ namespace HesabfaAPISampleCode.Services
             return result.Result;
         }
 
+        public InvoiceItem GetInvoiceById(int id)
+        {
+            var parameters = new List<(string, object)>
+            {
+                ("id", id)
+            };
+            var result = BaseService.Post<InvoiceItem>("invoice/getById", parameters);
+
+            return result.Result;
+        }
+
+
         public OnlineInvoiceURL GetOnlineInvoiceURL(int number, int type)
         {
             var parameters = new List<(string, object)>
@@ -61,5 +75,24 @@ namespace HesabfaAPISampleCode.Services
 
             return result.Result;
         }
+
+        public object SavePayment(PaymentRequest requestObject)
+        {
+            var parameters = new List<(string, object)>
+            {
+                ("number", requestObject.Number),
+                ("type", requestObject.Type),
+                ("bankCode", requestObject.BankCode),
+                ("date", requestObject.Date),
+                ("amount", requestObject.Amount),
+                ("transactionNumber", requestObject.TransactionNumber),
+                ("description", requestObject.Description),
+                ("transactionFee", requestObject.TransactionFee),
+            };
+            var result = BaseService.Post<object>("invoice/savepayment", parameters);
+
+            return result.Result;
+        }
+        
     }
 }

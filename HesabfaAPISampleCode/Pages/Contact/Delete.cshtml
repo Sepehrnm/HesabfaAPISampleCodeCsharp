@@ -3,36 +3,44 @@
 @model HesabfaAPISampleCode.Pages.Contact.DeleteModel
 @{
     ViewData["Title"] = "حذف شخص";
-    var result = (ResultResponse)ViewData["result"];
-    <div class="row">
-        <div class="container">
+    <div class="container">
+        <div class="row">
             <div class="col-12">
-                <form method="post" class="d-flex flex-column justify-content-center">
+                <div class="d-flex flex-column justify-content-center">
                     <div class="form-group">
-                        <label for="code">کد شخص مورد نظر</label>
+                        <label for="code" class="form-label">کد شخص مورد نظر</label>
                         <input id="code" class="form-control" name="code" />
                     </div>
                     <br />
-                    <button type="submit" class="btn btn-danger">حذف</button>
-                </form>
-                <br />
-
-        @if (result != null) {
-        if(result.Success == true) {
-                <div class="alert alert-success">
-                    کاربر حذف گردید
+                    <button type="submit" class="btn btn-danger submitButton">حذف</button>
                 </div>
-        } else {
-                <div class="alert alert-danger">
-                    @result.ErrorMessage;
-                </div>
-        }
-    } else {
-            <div class="alert alert-danger">
-                خطا در حذف کاربر
-            </div>
-    }
             </div>
         </div>
     </div>
 }
+
+<script type="text/javascript">
+    $('.submitButton').on('click', () => {
+        let code = $('#code').val();
+
+        fetch("/api/Contact/Delete", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(code)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if(data == true) {
+                    alert("شخص حذف گردید");
+                } else {
+                    alert("خطا در عملیات");
+                }
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

@@ -3,10 +3,10 @@
 @model HesabfaAPISampleCode.Pages.Report.TrialBalanceItemsModel
 @{
     ViewData["Title"] = "گزارش آیتم های تفصیل تراز آزمایشی";
-    <div class="row">
-        <div class="container">
+    <div class="container">
+        <div class="row">
             <div class="col-12">
-                <form method="post" class="d-flex flex-column justify-content-center">
+                <div class="d-flex flex-column justify-content-center">
                     <div class="form-group">
                         <label for="startDate">تاریخ شروع</label>
                         <input id="startDate" class="form-control" name="startDate" />
@@ -24,14 +24,38 @@
                         <input id="accountPath" class="form-control" name="accountPath" />
                     </div>
                     <br />
-                    <button type="submit" class="btn btn-primary">نمایش</button>
-                </form>
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
                 <div id="trialBalanceItemsGridContainer"></div>
             </div>
         </div>
     </div>
 }
 <script>
-    var trialBalanceItems = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject((List<TrialBalanceItem>)ViewData["trialBalanceItems"]));
-    initializeGetTrialBalanceItemsListPage();
+    $(".submitButton").on("click", (e) => {
+        e.preventDefault();
+
+        const jsonBody = {
+            startDate: $("#startDate").val(),
+            endDate: $("#endDate").val(),
+            project: $("#project").val(),
+            accountPath: $("#accountPath").val()
+        };
+
+        fetch("/api/Report/TrialBalanceItems", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonBody)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                initializeGetTrialBalanceItemsListPage(data);
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
 </script>

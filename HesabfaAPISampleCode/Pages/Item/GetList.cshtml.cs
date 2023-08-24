@@ -6,16 +6,8 @@ namespace HesabfaAPISampleCode.Pages.Item
 {
     public class GetListModel : PageModel
     {
-        private readonly IProductService ProductService;
-        public GetListModel(IProductService ProductService)
+        public void OnGet()
         {
-            this.ProductService = ProductService;
-        }
-
-        public IActionResult OnGet()
-        {
-            ViewData["List"] = ProductService.GetItems();
-            return Page();
         }
     }
 }

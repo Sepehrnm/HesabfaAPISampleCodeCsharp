@@ -2,4 +2,85 @@
 @model HesabfaAPISampleCode.Pages.Accounting.GetModel
 @{
     ViewData["Title"] = "دریافت سند حسابداری";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group" style="width:100%;">
+                    <label for="number" class="form-label">شماره سند مورد نظر</label>
+                    <input id="number" class="form-control" name="number" />
+                </div>
+                <br />
+                <div class="d-flex align-items-center justify-content-center">
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
+                <div id="simple-treeview"></div>
+            </div>
+        </div>
+    </div>
 }
+
+<script>
+    $(".submitButton").on("click", () => {
+        fetch("/api/Document/Get", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify($("#number").val())
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+                $('#simple-treeview').dxTreeList({
+                    dataSource: data,
+                    keyExpr: "Id",
+                    rtlEnabled: true,
+                    columns: [
+                        {
+                            dataField: 'Number',
+                            caption: 'شماره سند',
+                        },
+                        {
+                            dataField: 'Reference',
+                            caption: 'ارجاع'
+                        },
+                        {
+                            dataField: 'Date',
+                            caption: 'تاریخ'
+                        },
+                        {
+                            dataField: 'Description',
+                            caption: 'توضیحات'
+                        },
+                        {
+                            dataField: 'Project',
+                            caption: 'پروژه'
+                        },
+                        {
+                            dataField: 'Debit',
+                            caption: 'بدهکار'
+                        },
+                        {
+                            dataField: 'Credit',
+                            caption: 'بستانکار'
+                        },
+                        {
+                            dataField: 'Status',
+                            caption: 'وضعیت سند'
+                        },
+                        {
+                            dataField: 'Transactions',
+                            caption: 'تراکنش ها',
+                            cellTemplate: function (container, options) {
+                                $('<div>').text(options.data.Transactions.AccountPath).appendTo(container);
+                            }
+                        },
+                    ]
+                })
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

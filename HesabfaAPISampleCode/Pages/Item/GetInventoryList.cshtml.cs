@@ -6,22 +6,8 @@ namespace HesabfaAPISampleCode.Pages.Item
 {
     public class InventoryListModel : PageModel
     {
-        private readonly IProductService ProductService;
-        
-        public InventoryListModel(IProductService ProductService)
+        public void OnGet()
         {
-            this.ProductService = ProductService;
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-
-        public IActionResult OnPost(int warehouseCode, Array codes)
-        {
-            ViewData["inventory"] = ProductService.GetQuantity(warehouseCode, codes);
-            return Page();
         }
     }
 }

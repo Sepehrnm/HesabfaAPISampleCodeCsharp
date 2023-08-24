@@ -3,12 +3,11 @@
 @model HesabfaAPISampleCode.Pages.Contact.GetContactLinkModel
 @{
     ViewData["Title"] = "دریافت لینک کارت حساب شخص";
-    var link = (ContactLink)ViewData["link"];
 }
 <div class="row">
     <div class="container">
         <div class="col-12">
-            <form method="post" class="d-flex flex-column justify-content-center">
+            <div class="d-flex flex-column justify-content-center">
                 <div class="form-group">
                     <label for="code">کد شخص مورد نظر</label>
                     <input id="code" class="form-control" name="code" />
@@ -22,24 +21,49 @@
                     <input id="days" class="form-control" name="days" />
                 </div>
                 <br />
-                <button type="submit" class="btn btn-primary">نمایش</button>
-            </form>
+                <button type="submit" class="btn btn-primary submitButton">نمایش</button>
+            </div>
             <br />
-            @if (@link != null)
-            {
-                <table class="table table-hover table-striped">
-                    <thead>
-                        <tr class="text-center">
-                            <th class="text-center">لینک کارت حساب شخص</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                            <td class ="text-center">@link.Link</td>
-                        </tr>
-                    </tbody>
-                </table>
-            }
+
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr class="text-center">
+                        <th class="text-center">لینک کارت حساب شخص</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" id="tableRow">
+                        <td class="text-center"></td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('.submitButton').on('click', () => {
+
+        let code = $('#code').val();
+        let showAllAccounts = $('#showAllAccounts').val() ? $('#showAllAccounts').val() : false;
+        let days = parseInt($('#days').val()) ? parseInt($('#days').val()) : 30;
+        let requestBody = { code: code, showAllAccounts: showAllAccounts, days: days };
+
+        fetch("/api/Contact/GetContactLink", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                $("#tableRow td").text(data.link);
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

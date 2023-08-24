@@ -3,21 +3,17 @@
 @model HesabfaAPISampleCode.Pages.Item.GetByBarcodeModel
 @{
     ViewData["Title"] = "دریافت کالا یا خدمات از طریق بارکد";
-    var item = (ProductItem)ViewData["item"];
     <div class="row">
-        <div class="container">
-            <div class="col-12">
-                <form method="post" class="d-flex flex-column justify-content-center">
-                    <div class="form-group">
-                        <label for="barcode">کد حسابداری کالای مورد نظر </label>
-                        <input type="text" name="barcode" class="form-control" />
+            <div class="container">
+                <div class="col-12">
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="form-group">
+                            <label for="barcode">بارکد کالای مورد نظر </label>
+                            <input id="barcode" type="text" name="barcode" class="form-control" />
+                        </div>
+                        <br />
+                        <button type="submit" class="btn btn-primary submitButton">نمایش</button>
                     </div>
-                    <br />
-                    <button type="submit" class="btn btn-primary">نمایش</button>
-                </form>
-                <div id="receiptGridContainer"></div>
-                @if (item != null)
-                {
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead>
@@ -40,30 +36,52 @@
                                     <th>وضعیت کالا</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>@item.Id</td>
-                                    <td>@item.Code</td>
-                                    <td>@item.Name</td>
-                                    <td>@item.Barcode</td>
-                                    <td>@item.ItemType</td>
-                                    <td>@item.Unit</td>
-                                    <td>@item.Stock</td>
-                                    <td>@item.BuyPrice</td>
-                                    <td>@item.SellPrice</td>
-                                    <td>@item.PurchasesTitle</td>
-                                    <td>@item.SalesTitle</td>
-                                    <td>@item.NodeFamily</td>
-                                    <td>@item.Tag</td>
-                                    <td>@item.Description</td>
-                                    <td>@item.ProductCode</td>
-                                    <td>@item.Active</td>
-                                </tr>
+                            <tbody id="tbody">
                             </tbody>
                         </table>
                     </div>
-                }
+                </div>
             </div>
-        </div>
     </div>
 }
+<script type="text/javascript">
+    $('.submitButton').on('click', () => {
+        let barcode = $('#barcode').val();
+
+        fetch("/api/Item/GetByBarcode", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(barcode)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("tbody").innerHTML = ``;
+                let tr =
+                    `<tr>
+                        <td>${data.id}</td>
+                        <td>${data.code}</td>
+                        <td>${data.name}</td>
+                        <td>${data.barcode}</td>
+                        <td>${data.itemType}</td>
+                        <td>${data.unit}</td>
+                        <td>${data.stock}</td>
+                        <td>${data.buyPrice}</td>
+                        <td>${data.sellPrice}</td>
+                        <td>${data.purchasesTitle}</td>
+                        <td>${data.salesTitle}</td>
+                        <td>${data.nodeFamily}</td>
+                        <td>${data.tag}</td>
+                        <td>${data.description}</td>
+                        <td>${data.productCode}</td>
+                        <td>${data.active}</td>
+                    </tr>`;
+                document.getElementById("tbody").innerHTML += tr;
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

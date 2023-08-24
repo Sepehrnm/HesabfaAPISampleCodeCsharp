@@ -6,21 +6,8 @@ namespace HesabfaAPISampleCode.Pages.Contact
 {
     public class DeleteModel : PageModel
     {
-        private readonly IContactService ContactService;
-        public DeleteModel(IContactService ContactService)
+        public void OnGet()
         {
-            this.ContactService = ContactService;
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-
-        public IActionResult OnPost(string code)
-        {
-            ViewData["result"] = ContactService.DeleteContact(code);
-            return Page();
         }
     }
 }

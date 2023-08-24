@@ -53,7 +53,7 @@
         }
     })
     $("#submit-button").on("click", (e) => {
-        let table = [];
+        var table = [];
         for (let j = 1; j < i; j++) {
             table.push({
                 "From": document.getElementById(`from${j}`).value,
@@ -74,7 +74,11 @@
                 return response.json();
             })
             .then(data => {
-                console.log(data);
+                if(data == true) {
+                    alert("ذخیره گردید");
+                } else {
+                    alert("خطا در عملیات");
+                }
             })
             .catch(error => console.error('Error Occured.', error));
     })

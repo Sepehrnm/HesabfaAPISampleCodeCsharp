@@ -6,20 +6,8 @@ namespace HesabfaAPISampleCode.Pages.Invoice
 {
     public class GetModel : PageModel
     {
-        private readonly IInvoiceService invoiceService;
-        public GetModel(IInvoiceService invoiceService)
+        public void OnGet()
         {
-            this.invoiceService = invoiceService;
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-        public IActionResult OnPost(int number, int type)
-        {
-            ViewData["invoice"] = invoiceService.GetInvoice(number, type);
-            return Page();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace HesabfaAPISampleCode.Services
         List<Project> GetProjects();
         List<Salesman> GetSalesmen();
         List<CurrencyTable> GetCurrencyTable();
-        List<CurrencyTable> SetCurrencyTable(Array table);
+        object SetCurrencyTable(Array table);
         BusinessInfo GetBusinessInfo();
         FiscalYear GetFiscalYear();
         List<Account> GetAccounts();
@@ -95,9 +95,9 @@ namespace HesabfaAPISampleCode.Services
             return result.Result;
         }
 
-        public List<CurrencyTable> SetCurrencyTable(Array table)
+        public object SetCurrencyTable(Array table)
         {
-            var result = BaseService.Post<List<CurrencyTable>>("setting/SetCurrencyTable", ("Table", table));
+            var result = BaseService.Post<object>("setting/SetCurrencyTable", ("Table", table));
 
             return result.Result;
         }

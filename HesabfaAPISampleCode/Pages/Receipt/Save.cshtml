@@ -2,4 +2,80 @@
 @model HesabfaAPISampleCode.Pages.Receipt.SaveModel
 @{
     ViewData["Title"] = "ذخیره رسید";
+    <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="d-flex gap-2">
+                            <div style="width:100%;" class="form-group">
+                                <label class="form-label" for="type">نوع رسید </label>
+                                <select id="type" name="type" class="form-select">
+                                    <option value="1">دریافت</option>
+                                    <option value="2">پرداخت</option>
+                                </select>
+                            </div>
+                            <div style="width:100%;" class="form-group">
+                                <label class="form-label" for="number">شماره رسید </label>
+                                <input id="number" type="text" name="number" class="form-control" />
+                            </div>
+                        </div>
+                        <div style="width:100%;" class="form-group">
+                            <label class="form-label" for="description">شرح رسید</label>
+                            <input id="description" type="text" name="description" class="form-control" />
+                        </div>
+                        <div class="d-flex gap-2">
+                            <div style="width:100%;" class="form-group">
+                                <label class="form-label" for="bankCode">کد بانک</label>
+                                <input id="bankCode" type="text" name="bankCode" class="form-control" />
+                            </div>
+                            <div style="width:100%;" class="form-group">
+                                <label class="form-label" for="contactCode">کد شخص</label>
+                                <input id="contactCode" type="text" name="contactCode" class="form-control" />
+                            </div>
+                            <div style="width:100%;" class="form-group">
+                                <label class="form-label" for="amount">مبلغ به ارز پایه سیستم</label>
+                                <input id="amount" type="text" name="amount" class="form-control" />
+                            </div>
+                        </div>
+                        <br />
+                        <button type="button" class="btn btn-primary submitButton">ذخیره</button>
+                    </div>
+                </div>
+            </div>
+    </div>
 }
+
+<script type="text/javascript">
+    $(".submitButton").on("click", () => {
+        var jsonBody = {
+            type           : parseInt($("#type").val()),
+            number         : parseInt($("#number").val()),
+            bankCode       : parseInt($("#bankCode").val()),
+            contactCode    : $("#contactCode").val(),
+            amount         : $("#amount").val(),
+            description    : $("#description").val()
+        };
+
+
+        fetch("/api/Receipt/Save", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonBody)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                if (data.Id) {
+                    alert("رسید ذخیره گردید");
+                } else {
+                    alert("خطا در عملیات");
+                }
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

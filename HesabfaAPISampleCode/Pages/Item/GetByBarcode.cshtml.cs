@@ -6,20 +6,8 @@ namespace HesabfaAPISampleCode.Pages.Item
 {
     public class GetByBarcodeModel : PageModel
     {
-        private readonly IProductService productService;
-        public GetByBarcodeModel(IProductService productService)
+        public void OnGet()
         {
-            this.productService = productService;
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-        public IActionResult OnPost(string barcode)
-        {
-            ViewData["item"] = productService.GetItemByBarcode(barcode);
-            return Page();
         }
     }
 }

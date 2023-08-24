@@ -2,4 +2,132 @@
 @model HesabfaAPISampleCode.Pages.Item.SaveModel
 @{
     ViewData["Title"] = "ذخیره کالا یا خدمات";
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex flex-column">
+                <div class="d-flex gap-2 align-items-center justify-content-evenly">
+                    <div class="form-group" style="width:100%;">
+                        <label for="code" class="form-label">کد حسابداری کالا یا خدمات</label>
+                        <input id="code" class="form-control" name="code" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="name" class="form-label">نام کالا</label>
+                        <input id="name" class="form-control" name="name" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="itemType" class="form-label">نوع</label>
+                        <input id="itemType" class="form-control" name="itemType" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="barcode" class="form-label">بارکد کالا/خدمات</label>
+                        <input id="barcode" class="form-control" name="barcode" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="unit" class="form-label">واحد کالا</label>
+                        <input id="unit" class="form-control" name="unit" />
+                    </div>
+                </div>
+                <br>
+                <div class="d-flex gap-2 align-items-center justify-content-evenly">
+                    <div class="form-group" style="width:100%;">
+                        <label for="buyPrice" class="form-label">قیمت خرید</label>
+                        <input id="buyPrice" class="form-control" name="buyPrice" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="sellPrice" class="form-label">قیمت فروش</label>
+                        <input id="sellPrice" class="form-control" name="sellPrice" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="purchaseTitle" class="form-label">عنوان در فاکتور فروش</label>
+                        <input id="purchaseTitle" class="form-control" name="purchaseTitle" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="salesTitle" class="form-label">عنوان در فاکتور خرید</label>
+                        <input id="salesTitle" class="form-control" name="salesTitle" />
+                    </div>
+                </div>
+                <br>
+                <div class="d-flex gap-2 align-items-center justify-content-evenly">
+                    <div class="form-group" style="width:100%;">
+                        <label for="tag" class="form-label">Tag</label>
+                        <input id="tag" class="form-control" name="tag" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="description" class="form-label">توضیحات</label>
+                        <input id="description" class="form-control" name="description" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="productCode" class="form-label">کد کالا یا خدمات</label>
+                        <input id="productCode" class="form-control" name="productCode" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="active" class="form-label">وضعیت کالا</label>
+                        <input id="active" class="form-control" name="active" />
+                    </div>
+                    <div class="form-group" style="width:100%;">
+                        <label for="nodeFamily" class="form-label">دسته بندی کالا</label>
+                        <input id="nodeFamily" class="form-control" name="nodeFamily" />
+                    </div>
+                </div>
+                <br><br>
+                <button type="button" class="btn btn-primary submitButton">ذخیره</button>
+            </div>
+        </div>
+    </div>
+
 }
+<script type="text/javascript">
+    $('.submitButton').on('click', () => {
+        let code = $('#code').val();
+        let name = $('#name').val();
+        let itemType = $('#itemType').val();
+        let barcode = $('#barcode').val();
+        let unit = $('#unit').val();
+        let buyPrice = $('#buyPrice').val();
+        let sellPrice = $('#sellPrice').val();
+        let purchaseTitle = $('#purchaseTitle').val();
+        let salesTitle = $('#salesTitle').val();
+        let tag = $('#tag').val();
+        let description = $('#description').val();
+        let productCode = $('#productCode').val();
+        let active = $('#active').val();
+        let nodeFamily = $('#nodeFamily').val();
+
+        let requestBody = {
+            code: code,
+            name: name,
+            itemType: itemType,
+            barcode: barcode,
+            unit: unit,
+            buyPrice: buyPrice,
+            sellPrice: sellPrice,
+            purchaseTitle: purchaseTitle,
+            salesTitle: salesTitle,
+            tag: tag,
+            description: description,
+            productCode: productCode,
+            active: active,
+            nodeFamily: nodeFamily,
+        };
+
+        fetch("/api/Item/Save", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if(data.id) {
+                    alert("آیتم ذخیره گردید");
+                } else {
+                    alert("خطا در عملیات");
+                }
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

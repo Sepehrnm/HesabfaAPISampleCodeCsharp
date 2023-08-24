@@ -2,5 +2,6 @@
 {
     public class ProfitAndLossStatement
     {
+        public object? Accounts { get; set; }
     }
 }

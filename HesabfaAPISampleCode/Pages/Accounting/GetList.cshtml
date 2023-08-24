@@ -2,4 +2,39 @@
 @model HesabfaAPISampleCode.Pages.Accounting.GetListModel
 @{
     ViewData["Title"] = "دریافت لیست سند حسابداری";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group" style="width:100%;">
+                    <label for="take" class="form-label">تعداد</label>
+                    <input id="take" class="form-control" name="take" />
+                </div>
+                <br />
+                <div class="d-flex align-items-center justify-content-center">
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
+                <div id="documentsGridContainer" style="height: 100%;"></div>
+            </div>
+        </div>
+    </div>
 }
+
+<script>
+    $(".submitButton").on("click", () => {
+        fetch("/api/Document/GetList", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify($("#take").val())
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                initializeGetDocumentListPage(data.List)
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

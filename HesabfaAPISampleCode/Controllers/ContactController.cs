@@ -38,5 +38,26 @@ namespace HesabfaAPISampleCode.Controllers
             List<Contact> response = contactService.GetContactById(idList);
             return Ok(response);
         }
+
+        [HttpPost]
+        public IActionResult Save([FromBody] object contact)
+        {
+            Contact response = contactService.SaveContact(contact);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public IActionResult Delete([FromBody] string code)
+        {
+            var response = contactService.DeleteContact(code);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public IActionResult GetContactLink([FromBody] ContactLinkRequest contactLinkRequest)
+        {
+            ContactLink response = contactService.GetContactLink(contactLinkRequest.Code, contactLinkRequest.ShowAllAccounts, contactLinkRequest.Days);
+            return Ok(response);
+        }
     }
 }

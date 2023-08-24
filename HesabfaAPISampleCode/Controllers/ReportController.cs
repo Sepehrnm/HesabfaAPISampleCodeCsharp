@@ -1,8 +1,10 @@
 ﻿using HesabfaAPISampleCode.Models;
 using HesabfaAPISampleCode.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NPOI.SS.Formula.Functions;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System.Text;
 
 namespace HesabfaAPISampleCode.Controllers
 {
@@ -20,8 +22,9 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult Balancesheet([FromBody] ReportRequest request)
         {
-            List<Balancesheet> response = reportService.ReportBalancesheet(request.StartDate, request.EndDate, request.Project);
-            return Ok(response);
+            Balancesheet response = reportService.ReportBalancesheet(request.StartDate, request.EndDate, request.Project);
+            var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
+            return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
@@ -41,8 +44,9 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult ProfitAndLossStatement([FromBody] ReportRequest request)
         {
-            List<ProfitAndLossStatement> response = reportService.ReportProfitAndLossStatement(request.StartDate, request.EndDate, request.Project);
-            return Ok(response);
+            ProfitAndLossStatement response = reportService.ReportProfitAndLossStatement(request.StartDate, request.EndDate, request.Project);
+            var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
+            return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
@@ -53,7 +57,7 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult TrialBalanceItems([FromBody] ReportRequest request)
+        public IActionResult TrialBalanceItems([FromBody] ReportRequestWithAccountPath request)
         {
             List<TrialBalanceItem> response = reportService.ReportTrialBalanceItems(request.StartDate, request.EndDate, request.Project, request.AccountPath);
             return Ok(response);

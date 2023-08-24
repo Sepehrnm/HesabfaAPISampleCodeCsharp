@@ -1,5 +1,4 @@
 using HesabfaAPISampleCode.Controllers;
-using HesabfaAPISampleCode.Middlewares;
 using HesabfaAPISampleCode.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
@@ -18,11 +17,12 @@ builder.Services.AddControllers()
 
 builder.Services.AddSingleton<IBaseService, BaseService>();
 builder.Services.AddSingleton<ISettingService, SettingService>();
-builder.Services.AddSingleton<IProductService, ProductService>();
+builder.Services.AddSingleton<IItemService, ItemService>();
 builder.Services.AddSingleton<IContactService, ContactService>();
 builder.Services.AddSingleton<IInvoiceService, InvoiceService>();
 builder.Services.AddSingleton<IReceiptService, ReceiptService>();
 builder.Services.AddSingleton<IReportService, ReportService>();
+builder.Services.AddSingleton<IDocumentService, DocumentService>();
 
 
 var app = builder.Build();
