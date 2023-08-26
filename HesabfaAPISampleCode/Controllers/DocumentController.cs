@@ -1,4 +1,5 @@
-﻿using HesabfaAPISampleCode.Services;
+﻿using HesabfaAPISampleCode.Models;
+using HesabfaAPISampleCode.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
@@ -29,6 +30,20 @@ namespace HesabfaAPISampleCode.Controllers
             var response = documentService.Get(number);
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
+        }
+
+        [HttpPost]
+        public IActionResult Delete([FromBody] int number)
+        {
+            var response = documentService.Delete(number);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public IActionResult Save([FromBody] Document document)
+        {
+            Document response = documentService.Save(document);
+            return Ok(response);
         }
     }
 }

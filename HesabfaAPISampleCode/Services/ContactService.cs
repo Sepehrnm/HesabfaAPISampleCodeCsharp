@@ -1,12 +1,13 @@
 ﻿using HesabfaAPISampleCode.Models;
 using NPOI.POIFS.Crypt.Dsig;
+using NPOI.SS.Formula.Functions;
 
 namespace HesabfaAPISampleCode.Services
 {
     public interface IContactService
     {
         ContactList GetContactList();
-        Contact GetContact(string code);
+        T GetContact<T>(string code);
         List<Contact> GetContactById(Array idList);
         Contact SaveContact(object contact);
         object DeleteContact(string code);
@@ -20,11 +21,16 @@ namespace HesabfaAPISampleCode.Services
             this.BaseService = BaseService;
         }
 
-        public Contact GetContact(string code)
+        public T GetContact<T>(string code)
         {
             var result = BaseService.Post<Contact>("contact/get", ("code", code));
-
-            return result.Result;
+            if(!result.Success)
+            {
+                return (T)(object)new { Success = false , ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            } else
+            {
+                return (T)(object)(Contact)result.Result;
+            }
         }
 
         public List<Contact> GetContactById(Array idList)

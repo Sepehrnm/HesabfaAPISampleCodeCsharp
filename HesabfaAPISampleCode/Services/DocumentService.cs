@@ -1,4 +1,5 @@
 ﻿using HesabfaAPISampleCode.Models;
+using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.SS.Formula.Functions;
 
 namespace HesabfaAPISampleCode.Services
@@ -7,6 +8,8 @@ namespace HesabfaAPISampleCode.Services
     {
         object GetList(int take);
         Document Get(int number);
+        object Delete(int number);
+        Document Save(Document document);
     }
     public class DocumentService : IDocumentService
     {
@@ -32,6 +35,19 @@ namespace HesabfaAPISampleCode.Services
         public Document Get(int number)
         {
             var result = BaseService.Post<Document>("document/get", ("number", number));
+
+            return result.Result;
+        }
+
+        public object Delete(int number)
+        {
+            var result = BaseService.Post<object>("document/delete", ("number", number));
+            return result.Result;
+        }
+
+        public Document Save(Document document)
+        {
+            var result = BaseService.Post<Document>("document/save", ("document", document));
 
             return result.Result;
         }

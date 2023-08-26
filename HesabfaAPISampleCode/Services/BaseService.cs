@@ -71,15 +71,29 @@ namespace HesabfaAPISampleCode.Services
             return result;
         }
 
-        public void CheckResult<T>(ApiResult<T> result)
+        public ApiResult<T> CheckResult<T>(ApiResult<T> result)
         {
             if (result == null)
-                throw new Exception("Could not receive data from hesabfa servers");
+            {
+                result = new ApiResult<T>
+                {
+                    Success = false,
+                    ErrorMessage = "Could not receive data from hesabfa servers",
+                    ErrorCode = 100
+                };
+            }
 
             if (!result.Success)
             {
-                throw new Exception(result.ErrorCode + ": " + result.ErrorMessage);
+                result = new ApiResult<T>
+                {
+                    Success = false,
+                    ErrorMessage = result.ErrorMessage,
+                    ErrorCode = result.ErrorCode
+                };
             }
+
+            return result;
         }
     }
 }

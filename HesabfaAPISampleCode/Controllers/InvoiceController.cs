@@ -50,7 +50,36 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult SavePayment([FromBody] PaymentRequest jsonBody)
         {
-            var response = invoiceService.SavePayment(jsonBody);
+            var response = invoiceService.SavePayment<object>(jsonBody);
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public IActionResult Delete([FromBody] InvoiceRequest jsonBody)
+        {
+            var response = invoiceService.Delete(jsonBody.Number, jsonBody.Type);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public IActionResult Save([FromBody] InvoiceItem invoice)
+        {
+            var response = invoiceService.Save<object>(invoice);
+            if (response is InvoiceItem)
+            {
+                return Ok(response as InvoiceItem);
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SaveWarehouseReceipt([FromBody] WarehouseReceipt receipt)
+        {
+            var response = invoiceService.SaveWarehouseReceipt<object>(receipt);
             return Ok(response);
         }
     }

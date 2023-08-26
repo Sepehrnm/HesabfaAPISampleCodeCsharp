@@ -2,4 +2,42 @@
 @model HesabfaAPISampleCode.Pages.Accounting.DeleteModel
 @{
     ViewData["Title"] = "حذف سند حسابداری";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group" style="width:100%;">
+                    <label for="number" class="form-label">شماره سند مورد نظر</label>
+                    <input id="number" class="form-control" name="number" />
+                </div>
+                <br />
+                <div class="d-flex align-items-center justify-content-center">
+                    <button type="button" class="btn btn-danger submitButton">حذف</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
+<script>
+    $(".submitButton").on("click", () => {
+        fetch("/api/Document/Delete", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify($("#number").val())
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if(data) {
+                    alert("سند حذف گردید");
+                } else {
+                    alert("خطا در عملیات");
+                }
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

@@ -10,5 +10,7 @@
         public string TransactionNumber { get; set; }
         public string Description { get; set; }
         public int TransactionFee { get; set; }
+        public string Currency { get; set; }
+        public int CurrencyRate { get; set; }
     }
 }

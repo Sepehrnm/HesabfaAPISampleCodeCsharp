@@ -2,4 +2,49 @@
 @model HesabfaAPISampleCode.Pages.Invoice.DeleteModel
 @{
     ViewData["Title"] = "حذف فاکتور";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="number" class="form-label">شماره فاکتور مورد نظر</label>
+                    <input type="text" class="form-control" id="number" />
+                </div>
+                <div class="form-group">
+                    <label for="type" class="form-label">نوع فاکتور </label>
+                    <input type="text" class="form-control" id="type" />
+                </div>
+                <br />
+                <div class="d-flex align-items-center justify-content-center">
+                    <button class="btn btn-danger submitButton">حذف</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
+<script type="text/javascript">
+
+    $(".submitButton").on("click", () => {
+
+        const data = {
+            number: $("#number").val(),
+            type: $("#type").val()
+        }
+
+        fetch("/api/Invoice/Delete", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if(data == true) alert("فاکتور حذف گردید"); else alert("خطا در عملیات");
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

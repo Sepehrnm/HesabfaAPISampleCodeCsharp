@@ -33,9 +33,8 @@
                 return response.json();
             })
             .then(data => {
-                console.log(data)
                 $('#simple-treeview').dxTreeList({
-                    dataSource: data,
+                    dataSource: [data],
                     keyExpr: "Id",
                     rtlEnabled: true,
                     columns: [
@@ -53,7 +52,8 @@
                         },
                         {
                             dataField: 'Description',
-                            caption: 'توضیحات'
+                            caption: 'توضیحات',
+                            minWidth: 200,
                         },
                         {
                             dataField: 'Project',
@@ -75,10 +75,41 @@
                             dataField: 'Transactions',
                             caption: 'تراکنش ها',
                             cellTemplate: function (container, options) {
-                                $('<div>').text(options.data.Transactions.AccountPath).appendTo(container);
+                                var transactions = options.data.Transactions;
+                                var div = $('<div>').addClass('transaction-container');
+
+                                transactions.forEach(function (transaction) {
+                                    var accountPath = transaction.AccountPath;
+                                    var amount = transaction.Amount;
+                                    var cashCode = transaction.CashCode;
+                                    var bankCode = transaction.BankCode;
+                                    var contactCode = transaction.ContactCode;
+                                    var currency = transaction.Currency;
+                                    var currencyAmount = transaction.CurrencyAmount;
+                                    var description = transaction.Description;
+                                    var pettyCashCode = transaction.PettyCashCode;
+                                    var info = transaction.Info;
+
+                                    var transactionInfo = $('<div>').addClass('transaction-info');
+                                    $('<div>').text('حساب: ' + accountPath).appendTo(transactionInfo);
+                                    $('<div>').text('مبلغ: ' + amount).appendTo(transactionInfo);
+                                    $('<div>').text('کد صندوق: ' + cashCode).appendTo(transactionInfo);
+                                    $('<div>').text('کد بانک: ' + bankCode).appendTo(transactionInfo);
+                                    $('<div>').text('کد شخص: ' + contactCode).appendTo(transactionInfo);
+                                    $('<div>').text('واحد پول: ' + currency).appendTo(transactionInfo);
+                                    $('<div>').text('مبلغ در صورت چند ارزی بودن: ' + currencyAmount).appendTo(transactionInfo);
+                                    $('<div>').text('توضیحات: ' + description).appendTo(transactionInfo);
+                                    $('<div>').text('کد تنخواه گردان: ' + pettyCashCode).appendTo(transactionInfo);
+                                    $('<div>').text('اطلاعات اضافه: ' + info).appendTo(transactionInfo);
+
+                                    transactionInfo.appendTo(div);
+                                });
+
+                                div.appendTo(container);
                             }
-                        },
-                    ]
+                        }
+                    ],
+                    columnAutoWidth: true,
                 })
             })
             .catch(error => console.error('Error Occured.', error));

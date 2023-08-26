@@ -2,4 +2,144 @@
 @model HesabfaAPISampleCode.Pages.Accounting.SaveModel
 @{
     ViewData["Title"] = "ذخیره سند حسابداری";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex gap-2">
+                    <div class="align" style="width: 100%;">
+                        <label for="number" class="form-label">شماره سند</label>
+                        <input type="text" class="form-control" id="number">
+                    </div>
+                    <div class="align" style="width: 100%;">
+                        <label for="reference" class="form-label">ارجاع</label>
+                        <input type="text" class="form-control" id="reference">
+                    </div>
+                    <div class="align" style="width: 100%;">
+                        <label for="date" class="form-label">تاریخ</label>
+                        <input type="text" class="form-control" id="date">
+                    </div>
+                    <div class="align" style="width: 100%;">
+                        <label for="description" class="form-label">توضیحات</label>
+                        <input type="text" class="form-control" id="description">
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <div class="align" style="width: 100%;">
+                        <label for="project" class="form-label">پروژه</label>
+                        <input type="text" class="form-control" id="project">
+                    </div>
+                    <div class="align" style="width: 100%;">
+                        <label for="status" class="form-label">وضعیت سند</label>
+                        <select name="status" id="status" class="form-select">
+                            <option selected>انتخاب کنید</option>
+                            <option value="0">پیش نویس</option>
+                            <option value="1">تایید شده</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div class="table table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>حساب</th>
+                                <th>مبلغ</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody">
+                            <tr>
+                                <td>
+                                    <input type="text" id="accountPath1" class="form-control" value="بدهی ها : بدهیهای جاری : پیش دریافت ها : پیش دریافت فروش">
+                                </td>
+                                <td>
+                                    <input type="text" id="amount1" class="form-control">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <div>
+                    <button id="deleteRow" class="deleteRow btn btn-danger m-2"><span class="m-2">-</span>حذف ردیف</button>
+                    <button id="addNewRow" class="addNewRow btn btn-secondary m-2"><span class="m-2">+</span>افزودن ردیف</button>
+                </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <button class="btn btn-primary submitButton">ذخیره</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
+<script>
+    $(document).ready(() => {
+        var i = 2;
+        $("#addNewRow").on('click', (e) => {
+            e.preventDefault();
+            let element = `
+                <tr id="element${i}">
+                    <td><input type="text" id="accountPath${i}" class="form-control" value="بدهی ها : بدهیهای جاری : پیش دریافت ها : پیش دریافت فروش"></td>
+                    <td><input type="text" id="amount${i}" class="form-control"></td>
+                </tr>`;
+            i++;
+
+            $(".tbody").append(element);
+        });
+        $("#deleteRow").on('click', (e) => {
+            e.preventDefault();
+            if (i > 2) {
+                $(`.tbody`).children().last().remove();
+                i--;
+            }
+        });
+
+        $(".submitButton").on("click", () => {
+
+            let transaction;
+            let transactions = [];
+            let accountPath;
+            let amount;
+
+            for (let j = 1; j < i; j++) {
+                transaction = {
+                    "AccountPath": $(`#accountPath${j}`).val(),
+                    "Description": parseFloat($(`#amount${j}`).val()),
+                    "Type": 0,
+                };
+
+                transactions.push(transaction);
+            }
+
+            let data = {
+                "Number": parseInt($('#number').val()),
+                "Reference": parseInt($('#reference').val()),
+                "Date": $('#date').val(),
+                "Description": $('#description').val(),
+                "Project": $('#project').val(),
+                "Debit": 1000.0,
+                "Credit": 1000.0,
+                "Status": parseInt($('#status').val()),
+                "Transactions": transactions
+            };
+
+            console.log(data)
+
+            fetch("/api/Document/Save", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data)
+                })
+                .catch(error => console.error('Error Occured.', error));
+        })
+
+    });
+</script>

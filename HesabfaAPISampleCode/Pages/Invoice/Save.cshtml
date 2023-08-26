@@ -2,4 +2,284 @@
 @model HesabfaAPISampleCode.Pages.Invoice.SaveModel
 @{
     ViewData["Title"] = "ذخیره فاکتور";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="Error-Container"></div>
+                <div class="d-flex gap-2">
+                    <div class="form-group">
+                        <label for="number" class="form-label">شماره فاکتور</label>
+                        <input type="text" class="form-control" id="number">
+                    </div>
+                    <div class="form-group">
+                        <label for="reference" class="form-label">شماره ارجاع</label>
+                        <input type="text" class="form-control" id="reference">
+                    </div>
+                    <div class="form-group">
+                        <label for="date" class="form-label">تاریخ فاکتور</label>
+                        <input type="text" class="form-control" id="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="dueDate" class="form-label">تاریخ سر رسید فاکتور</label>
+                        <input type="text" class="form-control" id="dueDate">
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <div class="form-group">
+                        <label for="contactCode" class="form-label">کد شخص</label>
+                        <input type="text" class="form-control" id="contactCode">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactTitle" class="form-label">عنوان در فاکتور</label>
+                        <input type="text" class="form-control" id="contactTitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="note" class="form-label">یادداشت</label>
+                        <input type="text" class="form-control" id="note">
+                    </div>
+                    <div class="form-group">
+                        <label for="sent" class="form-label">وضعیت ارسال</label>
+                        <input type="text" class="form-control" id="sent">
+                    </div>
+                    <div class="form-group">
+                        <label for="invoiceType" class="form-label">نوع فاکتور</label>
+                        <select name="invoiceType" id="invoiceType" class="form-select">
+                            <option>انتخاب کنید</option>
+                            <option value="0">فروش</option>
+                            <option value="1">خرید</option>
+                            <option value="2">برگشت از فروش</option>
+                            <option value="3">برگشت از خرید</option>
+                            <option value="4">ضایعات</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <div class="form-group">
+                        <label for="status" class="form-label">وضعیت فاکتور</label>
+                        <select name="status" id="status" class="form-select">
+                            <option>انتخاب کنید</option>
+                            <option value="0">پیش نویس</option>
+                            <option value="1">منتظر تایید</option>
+                            <option value="2">تایید شده</option>
+                            <option value="3">پرداخت شده</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="freight" class="form-label">هزینه حمل</label>
+                        <input type="text" class="form-control" id="freight">
+                    </div>
+                    <div class="form-group">
+                        <label for="warehouseReceiptStatus" class="form-label">وضعیت رسید/حواله انبار</label>
+                        <select class="form-select" id="warehouseReceiptStatus">
+                            <option>انتخاب کنید</option>
+                            <option value="0">رسید یا حواله انبار صادر نشده است</option>
+                            <option value="1">رسید یا حواله انبار ناقص است</option>
+                            <option value="2">رسید یا حواله انبار کامل است</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="project" class="form-label">پروژه</label>
+                        <input type="text" class="form-control" id="project">
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <div class="form-group">
+                        <label for="salesmanCode" class="form-label">کد فروشنده</label>
+                        <input type="text" class="form-control" id="salesmanCode">
+                    </div>
+                    <div class="form-group">
+                        <label for="salesmanPercent" class="form-label">درصد پورسانت فروشنده</label>
+                        <input type="text" class="form-control" id="salesmanPercent">
+                    </div>
+                    <div class="form-group">
+                        <label for="currency" class="form-label">واحد پول</label>
+                        <input type="text" class="form-control" id="currency">
+                    </div>
+                    <div class="form-group">
+                        <label for="currencyRate" class="form-label">نرخ برابری ارز به ارز پایه</label>
+                        <input type="text" class="form-control" id="currencyRate">
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <div class="form-group">
+                        <label class="form-label" for="title">عنوان اضافات و کسورات</label>
+                        <input class="form-control" type="text" id="title">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="amount">مقدار اضافات و کسورات</label>
+                        <input class="form-control" type="text" id="amount">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="add">اضافات یا کسورات</label>
+                        <select name="add" id="add" class="form-select">
+                            <option>انتخاب کنید</option>
+                            <option value="true">اضافات</option>
+                            <option value="false">کسورات</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>شماره ردیف</th>
+                                <th>توضیحات</th>
+                                <th>کد کالا یا خدمات</th>
+                                <th>واحد کالا</th>
+                                <th>تعداد</th>
+                                <th>قیمت واحد</th>
+                                <th>تخفیف</th>
+                                <th>مالیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control" id="rowNumber1">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="description1">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="itemCode1">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="unit1">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="quantity1">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="unitPrice1">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="discount1">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="tax1">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control" id="rowNumber2">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="description2">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="itemCode2">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="unit2">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="quantity2">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="unitPrice2">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="discount2">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="tax2">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                <div class="d-flex form-group-items-center justify-content-center">
+                    <button class="btn btn-primary submitButton">ذخیره</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
+<script type="text/javascript">
+
+    $(".submitButton").on("click", () => {
+
+        let data = {};
+
+        const assignValue = (key, selector) => {
+            const value = $(selector).val();
+            if (value) {
+                data[key] = value;
+            }
+        };
+
+        assignValue('Number', '#number');
+        assignValue('Reference', '#reference');
+        assignValue('Date', '#date');
+        assignValue('DueDate', '#dueDate');
+        assignValue('ContactCode', '#contactCode');
+        assignValue('ContactTitle', '#contactTitle');
+        assignValue('Note', '#note');
+        assignValue('Sent', '#sent');
+        assignValue('InvoiceType', '#invoiceType');
+        assignValue('Status', '#status');
+        assignValue('Freight', '#freight');
+        assignValue('WarehouseReceiptStatus', '#warehouseReceiptStatus');
+        assignValue('Project', '#project');
+        assignValue('SalesmanCode', '#salesmanCode');
+        assignValue('SalesmanPercent', '#salesmanPercent');
+
+        const invoiceItems = [];
+        for (let i = 1; i <= 2; i++) {
+            let invoiceItem = {
+                Description: $(`#description${i}`).val(),
+                ItemCode: $(`#itemCode${i}`).val(),
+                Unit: $(`#unit${i}`).val(),
+                Quantity: $(`#quantity${i}`).val(),
+                UnitPrice: $(`#unitPrice${i}`).val(),
+                Discount: $(`#discount${i}`).val(),
+                Tax: $(`#tax${i}`).val()
+            };
+            if ($(`#rowNumber${i}`).val()) invoiceItem.RowNumber = $(`#rowNumber${i}`).val();
+            
+            invoiceItems.push(invoiceItem);
+        }
+
+        data.InvoiceItems = invoiceItems;
+
+        assignValue('Currency', '#currency');
+
+        assignValue('Currency', '#currency');
+        assignValue('CurrencyRate', '#currencyRate');
+
+        fetch("/api/Invoice/Save", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if(data.number) {
+                    $(".Error-Container").css("display", "none");
+                    alert("فاکتور اضافه گردید");
+                } else {
+                    if (!data.Success) {
+                        if (data.errorCode) {
+                            $(".Error-Container").css("display", "block");
+                            $(".Error-Container").addClass("alert alert-danger");
+                            $(".Error-Container").css("direction", "ltr");
+                            $(".Error-Container").text(`ErrorCode: ${data.errorCode} ErrorMessage: ${data.errorMessage}`);
+                        } else {
+                            $(".Error-Container").css("display", "block");
+                            $(".Error-Container").addClass("alert alert-danger");
+                            $(".Error-Container").css("direction", "ltr");
+                            $(".Error-Container").text(`ErrorCode: 400 ErrorMessage: Bad Request`);
+                        }
+                    }
+                } 
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+</script>

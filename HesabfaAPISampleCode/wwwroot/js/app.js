@@ -192,7 +192,33 @@ function initializeGetProductListPage(data) {
 function initializeGetContactListPage(data) {
     $('#contactGridContainer').dxDataGrid({
         dataSource: data,
-        keyExpr: 'code',
+        keyExpr: "Code",
+        rtlEnabled: true,
+        columnMinWidth: 150,
+        filterRow: {
+            visible: true
+        },
+        paging: {
+            pageSize: 25,
+        },
+        focusedRowEnabled: true,
+        showColumnLines: true,
+        showRowLines: true,
+        rowAlternationEnabled: true,
+        showBorders: true,
+        headerFilter: {
+            visible: true,
+        },
+        groupPanel: {
+            visible: true,
+        },
+    });
+}
+
+function initializeGetContactByIdListPage(data) {
+    $('#contactGridContainer').dxDataGrid({
+        dataSource: data,
+        keyExpr: "code",
         rtlEnabled: true,
         columnMinWidth: 150,
         filterRow: {

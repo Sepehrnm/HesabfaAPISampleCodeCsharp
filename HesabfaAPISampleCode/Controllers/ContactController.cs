@@ -20,8 +20,15 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult Get([FromBody] string code)
         {
-            var response = contactService.GetContact(code);
-            return Ok(response);
+            var response = contactService.GetContact<object>(code);
+            if (response is Contact)
+            {
+                return Ok(response as Contact);
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
 
         [HttpPost]
