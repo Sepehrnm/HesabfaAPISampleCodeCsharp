@@ -7,12 +7,12 @@ namespace HesabfaAPISampleCode.Services
     public interface IItemService
     {
         Product GetItems();
-        ProductItem GetItem(string code);
-        ProductItem GetItemByBarcode(string barcode);
+        T GetItem<T>(string code);
+        T GetItemByBarcode<T>(string barcode);
         List<QuantityItem> GetQuantity(int warehouseCode, Array codes);
-        List<ProductItem> GetItemById(Array idList);
-        ProductItem Save(object item);
-        object Delete(string code);
+        T GetItemById<T>(Array idList);
+        T Save<T>(object item);
+        T Delete<T>(string code);
         object UpdateOpeningQuantity(object items);
 
     }
@@ -37,18 +37,32 @@ namespace HesabfaAPISampleCode.Services
 
             return result.Result;
         }
-        public ProductItem GetItem(string code)
+        public T GetItem<T>(string code)
         {
             var result = baseService.Post<ProductItem>("item/get", ("code", code));
 
-            return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(ProductItem)result.Result;
+            }
         }
 
-        public ProductItem GetItemByBarcode(string barcode)
+        public T GetItemByBarcode<T>(string barcode)
         {
             var result = baseService.Post<ProductItem>("item/getByBarcode", ("barcode", barcode));
 
-            return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(ProductItem)result.Result;
+            }
         }
 
         public List<QuantityItem> GetQuantity(int warehouseCode, Array codes)
@@ -70,25 +84,46 @@ namespace HesabfaAPISampleCode.Services
             return result.Result;
         }
 
-        public List<ProductItem> GetItemById(Array idList)
+        public T GetItemById<T>(Array idList)
         {
             var result = baseService.Post<List<ProductItem>>("item/getById", ("idList", idList));
 
-            return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(List<ProductItem>)result.Result;
+            }
         }
 
-        public ProductItem Save(object item)
+        public T Save<T>(object item)
         {
             var result = baseService.Post<ProductItem>("item/save", ("item", item));
 
-            return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(ProductItem)result.Result;
+            }
         }
 
-        public object Delete(string code)
+        public T Delete<T>(string code)
         {
             var result = baseService.Post<object>("item/delete", ("code", code));
 
-            return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(object)result;
+            }
         }
 
         public object UpdateOpeningQuantity(object items)

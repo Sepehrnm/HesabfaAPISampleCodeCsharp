@@ -20,7 +20,8 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult Get([FromBody] ReceiptRequest jsonBody)
         {
-            ReceiptItem response = receiptService.GetReceipt(jsonBody.type, jsonBody.number);
+            var response = receiptService.GetReceipt<object>(jsonBody.type, jsonBody.number);
+
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
@@ -28,7 +29,7 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult Delete([FromBody] ReceiptRequest jsonBody)
         {
-            var response = receiptService.DeleteReceipt(jsonBody.type, jsonBody.number);
+            var response = receiptService.DeleteReceipt<object>(jsonBody.type, jsonBody.number);
             return Ok(response);
         }
 

@@ -4,13 +4,16 @@
     ViewData["Title"] = "حذف کالا یا خدمات";
     <div class="container">
         <div class="row">
-            <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+            <div class="col-12">
+                <div class="Error-Container"></div>
                 <div class="form-group" style="width:100%;">
                     <label for="code" class="form-label">کد حسابداری کالای مورد نظر</label>
                     <input id="code" class="form-control" name="code" />
                 </div>
                 <br>
-                <button class="btn btn-danger submitButton">حذف</button>
+                <div class="d-flex align-items-center justify-content-center">
+                    <button class="btn btn-danger submitButton">حذف</button>
+                </div>
             </div>
         </div>
     </div>
@@ -30,10 +33,15 @@
                 return response.json();
             })
             .then(data => {
-                if (data) {
+                if(!data.success) {
+                    $(".Error-Container").css("display", "block");
+                    $(".Error-Container").addClass("alert alert-danger");
+                    $(".Error-Container").css("direction", "ltr");
+                    $(".Error-Container").text(`ErrorCode: ${data.errorCode} ErrorMessage: ${data.errorMessage}`);
+                }
+                if (data.success || data.result) {
+                    $(".Error-Container").css("display", "none");
                     alert("آیتم حذف گردید");
-                } else {
-                    alert("خطا در عملیات");
                 }
             })
             .catch(error => console.error('Error Occured.', error));

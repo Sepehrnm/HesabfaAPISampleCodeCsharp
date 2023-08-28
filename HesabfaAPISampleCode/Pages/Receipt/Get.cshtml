@@ -6,6 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
+                <div class="Error-Container"></div>
                 <div class="d-flex flex-column justify-content-center">
                     <div class="form-group">
                         <label for="type">نوع رسید </label>
@@ -62,68 +63,90 @@
                 return response.json();
             })
             .then(data => {
-                const amount = data.Amount;
-                const currency = data.Currency;
-                const dateTime = data.DateTime;
-                const description = data.Description;
-                const number = data.Number;
-                const project = data.Project;
-                const tr = `
-                    <tr id="tableRow">
-                        <td>${number}</td>
-                        <td>${dateTime}</td>
-                        <td>${description}</td>
-                        <td>${amount}</td>
-                        <td>${currency}</td>
-                        <td>${project}</td>
 
-                    </tr>
-                `;
+                if(data.status == 400) {
 
-                document.getElementById("tbody").innerHTML += tr;
+                    document.getElementById("tbody").innerHTML = ``;
+                    $(".Error-Container").css("display", "block");
+                    $(".Error-Container").addClass("alert alert-danger");
+                    $(".Error-Container").css("direction", "ltr");
+                    $(".Error-Container").text("ErrorCode: 400 ErrorMessage: Bad Request");
 
-                data.Items.map(item => {
-                    const contactId = item.Contact.Id;
-                    const contactCode = item.Contact.Code;
-                    const contactName = item.Contact.Name;
-                    let itemsCell = 
-                    `
-                        <td>
-                            ${contactId}
-                            <br>
-                            ${contactCode}
-                            <br>
-                            ${contactName}
-                            <br>
-                        </td>
+                } 
+
+                if (!data.Success && data.status != 400) {
+
+                    document.getElementById("tbody").innerHTML = ``;
+                    $(".Error-Container").css("display", "block");
+                    $(".Error-Container").addClass("alert alert-danger");
+                    $(".Error-Container").css("direction", "ltr");
+                    $(".Error-Container").text(`ErrorCode: ${data.ErrorCode} ErrorMessage: ${data.ErrorMessage}`);
+                
+                }
+
+                if(data.Id) {
+                    $(".Error-Container").css("display", "none");
+
+                    const amount = data.Amount;
+                    const currency = data.Currency;
+                    const dateTime = data.DateTime;
+                    const description = data.Description;
+                    const number = data.Number;
+                    const project = data.Project;
+                    const tr = `
+                        <tr id="tableRow">
+                            <td>${number}</td>
+                            <td>${dateTime}</td>
+                            <td>${description}</td>
+                            <td>${amount}</td>
+                            <td>${currency}</td>
+                            <td>${project}</td>
+
+                        </tr>
                     `;
-                    document.getElementById("tableRow").innerHTML += itemsCell;
-                });
-                var td = document.createElement('td');
-                data.Transactions.map(transaction => {
-                    Object.keys(transaction).forEach(function(key, index) {
-                        if (typeof transaction[key] === "object" && transaction[key]) {
-                            const id = transaction[key].Id;
-                            const code = transaction[key].Code;
-                            const name = transaction[key].Name;
-                            let itemsCell = `
-                                <div>
-                                    ${id}
-                                   <br>
-                                    ${code}
-                                   <br>
-                                    ${name}
-                                   <br>
-                                </div>
-                            `;
-                            td.innerHTML += itemsCell;
-                        }
+
+                    document.getElementById("tbody").innerHTML += tr;
+
+                    data.Items.map(item => {
+                        const contactId = item.Contact.Id;
+                        const contactCode = item.Contact.Code;
+                        const contactName = item.Contact.Name;
+                        let itemsCell = 
+                        `
+                            <td>
+                                ${contactId}
+                                <br>
+                                ${contactCode}
+                                <br>
+                                ${contactName}
+                                <br>
+                            </td>
+                        `;
+                        document.getElementById("tableRow").innerHTML += itemsCell;
                     });
-                    document.getElementById("tableRow").append(td);
-                    console.log(document.getElementById("tableRow"))
-
-                });
-
+                    var td = document.createElement('td');
+                    data.Transactions.map(transaction => {
+                        Object.keys(transaction).forEach(function(key, index) {
+                            if (typeof transaction[key] === "object" && transaction[key]) {
+                                const id = transaction[key].Id;
+                                const code = transaction[key].Code;
+                                const name = transaction[key].Name;
+                                let itemsCell = `
+                                    <div>
+                                        ${id}
+                                       <br>
+                                        ${code}
+                                       <br>
+                                        ${name}
+                                       <br>
+                                    </div>
+                                `;
+                                td.innerHTML += itemsCell;
+                            }
+                        });
+                        document.getElementById("tableRow").append(td);
+                    });
+                }
             })
             .catch(error => console.error('Error Occured.', error));
     })

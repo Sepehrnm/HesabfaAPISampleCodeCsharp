@@ -6,6 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12 d-flex flex-column">
+            <div class="Error-Container"></div>
             <div class="d-flex gap-2 align-items-center justify-content-evenly">
                 <div class="form-group" style="width:100%;">
                     <label for="code" class="form-label">کد شخص</label>
@@ -177,9 +178,13 @@
             })
             .then(data => {
                 if (data.code) {
+                    $(".Error-Container").css("display", "none");
                     alert("شخص اضافه گردید");
                 } else {
-                    alert("خطا در عملیات");
+                    $(".Error-Container").css("display", "block");
+                    $(".Error-Container").addClass("alert alert-danger");
+                    $(".Error-Container").css("direction", "ltr");
+                    $(".Error-Container").text(`ErrorCode: ${data.errorCode} ErrorMessage: ${data.errorMessage}`);
                 }
             })
             .catch(error => console.error('Error Occured.', error));

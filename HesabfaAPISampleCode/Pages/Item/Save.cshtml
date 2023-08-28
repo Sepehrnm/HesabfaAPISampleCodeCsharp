@@ -5,6 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 d-flex flex-column">
+                <div class="Error-Container"></div>
                 <div class="d-flex gap-2 align-items-center justify-content-evenly">
                     <div class="form-group" style="width:100%;">
                         <label for="code" class="form-label">کد حسابداری کالا یا خدمات</label>
@@ -122,10 +123,15 @@
                 return response.json();
             })
             .then(data => {
+                if(!data.success) {
+                    $(".Error-Container").css("display", "block");
+                    $(".Error-Container").addClass("alert alert-danger");
+                    $(".Error-Container").css("direction", "ltr");
+                    $(".Error-Container").text(`ErrorCode: ${data.errorCode} ErrorMessage: ${data.errorMessage}`);
+                }
                 if(data.id) {
+                    $(".Error-Container").css("display", "none");
                     alert("آیتم ذخیره گردید");
-                } else {
-                    alert("خطا در عملیات");
                 }
             })
             .catch(error => console.error('Error Occured.', error));

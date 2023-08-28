@@ -42,8 +42,15 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult Save([FromBody] Document document)
         {
-            Document response = documentService.Save(document);
-            return Ok(response);
+            var response = documentService.Save<object>(document);
+            if (response is Document)
+            {
+                return Ok(response as Document);
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
     }
 }

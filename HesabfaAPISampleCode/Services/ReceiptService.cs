@@ -6,9 +6,9 @@ namespace HesabfaAPISampleCode.Services
     public interface IReceiptService
     {
         Receipt GetReceipts(int type);
-        ReceiptItem GetReceipt(int type, int number);
+        T GetReceipt<T>(int type, int number);
         ReceiptItem SaveReceipt(SaveReceiptItem receipt);
-        object DeleteReceipt(int type, int number);
+        T DeleteReceipt<T>(int type, int number);
     }
     public class ReceiptService : IReceiptService
     {
@@ -36,7 +36,7 @@ namespace HesabfaAPISampleCode.Services
             return result.Result;
         }
 
-        public ReceiptItem GetReceipt(int type, int number)
+        public T GetReceipt<T>(int type, int number)
         {
 
             var parameters = new List<(string, object)>
@@ -46,7 +46,14 @@ namespace HesabfaAPISampleCode.Services
             };
             var result = BaseService.Post<ReceiptItem>("receipt/get", parameters);
 
-           return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(object)result.Result;
+            }
         }
         public ReceiptItem SaveReceipt(SaveReceiptItem receipt)
         {
@@ -66,7 +73,7 @@ namespace HesabfaAPISampleCode.Services
             return result.Result;
         }
 
-        public object DeleteReceipt(int type, int number)
+        public T DeleteReceipt<T>(int type, int number)
         {
 
             var parameters = new List<(string, object)>
@@ -76,7 +83,14 @@ namespace HesabfaAPISampleCode.Services
             };
             var result = BaseService.Post<object>("receipt/delete", parameters);
 
-            return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(object)result.Result;
+            }
         }
     }
 }

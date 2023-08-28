@@ -4,9 +4,10 @@
 @{
     ViewData["Title"] = "دریافت لینک کارت حساب شخص";
 }
-<div class="row">
-    <div class="container">
+<div class="container">
+    <div class="row">
         <div class="col-12">
+            <div class="Error-Container"></div>
             <div class="d-flex flex-column justify-content-center">
                 <div class="form-group">
                     <label for="code">کد شخص مورد نظر</label>
@@ -62,7 +63,19 @@
                 return response.json();
             })
             .then(data => {
-                $("#tableRow td").text(data.link);
+                if(!data.succes) {
+                    $("#tableRow td").text(``);
+                    $(".Error-Container").css("display", "block");
+                    $(".Error-Container").addClass("alert alert-danger");
+                    $(".Error-Container").css("direction", "ltr");
+                    $(".Error-Container").text(`ErrorCode: ${data.errorCode} ErrorMessage: ${data.errorMessage}`);
+                }
+                
+                if(data.link) {
+                    $(".Error-Container").css("display", "none");
+                    $("#tableRow td").text(data.link);
+                }
+
             })
             .catch(error => console.error('Error Occured.', error));
     })

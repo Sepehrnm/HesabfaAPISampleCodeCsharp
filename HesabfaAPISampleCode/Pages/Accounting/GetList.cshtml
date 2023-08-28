@@ -21,13 +21,15 @@
 
 <script>
     $(".submitButton").on("click", () => {
+        let take;
+        take = $("#take").val() ? $("#take").val() : 100;
         fetch("/api/Document/GetList", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify($("#take").val())
+            body: JSON.stringify(take)
         })
             .then(response => {
                 return response.json();

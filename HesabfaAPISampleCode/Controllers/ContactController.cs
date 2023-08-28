@@ -49,8 +49,15 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult Save([FromBody] object contact)
         {
-            Contact response = contactService.SaveContact(contact);
-            return Ok(response);
+            var response = contactService.SaveContact<object>(contact);
+            if (response is Contact)
+            {
+                return Ok(response as Contact);
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
 
         [HttpPost]
@@ -63,8 +70,15 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult GetContactLink([FromBody] ContactLinkRequest contactLinkRequest)
         {
-            ContactLink response = contactService.GetContactLink(contactLinkRequest.Code, contactLinkRequest.ShowAllAccounts, contactLinkRequest.Days);
-            return Ok(response);
+            var response = contactService.GetContactLink<object>(contactLinkRequest.Code, contactLinkRequest.ShowAllAccounts, contactLinkRequest.Days);
+            if (response is ContactLink)
+            {
+                return Ok(response as ContactLink);
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
     }
 }

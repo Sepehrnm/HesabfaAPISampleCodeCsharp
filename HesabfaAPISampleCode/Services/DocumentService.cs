@@ -9,7 +9,7 @@ namespace HesabfaAPISampleCode.Services
         object GetList(int take);
         Document Get(int number);
         object Delete(int number);
-        Document Save(Document document);
+        T Save<T>(Document document);
     }
     public class DocumentService : IDocumentService
     {
@@ -42,14 +42,21 @@ namespace HesabfaAPISampleCode.Services
         public object Delete(int number)
         {
             var result = BaseService.Post<object>("document/delete", ("number", number));
-            return result.Result;
+            return result;
         }
 
-        public Document Save(Document document)
+        public T Save<T>(Document document)
         {
             var result = BaseService.Post<Document>("document/save", ("document", document));
 
-            return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(Document)result.Result;
+            }
         }
     }
 }

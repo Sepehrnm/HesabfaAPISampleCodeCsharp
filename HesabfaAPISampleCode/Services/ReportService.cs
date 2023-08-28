@@ -1,5 +1,6 @@
 ﻿using HesabfaAPISampleCode.Models;
 using NPOI.SS.Formula.Functions;
+using System.Collections.Generic;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace HesabfaAPISampleCode.Services
@@ -11,7 +12,7 @@ namespace HesabfaAPISampleCode.Services
         List<Inventory> ReportInventory(string startDate, string endDate, string project);
         ProfitAndLossStatement ReportProfitAndLossStatement(string startDate, string endDate, string project);
         List<TrialBalance> ReportTrialBalance(string startDate, string endDate, string project);
-        List<TrialBalanceItem> ReportTrialBalanceItems(string startDate, string endDate, string project, string accountPath);
+        T ReportTrialBalanceItems<T>(string startDate, string endDate, string project, string accountPath);
 
     }
     public class ReportService : IReportService
@@ -137,7 +138,7 @@ namespace HesabfaAPISampleCode.Services
             return result.Result;
         }
 
-        public List<TrialBalanceItem> ReportTrialBalanceItems(string startDate, string endDate, string project, string accountPath)
+        public T ReportTrialBalanceItems<T>(string startDate, string endDate, string project, string accountPath)
         {
             var parameters = new List<(string, object)>();
 
@@ -161,8 +162,14 @@ namespace HesabfaAPISampleCode.Services
                 parameters.Add(("accountPath", accountPath));
             }
             var result = BaseService.Post<List<TrialBalanceItem>>("report/trialbalanceitems", parameters);
-
-            return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(List<TrialBalanceItem>)result.Result;
+            }
         }
 
     }

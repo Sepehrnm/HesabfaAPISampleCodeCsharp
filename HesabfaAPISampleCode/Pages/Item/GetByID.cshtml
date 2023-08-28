@@ -3,43 +3,44 @@
 @{
     ViewData["Title"] = "دریافت کالا یا خدمات از طریق ID";
     <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="d-flex flex-column justify-content-center">
-                        <div class="form-group">
-                            <label for="idList">id کالا یا کالاهای مورد نظر</label>
-                            <input id="idList" class="form-control" name="idList" placeholder="1,2,3,..." />
-                        </div>
-                        <br />
-                        <button type="button" class="btn btn-primary submitButton">نمایش</button>
+        <div class="row">
+            <div class="col-12">
+            <div class="Error-Container"></div>
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="idList">id کالا یا کالاهای مورد نظر</label>
+                        <input id="idList" class="form-control" name="idList" placeholder="1,2,3,..." />
                     </div>
-                    <div id="itemGridContainer" class="table-responsive">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th>کد حسابداری کالا یا خدمات</th>
-                                    <th>نام کالا یا خدمات</th>
-                                    <th>بارکد کالا یا خدمات</th>
-                                    <th>نوع</th>
-                                    <th>واحد خرید و فروش</th>
-                                    <th>موجودی</th>
-                                    <th>قیمت خرید</th>
-                                    <th>قیمت فروش</th>
-                                    <th>عنوان در فاکتور فروش</th>
-                                    <th>عنوان در فاکتور خرید</th>
-                                    <th>مسیر دسته بندی</th>
-                                    <th>Tag</th>
-                                    <th>توضیحات</th>
-                                    <th>کد کالا یا خدمات</th>
-                                    <th>وضعیت کالا</th>
-                                </tr>
-                            </thead>
-                        <tbody id="tbody">
-                        </tbody>
-                    </table>
-                    </div>
+                    <br />
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
+                <div id="itemGridContainer" class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>کد حسابداری کالا یا خدمات</th>
+                                <th>نام کالا یا خدمات</th>
+                                <th>بارکد کالا یا خدمات</th>
+                                <th>نوع</th>
+                                <th>واحد خرید و فروش</th>
+                                <th>موجودی</th>
+                                <th>قیمت خرید</th>
+                                <th>قیمت فروش</th>
+                                <th>عنوان در فاکتور فروش</th>
+                                <th>عنوان در فاکتور خرید</th>
+                                <th>مسیر دسته بندی</th>
+                                <th>Tag</th>
+                                <th>توضیحات</th>
+                                <th>کد کالا یا خدمات</th>
+                                <th>وضعیت کالا</th>
+                            </tr>
+                        </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
                 </div>
             </div>
+        </div>
     </div>
 }
 
@@ -60,28 +61,47 @@
                 return response.json();
             })
             .then(data => {
-                document.getElementById("tbody").innerHTML = ``;
-                data.map(row => {
-                    let tr = 
-                    `<tr>
-                        <td>${row.code}</td>
-                        <td>${row.name}</td>
-                        <td>${row.barcode}</td>
-                        <td>${row.itemType}</td>
-                        <td>${row.unit}</td>
-                        <td>${row.stock}</td>
-                        <td>${row.buyPrice}</td>
-                        <td>${row.sellPrice}</td>
-                        <td>${row.purchasesTitle}</td>
-                        <td>${row.salesTitle}</td>
-                        <td>${row.nodeFamily}</td>
-                        <td>${row.tag}</td>
-                        <td>${row.description}</td>
-                        <td>${row.productCode}</td>
-                        <td>${row.active}</td>
-                    </tr>`;
-                    document.getElementById("tbody").innerHTML += tr;
-                })
+                if(data) {
+                    $(".Error-Container").css("display", "none");
+                    document.getElementById("tbody").innerHTML = ``;
+                    data.map(row => {
+                        let tr = 
+                        `<tr>
+                            <td>${row.code}</td>
+                            <td>${row.name}</td>
+                            <td>${row.barcode}</td>
+                            <td>${row.itemType}</td>
+                            <td>${row.unit}</td>
+                            <td>${row.stock}</td>
+                            <td>${row.buyPrice}</td>
+                            <td>${row.sellPrice}</td>
+                            <td>${row.purchasesTitle}</td>
+                            <td>${row.salesTitle}</td>
+                            <td>${row.nodeFamily}</td>
+                            <td>${row.tag}</td>
+                            <td>${row.description}</td>
+                            <td>${row.productCode}</td>
+                            <td>${row.active}</td>
+                        </tr>`;
+                        document.getElementById("tbody").innerHTML += tr;
+                    })
+
+                    } else {
+                        if(!data.Success) {
+                        document.getElementById("tbody").innerHTML = ``;
+                        if (data.errorCode) {
+                            $(".Error-Container").css("display", "block");
+                            $(".Error-Container").addClass("alert alert-danger");
+                            $(".Error-Container").css("direction", "ltr");
+                            $(".Error-Container").text(`ErrorCode: ${data.errorCode} ErrorMessage: ${data.errorMessage}`);
+                        } else {
+                            $(".Error-Container").css("display", "block");
+                            $(".Error-Container").addClass("alert alert-danger");
+                            $(".Error-Container").css("direction", "ltr");
+                            $(".Error-Container").text(`ErrorCode: 400 ErrorMessage: Bad Request`);
+                        }
+                    }
+                }
             })
             .catch(error => console.error('Error Occured.', error));
     })

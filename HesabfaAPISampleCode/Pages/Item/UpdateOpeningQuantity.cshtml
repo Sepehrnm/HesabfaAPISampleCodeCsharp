@@ -3,31 +3,31 @@
 @{
     ViewData["Title"] = "به روز رسانی موجودی اول دوره کالاها";
     <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <table class="table table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>کد کالا</th>
-                                                <th>تعداد</th>
-                                                <th>مبلغ واحد</th>
-                                                <th>کد انبار</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbody">
-                                        </tbody>
-                                    </table>
-                                    <br />
-                                    <div class="d-flex justify-content-center align-items-center">
-                                        <button class="btn btn-primary submitButton" type="button">بروزرسانی</button>
-                                    </div>
-                                    <br />
-                                    <div class="button-container">
-                                        <button class="btn btn-secondary" id="addRowBtn">+ افزودن ردیف </button>
-                                        <button class="btn btn-danger" id="deleteRowBtn">- حذف ردیف</button>
-                                    </div>
-                                </div>
-                            </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>کد کالا</th>
+                            <th>تعداد</th>
+                            <th>مبلغ واحد</th>
+                            <th>کد انبار</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+                <br />
+                <div class="d-flex justify-content-center align-items-center">
+                    <button class="btn btn-primary submitButton" type="button">بروزرسانی</button>
+                </div>
+                <br />
+                <div class="button-container">
+                    <button class="btn btn-secondary" id="addRowBtn">+ افزودن ردیف </button>
+                    <button class="btn btn-danger" id="deleteRowBtn">- حذف ردیف</button>
+                </div>
+            </div>
+        </div>
     </div>
 }
 
@@ -81,6 +81,7 @@
                 return response.json();
             })
             .then(data => {
+                console.log(data)
                 if (data) {
                     alert("بروز گردید");
                 } else {

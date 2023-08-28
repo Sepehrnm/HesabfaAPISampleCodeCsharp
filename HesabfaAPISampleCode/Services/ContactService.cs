@@ -9,9 +9,9 @@ namespace HesabfaAPISampleCode.Services
         ContactList GetContactList();
         T GetContact<T>(string code);
         List<Contact> GetContactById(Array idList);
-        Contact SaveContact(object contact);
+        T SaveContact<T>(object contact);
         object DeleteContact(string code);
-        ContactLink GetContactLink(string code, bool showAllAccounts, int days);
+        T GetContactLink<T>(string code, bool showAllAccounts, int days);
     }
     public class ContactService : IContactService
     {
@@ -40,20 +40,27 @@ namespace HesabfaAPISampleCode.Services
             return result.Result;
         }
 
-        public Contact SaveContact(object contact)
+        public T SaveContact<T>(object contact)
         {
             var result = BaseService.Post<Contact>("contact/save", ("contact", contact));
 
-            return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(Contact)result.Result;
+            }
         }
 
         public object DeleteContact(string code)
         {
             var result = BaseService.Post<object>("contact/delete", ("code", code));
 
-            return result.Result;
+            return result;
         }
-        public ContactLink GetContactLink(string code, bool showAllAccounts, int days)
+        public T GetContactLink<T>(string code, bool showAllAccounts, int days)
         {
             var parameters = new List<(string, object)>
             {
@@ -64,7 +71,14 @@ namespace HesabfaAPISampleCode.Services
 
             var result = BaseService.Post<ContactLink>("contact/getContactLink", parameters);
 
-            return result.Result;
+            if (!result.Success)
+            {
+                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
+            }
+            else
+            {
+                return (T)(object)(ContactLink)result.Result;
+            }
         }
 
         public ContactList GetContactList()

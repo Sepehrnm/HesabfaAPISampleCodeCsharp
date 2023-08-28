@@ -27,22 +27,43 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult GetById([FromBody] int[] idList)
         {
-            List<ProductItem> response = itemService.GetItemById(idList);
-            return Ok(response);
+            var response = itemService.GetItemById<object>(idList);
+            if (response is List<ProductItem>)
+            {
+                return Ok(response as List<ProductItem>);
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
 
         [HttpPost]
         public IActionResult GetByBarcode([FromBody] string barcode)
         {
-            ProductItem response = itemService.GetItemByBarcode(barcode);
-            return Ok(response);
+            var response = itemService.GetItemByBarcode<object>(barcode);
+            if (response is ProductItem)
+            {
+                return Ok(response as ProductItem);
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
 
         [HttpPost]
         public IActionResult Get([FromBody] string code)
         {
-            ProductItem response = itemService.GetItem(code);
-            return Ok(response);
+            var response = itemService.GetItem<object>(code);
+            if (response is ProductItem)
+            {
+                return Ok(response as ProductItem);
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
 
         [HttpPost]
@@ -55,14 +76,21 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult Save([FromBody] object item)
         {
-            ProductItem response = itemService.Save(item);
-            return Ok(response);
+            var response = itemService.Save<object>(item);
+            if (response is ProductItem)
+            {
+                return Ok(response as ProductItem);
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
 
         [HttpPost]
         public IActionResult Delete([FromBody] string code)
         {
-            var response = itemService.Delete(code);
+            var response = itemService.Delete<object>(code);
             return Ok(response);
         }
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NPOI.SS.Formula.Functions;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System.Collections.Generic;
 using System.Text;
 
 namespace HesabfaAPISampleCode.Controllers
@@ -59,8 +60,16 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public IActionResult TrialBalanceItems([FromBody] ReportRequestWithAccountPath request)
         {
-            List<TrialBalanceItem> response = reportService.ReportTrialBalanceItems(request.StartDate, request.EndDate, request.Project, request.AccountPath);
-            return Ok(response);
+            var response = reportService.ReportTrialBalanceItems<object>(request.StartDate, request.EndDate, request.Project, request.AccountPath);
+            
+            if (response is List<TrialBalanceItem>)
+            {
+                return Ok(response as List<TrialBalanceItem>);
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
     }
 }

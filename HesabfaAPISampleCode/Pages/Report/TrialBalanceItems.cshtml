@@ -4,31 +4,34 @@
 @{
     ViewData["Title"] = "گزارش آیتم های تفصیل تراز آزمایشی";
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex flex-column justify-content-center">
-                    <div class="form-group">
-                        <label for="startDate">تاریخ شروع</label>
-                        <input id="startDate" class="form-control" name="startDate" />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="Error-Container"></div>
+                        <div>
+                            <div class="form-group">
+                                <label for="startDate">تاریخ شروع</label>
+                                <input id="startDate" class="form-control" name="startDate" />
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">تاریخ پایان</label>
+                                <input id="endDate" class="form-control" name="endDate" />
+                            </div>
+                            <div class="form-group">
+                                <label for="project">عنوان پروژه</label>
+                                <input id="project" class="form-control" name="project" />
+                            </div>
+                            <div class="form-group">
+                                <label for="accountPath">عنوان پروژه</label>
+                                <input id="accountPath" class="form-control" name="accountPath" />
+                            </div>
+                            <br />
+                            <div class="d-flex align-items-center justify-content-center">
+                                <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                            </div>
+                        </div>
+                        <div id="trialBalanceItemsGridContainer"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="endDate">تاریخ پایان</label>
-                        <input id="endDate" class="form-control" name="endDate" />
-                    </div>
-                    <div class="form-group">
-                        <label for="project">عنوان پروژه</label>
-                        <input id="project" class="form-control" name="project" />
-                    </div>
-                    <div class="form-group">
-                        <label for="accountPath">عنوان پروژه</label>
-                        <input id="accountPath" class="form-control" name="accountPath" />
-                    </div>
-                    <br />
-                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
                 </div>
-                <div id="trialBalanceItemsGridContainer"></div>
-            </div>
-        </div>
     </div>
 }
 <script>
@@ -54,7 +57,16 @@
                 return response.json();
             })
             .then(data => {
-                initializeGetTrialBalanceItemsListPage(data);
+                if(!data.success) {
+                    $(".Error-Container").css("display", "block");
+                    $(".Error-Container").addClass("alert alert-danger");
+                    $(".Error-Container").css("direction", "ltr");
+                    $(".Error-Container").text(`ErrorCode: ${data.errorCode} ErrorMessage: ${data.errorMessage}`);
+                }
+                if(data.length > 0) {
+                    $(".Error-Container").css("display", "none");
+                    initializeGetTrialBalanceItemsListPage(data);
+                }
             })
             .catch(error => console.error('Error Occured.', error));
     })
