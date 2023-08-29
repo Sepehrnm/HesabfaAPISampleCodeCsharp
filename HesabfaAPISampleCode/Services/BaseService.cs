@@ -27,8 +27,8 @@ namespace HesabfaAPISampleCode.Services
         public BaseService()
         {
             //Add your login token and api key here properly
-            loginToken = "af014d3ed841a5d23bfd378670e2fc7e2e15d42b606f62e6a719be090b501343f45531c55f640319dd131dd9649c3709";
-            apiKey = "QZAIlbJQnCGENqB1lV0Ygx4rTIfln1yg";
+            loginToken = "#";
+            apiKey = "#";
         }
 
         public ApiResult<T> Post<T>(string method)
