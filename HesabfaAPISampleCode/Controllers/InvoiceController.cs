@@ -18,54 +18,54 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult Get([FromBody] InvoiceRequest jsonBody)
+        public async Task<IActionResult> Get([FromBody] InvoiceRequest jsonBody)
         {
-            var response = invoiceService.GetInvoice(jsonBody.Number, jsonBody.Type);
+            var response = await invoiceService.GetInvoice(jsonBody.Number, jsonBody.Type);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult GetById([FromBody] int id)
+        public async Task<IActionResult> GetById([FromBody] int id)
         {
-            var response = invoiceService.GetInvoiceById(id);
+            var response = await invoiceService.GetInvoiceById(id);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult GetList([FromBody] int type)
+        public async Task<IActionResult> GetList([FromBody] int type)
         {
-            Invoice response = invoiceService.GetInvoicesList(type);
+            Invoice response = await invoiceService.GetInvoicesList(type);
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response.List));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult GetOnlineInvoiceURL([FromBody] InvoiceRequest jsonBody)
+        public async Task<IActionResult> GetOnlineInvoiceURL([FromBody] InvoiceRequest jsonBody)
         {
-            OnlineInvoiceURL response = invoiceService.GetOnlineInvoiceURL(jsonBody.Number, jsonBody.Type);
+            OnlineInvoiceURL response = await invoiceService.GetOnlineInvoiceURL(jsonBody.Number, jsonBody.Type);
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult SavePayment([FromBody] PaymentRequest jsonBody)
+        public async Task<IActionResult> SavePayment([FromBody] PaymentRequest jsonBody)
         {
-            var response = invoiceService.SavePayment<object>(jsonBody);
+            var response = await invoiceService.SavePayment<object>(jsonBody);
 
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult Delete([FromBody] InvoiceRequest jsonBody)
+        public async Task<IActionResult> Delete([FromBody] InvoiceRequest jsonBody)
         {
-            var response = invoiceService.Delete(jsonBody.Number, jsonBody.Type);
+            var response = await invoiceService.Delete(jsonBody.Number, jsonBody.Type);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult Save([FromBody] InvoiceItem invoice)
+        public async Task<IActionResult> Save([FromBody] InvoiceItem invoice)
         {
-            var response = invoiceService.Save<object>(invoice);
+            var response = await invoiceService.Save<object>(invoice);
             if (response is InvoiceItem)
             {
                 return Ok(response as InvoiceItem);
@@ -77,9 +77,9 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveWarehouseReceipt([FromBody] WarehouseReceipt receipt)
+        public async Task<IActionResult> SaveWarehouseReceipt([FromBody] WarehouseReceipt receipt)
         {
-            var response = invoiceService.SaveWarehouseReceipt<object>(receipt);
+            var response = await invoiceService.SaveWarehouseReceipt<object>(receipt);
             return Ok(response);
         }
     }

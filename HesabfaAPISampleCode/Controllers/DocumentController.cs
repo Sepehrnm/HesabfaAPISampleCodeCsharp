@@ -17,32 +17,32 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetList([FromBody] int take)
+        public async Task<IActionResult> GetList([FromBody] int take)
         {
-            var response = documentService.GetList(take);
+            var response = await documentService.GetList(take);
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult Get([FromBody] int number)
+        public async Task<IActionResult> Get([FromBody] int number)
         {
-            var response = documentService.Get(number);
+            var response = await documentService.Get(number);
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult Delete([FromBody] int number)
+        public async Task<IActionResult> Delete([FromBody] int number)
         {
-            var response = documentService.Delete(number);
+            var response = await documentService.Delete(number);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult Save([FromBody] Document document)
+        public async Task<IActionResult> Save([FromBody] Document document)
         {
-            var response = documentService.Save<object>(document);
+            var response = await documentService.Save<object>(document);
             if (response is Document)
             {
                 return Ok(response as Document);

@@ -21,46 +21,46 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult Balancesheet([FromBody] ReportRequest request)
+        public async Task<IActionResult> Balancesheet([FromBody] ReportRequest request)
         {
-            Balancesheet response = reportService.ReportBalancesheet(request.StartDate, request.EndDate, request.Project);
+            Balancesheet response = await reportService.ReportBalancesheet(request.StartDate, request.EndDate, request.Project);
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult DebtorsCreditors([FromBody] ReportRequest request)
+        public async Task<IActionResult> DebtorsCreditors([FromBody] ReportRequest request)
         {
-            List<DebtorsCreditors> response = reportService.ReportDebtorsCreditors(request.StartDate, request.EndDate, request.Project);
+            List<DebtorCreditor> response = await reportService.ReportDebtorsCreditors(request.StartDate, request.EndDate, request.Project);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult Inventory([FromBody] ReportRequest request)
+        public async Task<IActionResult> Inventory([FromBody] ReportRequest request)
         {
-            List<Inventory> response = reportService.ReportInventory(request.StartDate, request.EndDate, request.Project);
+            List<Inventory> response = await reportService.ReportInventory(request.StartDate, request.EndDate, request.Project);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult ProfitAndLossStatement([FromBody] ReportRequest request)
+        public async Task<IActionResult> ProfitAndLossStatement([FromBody] ReportRequest request)
         {
-            ProfitAndLossStatement response = reportService.ReportProfitAndLossStatement(request.StartDate, request.EndDate, request.Project);
+            ProfitAndLossStatement response = await reportService.ReportProfitAndLossStatement(request.StartDate, request.EndDate, request.Project);
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult TrialBalance([FromBody] ReportRequest request)
+        public async Task<IActionResult> TrialBalance([FromBody] ReportRequest request)
         {
-            List<TrialBalance> response = reportService.ReportTrialBalance(request.StartDate, request.EndDate, request.Project);
+            List<TrialBalance> response = await reportService.ReportTrialBalance(request.StartDate, request.EndDate, request.Project);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult TrialBalanceItems([FromBody] ReportRequestWithAccountPath request)
+        public async Task<IActionResult> TrialBalanceItems([FromBody] ReportRequestWithAccountPath request)
         {
-            var response = reportService.ReportTrialBalanceItems<object>(request.StartDate, request.EndDate, request.Project, request.AccountPath);
+            var response = await reportService.ReportTrialBalanceItems<object>(request.StartDate, request.EndDate, request.Project, request.AccountPath);
             
             if (response is List<TrialBalanceItem>)
             {

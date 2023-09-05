@@ -5,14 +5,14 @@ namespace HesabfaAPISampleCode.Services
 {
     public interface IInvoiceService
     {
-        Invoice GetInvoicesList(int type);
-        InvoiceItem GetInvoice(int number, int type);
-        InvoiceItem GetInvoiceById(int id);
-        OnlineInvoiceURL GetOnlineInvoiceURL(int number, int type);
-        T SavePayment<T>(PaymentRequest paymentRequest);
-        object Delete(int number, int type);
-        T Save<T>(InvoiceItem invoice);
-        T SaveWarehouseReceipt<T>(WarehouseReceipt receipt);
+        Task<Invoice> GetInvoicesList(int type);
+        Task<InvoiceItem> GetInvoice(int number, int type);
+        Task<InvoiceItem> GetInvoiceById(int id);
+        Task<OnlineInvoiceURL> GetOnlineInvoiceURL(int number, int type);
+        Task<T> SavePayment<T>(PaymentRequest paymentRequest);
+        Task<object> Delete(int number, int type);
+        Task<T> Save<T>(InvoiceItem invoice);
+        Task<T> SaveWarehouseReceipt<T>(WarehouseReceipt receipt);
     }
     public class InvoiceService : IInvoiceService
     {
@@ -22,7 +22,7 @@ namespace HesabfaAPISampleCode.Services
             this.BaseService = BaseService;
         }
 
-        public Invoice GetInvoicesList(int type)
+        public async Task<Invoice> GetInvoicesList(int type)
         {
             var queryInfo = new
             {
@@ -38,47 +38,47 @@ namespace HesabfaAPISampleCode.Services
                 ("type", type)
             };
 
-            var result = BaseService.Post<Invoice>("invoice/getinvoices", parameters);
+            var result = await BaseService.Post<Invoice>("invoice/getinvoices", parameters);
 
             return result.Result;
         }
 
-        public InvoiceItem GetInvoice(int number, int type)
+        public async Task<InvoiceItem> GetInvoice(int number, int type)
         {
             var parameters = new List<(string, object)>
             {
                 ("number", number),
                 ("type", type)
             };
-            var result = BaseService.Post<InvoiceItem>("invoice/get", parameters);
+            var result = await BaseService.Post<InvoiceItem>("invoice/get", parameters);
 
             return result.Result;
         }
 
-        public InvoiceItem GetInvoiceById(int id)
+        public async Task<InvoiceItem> GetInvoiceById(int id)
         {
             var parameters = new List<(string, object)>
             {
                 ("id", id)
             };
-            var result = BaseService.Post<InvoiceItem>("invoice/getById", parameters);
+            var result = await BaseService.Post<InvoiceItem>("invoice/getById", parameters);
 
             return result.Result;
         }
 
-        public OnlineInvoiceURL GetOnlineInvoiceURL(int number, int type)
+        public async Task<OnlineInvoiceURL> GetOnlineInvoiceURL(int number, int type)
         {
             var parameters = new List<(string, object)>
             {
                 ("number", number),
                 ("type", type)
             };
-            var result = BaseService.Post<OnlineInvoiceURL>("invoice/getonlineinvoiceurl", parameters);
+            var result = await BaseService.Post<OnlineInvoiceURL>("invoice/getonlineinvoiceurl", parameters);
 
             return result.Result;
         }
 
-        public T SavePayment<T>(PaymentRequest paymentRequest)
+        public async Task<T> SavePayment<T>(PaymentRequest paymentRequest)
         {
             var parameters = new List<(string, object)>
             {
@@ -93,7 +93,7 @@ namespace HesabfaAPISampleCode.Services
                 ("currency", paymentRequest.Currency),
                 ("currencyRate", paymentRequest.CurrencyRate),
             };
-            var result = BaseService.Post<object>("invoice/savepayment", parameters);
+            var result = await BaseService.Post<object>("invoice/savepayment", parameters);
 
             if (!result.Success)
             {
@@ -105,7 +105,7 @@ namespace HesabfaAPISampleCode.Services
             }
         }
 
-        public object Delete(int number, int type)
+        public async Task<object> Delete(int number, int type)
         {
             var parameters = new List<(string, object)>
             {
@@ -113,14 +113,14 @@ namespace HesabfaAPISampleCode.Services
                 ("type", type),
             };
 
-            var result = BaseService.Post<object>("invoice/delete", parameters);
+            var result = await BaseService.Post<object>("invoice/delete", parameters);
 
             return result.Result;
         }
 
-        public T Save<T>(InvoiceItem invoice)
+        public async Task<T> Save<T>(InvoiceItem invoice)
         {
-            var result = BaseService.Post<InvoiceItem>("invoice/save", ("invoice", invoice));
+            var result = await BaseService.Post<InvoiceItem>("invoice/save", ("invoice", invoice));
             if (!result.Success)
             {
                 return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
@@ -131,9 +131,9 @@ namespace HesabfaAPISampleCode.Services
             }
         }
 
-        public T SaveWarehouseReceipt<T>(WarehouseReceipt receipt)
+        public async Task<T> SaveWarehouseReceipt<T>(WarehouseReceipt receipt)
         {
-            var result = BaseService.Post<WarehouseReceipt>("invoice/SaveWarehouseReceipt", ("receipt", receipt));
+            var result = await BaseService.Post<WarehouseReceipt>("invoice/SaveWarehouseReceipt", ("receipt", receipt));
 
             if (!result.Success)
             {

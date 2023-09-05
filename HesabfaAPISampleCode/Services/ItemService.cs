@@ -6,14 +6,14 @@ namespace HesabfaAPISampleCode.Services
 {
     public interface IItemService
     {
-        Product GetItems();
-        T GetItem<T>(string code);
-        T GetItemByBarcode<T>(string barcode);
-        List<QuantityItem> GetQuantity(int warehouseCode, Array codes);
-        T GetItemById<T>(Array idList);
-        T Save<T>(object item);
-        T Delete<T>(string code);
-        object UpdateOpeningQuantity(object items);
+        Task<Product> GetItems();
+        Task<T> GetItem<T>(string code);
+        Task<T> GetItemByBarcode<T>(string barcode);
+        Task<List<QuantityItem>> GetQuantity(int warehouseCode, Array codes);
+        Task<T> GetItemById<T>(Array idList);
+        Task<T> Save<T>(object item);
+        Task<T> Delete<T>(string code);
+        Task<object> UpdateOpeningQuantity(object items);
 
     }
     public class ItemService: IItemService
@@ -23,7 +23,7 @@ namespace HesabfaAPISampleCode.Services
         {
             this.baseService = baseService;
         }
-        public Product GetItems()
+        public async Task<Product> GetItems()
         {
             var queryInfo = new
             {
@@ -33,13 +33,13 @@ namespace HesabfaAPISampleCode.Services
                 Skip = 0
             };
 
-            var result = baseService.Post<Product>("item/getitems", ("queryInfo", queryInfo));
+            var result = await baseService.Post<Product>("item/getitems", ("queryInfo", queryInfo));
 
             return result.Result;
         }
-        public T GetItem<T>(string code)
+        public async Task<T> GetItem<T>(string code)
         {
-            var result = baseService.Post<ProductItem>("item/get", ("code", code));
+            var result = await baseService.Post<ProductItem>("item/get", ("code", code));
 
             if (!result.Success)
             {
@@ -51,9 +51,9 @@ namespace HesabfaAPISampleCode.Services
             }
         }
 
-        public T GetItemByBarcode<T>(string barcode)
+        public async Task<T> GetItemByBarcode<T>(string barcode)
         {
-            var result = baseService.Post<ProductItem>("item/getByBarcode", ("barcode", barcode));
+            var result = await baseService.Post<ProductItem>("item/getByBarcode", ("barcode", barcode));
 
             if (!result.Success)
             {
@@ -65,7 +65,7 @@ namespace HesabfaAPISampleCode.Services
             }
         }
 
-        public List<QuantityItem> GetQuantity(int warehouseCode, Array codes)
+        public async Task<List<QuantityItem>> GetQuantity(int warehouseCode, Array codes)
         {
             var parameters = new List<(string, object)>();
 
@@ -79,14 +79,14 @@ namespace HesabfaAPISampleCode.Services
                 parameters.Add(("codes", codes));
             }
 
-            var result = baseService.Post<List<QuantityItem>>("item/GetQuantity", parameters);
+            var result = await baseService.Post<List<QuantityItem>>("item/GetQuantity", parameters);
 
             return result.Result;
         }
 
-        public T GetItemById<T>(Array idList)
+        public async Task<T> GetItemById<T>(Array idList)
         {
-            var result = baseService.Post<List<ProductItem>>("item/getById", ("idList", idList));
+            var result = await baseService.Post<List<ProductItem>>("item/getById", ("idList", idList));
 
             if (!result.Success)
             {
@@ -98,9 +98,9 @@ namespace HesabfaAPISampleCode.Services
             }
         }
 
-        public T Save<T>(object item)
+        public async Task<T> Save<T>(object item)
         {
-            var result = baseService.Post<ProductItem>("item/save", ("item", item));
+            var result = await baseService.Post<ProductItem>("item/save", ("item", item));
 
             if (!result.Success)
             {
@@ -112,9 +112,9 @@ namespace HesabfaAPISampleCode.Services
             }
         }
 
-        public T Delete<T>(string code)
+        public async Task<T> Delete<T>(string code)
         {
-            var result = baseService.Post<object>("item/delete", ("code", code));
+            var result = await baseService.Post<object>("item/delete", ("code", code));
 
             if (!result.Success)
             {
@@ -126,9 +126,9 @@ namespace HesabfaAPISampleCode.Services
             }
         }
 
-        public object UpdateOpeningQuantity(object items)
+        public async Task<object> UpdateOpeningQuantity(object items)
         {
-            var result = baseService.Post<object>("item/UpdateOpeningQuantity", ("items", items));
+            var result = await baseService.Post<object>("item/UpdateOpeningQuantity", ("items", items));
 
             return result.Success;
         }

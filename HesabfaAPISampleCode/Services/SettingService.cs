@@ -6,23 +6,23 @@ namespace HesabfaAPISampleCode.Services
 {
     public interface ISettingService
     {
-        List<Bank> GetBanks();
-        List<Cash> GetCashes();
-        List<PettyCash> GetPettyCashes();
-        CurrencyValue GetCurrency();
-        List<FiscalYearList> GetFiscalYears();
-        List<Warehouse> GetWarehouses();
-        List<Project> GetProjects();
-        List<Salesman> GetSalesmen();
-        List<CurrencyTable> GetCurrencyTable();
-        object SetCurrencyTable(Array table);
-        BusinessInfo GetBusinessInfo();
-        FiscalYear GetFiscalYear();
-        List<Account> GetAccounts();
-        Category GetProductCategories();
-        Category GetServiceCategories();
-        Category GetContactCategories();
-        List<UserLog> GetLastChanges(int start);
+        Task<List<Bank>> GetBanks();
+        Task<List<Cash>> GetCashes();
+        Task<List<PettyCash>> GetPettyCashes();
+        Task<CurrencyValue> GetCurrency();
+        Task<List<FiscalYearList>> GetFiscalYears();
+        Task<List<Warehouse>> GetWarehouses();
+        Task<List<Project>> GetProjects();
+        Task<List<Salesman>> GetSalesmen();
+        Task<List<CurrencyTable>> GetCurrencyTable();
+        Task<object> SetCurrencyTable(Array table);
+        Task<BusinessInfo> GetBusinessInfo();
+        Task<FiscalYear> GetFiscalYear();
+        Task<List<Account>> GetAccounts();
+        Task<Category> GetProductCategories();
+        Task<Category> GetServiceCategories();
+        Task<Category> GetContactCategories();
+        Task<List<UserLog>> GetLastChanges(int start);
     }
     public class SettingService : ISettingService
     {
@@ -32,120 +32,126 @@ namespace HesabfaAPISampleCode.Services
             this.BaseService = baseService;
         }
 
-        public List<Bank> GetBanks()
+        public async Task<List<Bank>> GetBanks()
         {
-            var result = BaseService.Post<List<Bank>>("setting/GetBanks");
+            var result = await BaseService.Post<List<Bank>>("setting/GetBanks");
 
             return result.Result;
         }
 
-        public List<Cash> GetCashes()
+        public async Task<List<Cash>> GetCashes()
         {
-            var result = BaseService.Post<List<Cash>>("setting/GetCashes");
+            var result = await BaseService.Post<List<Cash>>("setting/GetCashes");
 
             return result.Result;
         }
 
-        public List<PettyCash> GetPettyCashes()
+        public async Task<List<PettyCash>> GetPettyCashes()
         {
-            var result = BaseService.Post<List<PettyCash>>("setting/GetPettyCashes");
+            var result = await BaseService.Post<List<PettyCash>>("setting/GetPettyCashes");
 
             return result.Result;
         }
 
-        public CurrencyValue GetCurrency()
+        public async Task<CurrencyValue> GetCurrency()
         {
-            var result = BaseService.Post<CurrencyValue>("setting/GetCurrency");
+            var result = await BaseService.Post<CurrencyValue>("setting/GetCurrency");
 
             return result.Result;
         }
 
-        public List<FiscalYearList> GetFiscalYears()
+        public async Task<List<FiscalYearList>> GetFiscalYears()
         {
-            var result = BaseService.Post<List<FiscalYearList>>("setting/GetFiscalYears");
+            var result = await BaseService.Post<List<FiscalYearList>>("setting/GetFiscalYears");
 
             return result.Result;
         }
 
-        public List<Warehouse> GetWarehouses()
+        //public List<Warehouse> GetWarehouses()
+        //{
+        //    var result = BaseService.Post<List<Warehouse>>("setting/GetWarehouses");
+
+        //    return result.Result;
+        //}
+
+        public async Task<List<Warehouse>> GetWarehouses()
         {
-            var result = BaseService.Post<List<Warehouse>>("setting/GetWarehouses");
+            var result = await BaseService.Post<List<Warehouse>>("setting/GetWarehouses");
+            return result.Result;
+        }
+
+        public async Task<List<Project>> GetProjects()
+        {
+            var result = await BaseService.Post<List<Project>>("setting/GetProjects");
 
             return result.Result;
         }
 
-        public List<Project> GetProjects()
+        public async Task<List<Salesman>> GetSalesmen()
         {
-            var result = BaseService.Post<List<Project>>("setting/GetProjects");
+            var result = await BaseService.Post<List<Salesman>>("setting/GetSalesmen");
 
             return result.Result;
         }
 
-        public List<Salesman> GetSalesmen()
+        public async Task<List<CurrencyTable>> GetCurrencyTable()
         {
-            var result = BaseService.Post<List<Salesman>>("setting/GetSalesmen");
+            var result = await BaseService.Post<List<CurrencyTable>>("setting/GetCurrencyTable");
 
             return result.Result;
         }
 
-        public List<CurrencyTable> GetCurrencyTable()
+        public async Task<object> SetCurrencyTable(Array table)
         {
-            var result = BaseService.Post<List<CurrencyTable>>("setting/GetCurrencyTable");
+            var result = await BaseService.Post<object>("setting/SetCurrencyTable", ("Table", table));
+
+            return result.Result;
+        }
+        public async Task<BusinessInfo> GetBusinessInfo()
+        {
+            var result = await BaseService.Post<BusinessInfo>("setting/GetBusinessInfo");
 
             return result.Result;
         }
 
-        public object SetCurrencyTable(Array table)
+        public async Task<FiscalYear> GetFiscalYear()
         {
-            var result = BaseService.Post<object>("setting/SetCurrencyTable", ("Table", table));
-
-            return result.Result;
-        }
-        public BusinessInfo GetBusinessInfo()
-        {
-            var result = BaseService.Post<BusinessInfo>("setting/GetBusinessInfo");
+            var result = await BaseService.Post<FiscalYear>("setting/GetFiscalYear");
 
             return result.Result;
         }
 
-        public FiscalYear GetFiscalYear()
+        public async Task<List<Account>> GetAccounts()
         {
-            var result = BaseService.Post<FiscalYear>("setting/GetFiscalYear");
+            var result = await BaseService.Post<List<Account>>("setting/GetAccounts");
 
             return result.Result;
         }
 
-        public List<Account> GetAccounts()
+        public async Task<Category> GetProductCategories()
         {
-            var result = BaseService.Post<List<Account>>("setting/GetAccounts");
+            var result = await BaseService.Post<Category>("setting/GetProductCategories");
 
             return result.Result;
         }
 
-        public Category GetProductCategories()
+        public async Task<Category> GetServiceCategories()
         {
-            var result = BaseService.Post<Category>("setting/GetProductCategories");
+            var result = await BaseService.Post<Category>("setting/GetServiceCategories");
 
             return result.Result;
         }
 
-        public Category GetServiceCategories()
+        public async Task<Category> GetContactCategories()
         {
-            var result = BaseService.Post<Category>("setting/GetServiceCategories");
+            var result = await BaseService.Post<Category>("setting/GetContactCategories");
 
             return result.Result;
         }
 
-        public Category GetContactCategories()
+        public async Task<List<UserLog>> GetLastChanges(int start)
         {
-            var result = BaseService.Post<Category>("setting/GetContactCategories");
-
-            return result.Result;
-        }
-
-        public List<UserLog> GetLastChanges(int start)
-        {
-            var result = BaseService.Post<List<UserLog>>("setting/GetChanges", ("start", start));
+            var result = await BaseService.Post<List<UserLog>>("setting/GetChanges", ("start", start));
             return result.Result;
         }
     }

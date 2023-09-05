@@ -17,17 +17,17 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetList()
+        public async Task<IActionResult> GetList()
         {
-            Product response = itemService.GetItems();
+            Product response = await itemService.GetItems();
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult GetById([FromBody] int[] idList)
+        public async Task<IActionResult> GetById([FromBody] int[] idList)
         {
-            var response = itemService.GetItemById<object>(idList);
+            var response = await itemService.GetItemById<object>(idList);
             if (response is List<ProductItem>)
             {
                 return Ok(response as List<ProductItem>);
@@ -39,9 +39,9 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetByBarcode([FromBody] string barcode)
+        public async Task<IActionResult> GetByBarcode([FromBody] string barcode)
         {
-            var response = itemService.GetItemByBarcode<object>(barcode);
+            var response = await itemService.GetItemByBarcode<object>(barcode);
             if (response is ProductItem)
             {
                 return Ok(response as ProductItem);
@@ -53,9 +53,9 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult Get([FromBody] string code)
+        public async Task<IActionResult> Get([FromBody] string code)
         {
-            var response = itemService.GetItem<object>(code);
+            var response = await itemService.GetItem<object>(code);
             if (response is ProductItem)
             {
                 return Ok(response as ProductItem);
@@ -67,16 +67,16 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetQuantityList([FromBody] QuantityRequest requestBody)
+        public async Task<IActionResult> GetQuantityList([FromBody] QuantityRequest requestBody)
         {
-            List<QuantityItem> response = itemService.GetQuantity(requestBody.WarehouseCode, requestBody.Codes);
+            List<QuantityItem> response = await itemService.GetQuantity(requestBody.WarehouseCode, requestBody.Codes);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult Save([FromBody] object item)
+        public async Task<IActionResult> Save([FromBody] object item)
         {
-            var response = itemService.Save<object>(item);
+            var response = await itemService.Save<object>(item);
             if (response is ProductItem)
             {
                 return Ok(response as ProductItem);
@@ -88,16 +88,16 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete([FromBody] string code)
+        public async Task<IActionResult> Delete([FromBody] string code)
         {
-            var response = itemService.Delete<object>(code);
+            var response = await itemService.Delete<object>(code);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult UpdateOpeningQuantity([FromBody] object items)
+        public async Task<IActionResult> UpdateOpeningQuantity([FromBody] object items)
         {
-            var response = itemService.UpdateOpeningQuantity(items);
+            var response = await itemService.UpdateOpeningQuantity(items);
             return Ok(response);
         }
     }

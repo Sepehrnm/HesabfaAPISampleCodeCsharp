@@ -5,10 +5,10 @@ namespace HesabfaAPISampleCode.Services
 {
     public interface IReceiptService
     {
-        Receipt GetReceipts(int type);
-        T GetReceipt<T>(int type, int number);
-        ReceiptItem SaveReceipt(SaveReceiptItem receipt);
-        T DeleteReceipt<T>(int type, int number);
+        Task<Receipt> GetReceipts(int type);
+        Task<T> GetReceipt<T>(int type, int number);
+        Task<ReceiptItem> SaveReceipt(SaveReceiptItem receipt);
+        Task<T> DeleteReceipt<T>(int type, int number);
     }
     public class ReceiptService : IReceiptService
     {
@@ -18,7 +18,7 @@ namespace HesabfaAPISampleCode.Services
             this.BaseService = BaseService;
         }
 
-        public Receipt GetReceipts(int type)
+        public async Task<Receipt> GetReceipts(int type)
         {
             dynamic queryInfo = new System.Dynamic.ExpandoObject();
             queryInfo.SortBy = "DateTime";
@@ -31,12 +31,12 @@ namespace HesabfaAPISampleCode.Services
                 ("type", type),
                 ("queryInfo", queryInfo),
             };
-            var result = BaseService.Post<Receipt>("receipt/getReceipts", parameters);
+            var result = await BaseService.Post<Receipt>("receipt/getReceipts", parameters);
 
             return result.Result;
         }
 
-        public T GetReceipt<T>(int type, int number)
+        public async Task<T> GetReceipt<T>(int type, int number)
         {
 
             var parameters = new List<(string, object)>
@@ -44,7 +44,7 @@ namespace HesabfaAPISampleCode.Services
                 ("type", type),
                 ("number", number),
             };
-            var result = BaseService.Post<ReceiptItem>("receipt/get", parameters);
+            var result = await BaseService.Post<ReceiptItem>("receipt/get", parameters);
 
             if (!result.Success)
             {
@@ -55,7 +55,7 @@ namespace HesabfaAPISampleCode.Services
                 return (T)(object)(object)result.Result;
             }
         }
-        public ReceiptItem SaveReceipt(SaveReceiptItem receipt)
+        public async Task<ReceiptItem> SaveReceipt(SaveReceiptItem receipt)
         {
 
             var parameters = new List<(string, object)>
@@ -68,12 +68,12 @@ namespace HesabfaAPISampleCode.Services
                 ("description", receipt.Description),
             };
 
-            var result = BaseService.Post<ReceiptItem>("receipt/save", parameters);
+            var result = await BaseService.Post<ReceiptItem>("receipt/save", parameters);
 
             return result.Result;
         }
 
-        public T DeleteReceipt<T>(int type, int number)
+        public async Task<T> DeleteReceipt<T>(int type, int number)
         {
 
             var parameters = new List<(string, object)>
@@ -81,7 +81,7 @@ namespace HesabfaAPISampleCode.Services
                 ("type", type),
                 ("number", number),
             };
-            var result = BaseService.Post<object>("receipt/delete", parameters);
+            var result = await BaseService.Post<object>("receipt/delete", parameters);
 
             if (!result.Success)
             {

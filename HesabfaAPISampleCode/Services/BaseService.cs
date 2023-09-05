@@ -14,9 +14,9 @@ namespace HesabfaAPISampleCode.Services
 {
     public interface IBaseService
     {
-        public ApiResult<T> Post<T>(string method);
-        public ApiResult<T> Post<T>(string method, (string, object) parameter);
-        public ApiResult<T> Post<T>(string method, List<(string, object)> parameters);
+        public Task<ApiResult<T>> Post<T>(string method);
+        public Task<ApiResult<T>> Post<T>(string method, (string, object) parameter);
+        public Task<ApiResult<T>> Post<T>(string method, List<(string, object)> parameters);
     }
 
     public class BaseService : IBaseService
@@ -31,16 +31,16 @@ namespace HesabfaAPISampleCode.Services
             apiKey = "QZAIlbJQnCGENqB1lV0Ygx4rTIfln1yg";
         }
 
-        public ApiResult<T> Post<T>(string method)
+        public async Task<ApiResult<T>> Post<T>(string method)
         {
-            return Post<T>(method, null);
+            return await Post<T>(method, null);
         }
-        public ApiResult<T> Post<T>(string method, (string, object) parameter)
+        public async Task<ApiResult<T>> Post<T>(string method, (string, object) parameter)
         {
-            return Post<T>(method, new List<(string, object)> { parameter });
+            return await Post<T>(method, new List<(string, object)> { parameter });
         }
 
-        public ApiResult<T> Post<T>(string method, List<(string, object)> parameters)
+        public async Task<ApiResult<T>> Post<T>(string method, List<(string, object)> parameters)
         {
             var client = new RestClient("https://api.hesabfa.com/v1/");
             var request = new RestRequest(method);
@@ -59,7 +59,7 @@ namespace HesabfaAPISampleCode.Services
 
             request.AddJsonBody(body);
 
-            var response = client.Post(request);
+            var response = await client.PostAsync(request);
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 throw new Exception("Request failed!");

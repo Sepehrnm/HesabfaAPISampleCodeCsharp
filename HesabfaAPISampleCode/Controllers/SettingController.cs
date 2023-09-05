@@ -20,124 +20,124 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetCurrencyTable([FromBody] List<CurrencyTable> table)
+        public async Task<IActionResult> SetCurrencyTable([FromBody] List<CurrencyTable> table)
         {
-            var response = settingService.SetCurrencyTable(table.ToArray());
+            var response = await settingService.SetCurrencyTable(table.ToArray());
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult GetCurrencyTable()
+        public async Task<IActionResult> GetCurrencyTable()
         {
-            List<CurrencyTable> table = settingService.GetCurrencyTable();
+            List<CurrencyTable> table = await settingService.GetCurrencyTable();
             return Ok(table);
         }
 
         [HttpPost]
-        public IActionResult GetFiscalYears()
+        public async Task<IActionResult> GetFiscalYears()
         {
-            List<FiscalYearList> list = settingService.GetFiscalYears();
+            List<FiscalYearList> list = await settingService.GetFiscalYears();
             return Ok(list);
         }
 
         [HttpPost]
-        public IActionResult GetBanks()
+        public async Task<IActionResult> GetBanks()
         {
-            List<Bank> banks = settingService.GetBanks();
+            List<Bank> banks = await settingService.GetBanks();
             return Ok(banks);
         }
 
         [HttpPost]
-        public IActionResult GetCashes()
+        public async Task<IActionResult> GetCashes()
         {
-            List<Cash> cashes = settingService.GetCashes();
+            List<Cash> cashes = await settingService.GetCashes();
             return Ok(cashes);
         }
 
         [HttpPost]
-        public IActionResult GetPettyCashes()
+        public async Task<IActionResult> GetPettyCashes()
         {
-            List<PettyCash> pettyCashes = settingService.GetPettyCashes();
+            List<PettyCash> pettyCashes = await settingService.GetPettyCashes();
             return Ok(pettyCashes);
         }
 
         [HttpPost]
-        public IActionResult GetAccounts()
+        public async Task<IActionResult> GetAccounts()
         {
-            List<Account> accounts = settingService.GetAccounts();
+            List<Account> accounts = await settingService.GetAccounts();
             return Ok(accounts);
         }
 
         [HttpPost]
-        public IActionResult GetSalesmen()
+        public async Task<IActionResult> GetSalesmen()
         {
-            List<Salesman> salesmen = settingService.GetSalesmen();
+            List<Salesman> salesmen = await settingService.GetSalesmen();
             return Ok(salesmen);
         }
 
         [HttpPost]
-        public IActionResult GetWarehouses()
+        public async Task<IActionResult> GetWarehouses()
         {
-            List<Warehouse> warehouses = settingService.GetWarehouses();
+            List<Warehouse> warehouses = await settingService.GetWarehouses();
             return Ok(warehouses);
         }
 
         [HttpPost]
-        public IActionResult GetCurrency()
+        public async Task<IActionResult> GetCurrency()
         {
-            CurrencyValue currency = settingService.GetCurrency();
+            CurrencyValue currency = await settingService.GetCurrency();
             return Ok(currency);
         }
 
         [HttpPost]
-        public IActionResult GetProjects()
+        public async Task<IActionResult> GetProjects()
         {
-            List<Project> projects = settingService.GetProjects();
+            List<Project> projects = await settingService.GetProjects();
             return Ok(projects);
         }
 
         [HttpPost]
-        public IActionResult GetFiscalYear()
+        public async Task<IActionResult> GetFiscalYear()
         {
-            FiscalYear fiscalYear = settingService.GetFiscalYear();
+            FiscalYear fiscalYear = await settingService.GetFiscalYear();
             return Ok(fiscalYear);
         }
 
         [HttpPost]
-        public IActionResult GetBusinessInfo()
+        public async Task<IActionResult> GetBusinessInfo()
         {
-            BusinessInfo businessInfo = settingService.GetBusinessInfo();
+            BusinessInfo businessInfo = await settingService.GetBusinessInfo();
             return Ok(businessInfo);
         }
 
         [HttpPost]
-        public IActionResult GetProductCategories()
+        public async Task<IActionResult> GetProductCategories()
         {
-            Category categories = settingService.GetProductCategories();
+            Category categories = await settingService.GetProductCategories();
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(categories.Root));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult GetContactCategories()
+        public async Task<IActionResult> GetContactCategories()
         {
-            Category categories = settingService.GetContactCategories();
+            Category categories = await settingService.GetContactCategories();
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(categories.Root));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult GetServiceCategories()
+        public async Task<IActionResult> GetServiceCategories()
         {
-            Category categories = settingService.GetServiceCategories();
+            Category categories = await settingService.GetServiceCategories();
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(categories.Root));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult GetLastChanges([FromBody] int start)
+        public async Task<IActionResult> GetLastChanges([FromBody] int start)
         {
-            List<UserLog> userLogs = settingService.GetLastChanges(start);
+            List<UserLog> userLogs = await settingService.GetLastChanges(start);
             return Ok(userLogs);
         }
 

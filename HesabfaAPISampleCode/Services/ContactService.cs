@@ -6,12 +6,12 @@ namespace HesabfaAPISampleCode.Services
 {
     public interface IContactService
     {
-        ContactList GetContactList();
-        T GetContact<T>(string code);
-        List<Contact> GetContactById(Array idList);
-        T SaveContact<T>(object contact);
-        object DeleteContact(string code);
-        T GetContactLink<T>(string code, bool showAllAccounts, int days);
+        Task<ContactList> GetContactList();
+        Task<T> GetContact<T>(string code);
+        Task<List<Contact>> GetContactById(Array idList);
+        Task<T> SaveContact<T>(object contact);
+        Task<object> DeleteContact(string code);
+        Task<T> GetContactLink<T>(string code, bool showAllAccounts, int days);
     }
     public class ContactService : IContactService
     {
@@ -21,9 +21,9 @@ namespace HesabfaAPISampleCode.Services
             this.BaseService = BaseService;
         }
 
-        public T GetContact<T>(string code)
+        public async Task<T> GetContact<T>(string code)
         {
-            var result = BaseService.Post<Contact>("contact/get", ("code", code));
+            var result = await BaseService.Post<Contact>("contact/get", ("code", code));
             if(!result.Success)
             {
                 return (T)(object)new { Success = false , ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
@@ -33,16 +33,16 @@ namespace HesabfaAPISampleCode.Services
             }
         }
 
-        public List<Contact> GetContactById(Array idList)
+        public async Task<List<Contact>> GetContactById(Array idList)
         {
-            var result = BaseService.Post<List<Contact>>("contact/getById", ("idList", idList));
+            var result = await BaseService.Post<List<Contact>>("contact/getById", ("idList", idList));
 
             return result.Result;
         }
 
-        public T SaveContact<T>(object contact)
+        public async Task<T> SaveContact<T>(object contact)
         {
-            var result = BaseService.Post<Contact>("contact/save", ("contact", contact));
+            var result = await BaseService.Post<Contact>("contact/save", ("contact", contact));
 
             if (!result.Success)
             {
@@ -54,13 +54,13 @@ namespace HesabfaAPISampleCode.Services
             }
         }
 
-        public object DeleteContact(string code)
+        public async Task<object> DeleteContact(string code)
         {
-            var result = BaseService.Post<object>("contact/delete", ("code", code));
+            var result = await BaseService.Post<object>("contact/delete", ("code", code));
 
             return result;
         }
-        public T GetContactLink<T>(string code, bool showAllAccounts, int days)
+        public async Task<T> GetContactLink<T>(string code, bool showAllAccounts, int days)
         {
             var parameters = new List<(string, object)>
             {
@@ -69,7 +69,7 @@ namespace HesabfaAPISampleCode.Services
                 ("days", days)
             };
 
-            var result = BaseService.Post<ContactLink>("contact/getContactLink", parameters);
+            var result = await BaseService.Post<ContactLink>("contact/getContactLink", parameters);
 
             if (!result.Success)
             {
@@ -81,7 +81,7 @@ namespace HesabfaAPISampleCode.Services
             }
         }
 
-        public ContactList GetContactList()
+        public async Task<ContactList> GetContactList()
         {
             dynamic queryInfo = new System.Dynamic.ExpandoObject();
             queryInfo.SortBy = "Code";
@@ -89,7 +89,7 @@ namespace HesabfaAPISampleCode.Services
             queryInfo.Take = 20000;
             queryInfo.Skip = 0;
 
-            var result = BaseService.Post<ContactList>("contact/getcontacts", ("queryInfo", queryInfo));
+            var result = await BaseService.Post<ContactList>("contact/getcontacts", ("queryInfo", queryInfo));
 
             return result.Result;
         }

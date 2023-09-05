@@ -1,6 +1,6 @@
 ﻿namespace HesabfaAPISampleCode.Models
 {
-    public class DebtorsCreditors
+    public class DebtorCreditor
     {
         public string? Code { get; set; }
         public string? Name { get; set; }

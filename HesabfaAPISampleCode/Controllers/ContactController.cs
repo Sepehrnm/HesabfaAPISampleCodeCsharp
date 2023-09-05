@@ -18,9 +18,9 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult Get([FromBody] string code)
+        public async Task<IActionResult> Get([FromBody] string code)
         {
-            var response = contactService.GetContact<object>(code);
+            var response = await contactService.GetContact<object>(code);
             if (response is Contact)
             {
                 return Ok(response as Contact);
@@ -32,24 +32,24 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetList()
+        public async Task<IActionResult> GetList()
         {
-            var response = contactService.GetContactList();
+            var response = await contactService.GetContactList();
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response.List));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult GetById([FromBody] int[] idList)
+        public async Task<IActionResult> GetById([FromBody] int[] idList)
         {
-            List<Contact> response = contactService.GetContactById(idList);
+            List<Contact> response = await contactService.GetContactById(idList);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult Save([FromBody] object contact)
+        public async Task<IActionResult> Save([FromBody] object contact)
         {
-            var response = contactService.SaveContact<object>(contact);
+            var response = await contactService.SaveContact<object>(contact);
             if (response is Contact)
             {
                 return Ok(response as Contact);
@@ -61,16 +61,16 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete([FromBody] string code)
+        public async Task<IActionResult> Delete([FromBody] string code)
         {
-            var response = contactService.DeleteContact(code);
+            var response = await contactService.DeleteContact(code);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult GetContactLink([FromBody] ContactLinkRequest contactLinkRequest)
+        public async Task<IActionResult> GetContactLink([FromBody] ContactLinkRequest contactLinkRequest)
         {
-            var response = contactService.GetContactLink<object>(contactLinkRequest.Code, contactLinkRequest.ShowAllAccounts, contactLinkRequest.Days);
+            var response = await contactService.GetContactLink<object>(contactLinkRequest.Code, contactLinkRequest.ShowAllAccounts, contactLinkRequest.Days);
             if (response is ContactLink)
             {
                 return Ok(response as ContactLink);

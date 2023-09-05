@@ -7,13 +7,12 @@ namespace HesabfaAPISampleCode.Services
 {
     public interface IReportService
     {
-        Balancesheet ReportBalancesheet(string startDate, string endDate, string project);
-        List<DebtorsCreditors> ReportDebtorsCreditors(string startDate, string endDate, string project);
-        List<Inventory> ReportInventory(string startDate, string endDate, string project);
-        ProfitAndLossStatement ReportProfitAndLossStatement(string startDate, string endDate, string project);
-        List<TrialBalance> ReportTrialBalance(string startDate, string endDate, string project);
-        T ReportTrialBalanceItems<T>(string startDate, string endDate, string project, string accountPath);
-
+        Task<Balancesheet> ReportBalancesheet(string startDate, string endDate, string project);
+        Task<List<DebtorCreditor>> ReportDebtorsCreditors(string startDate, string endDate, string project);
+        Task<List<Inventory>> ReportInventory(string startDate, string endDate, string project);
+        Task<ProfitAndLossStatement> ReportProfitAndLossStatement(string startDate, string endDate, string project);
+        Task<List<TrialBalance>> ReportTrialBalance(string startDate, string endDate, string project);
+        Task<T> ReportTrialBalanceItems<T>(string startDate, string endDate, string project, string accountPath);
     }
     public class ReportService : IReportService
     {
@@ -22,7 +21,7 @@ namespace HesabfaAPISampleCode.Services
         {
             this.BaseService = BaseService;
         }
-        public Balancesheet ReportBalancesheet(string startDate, string endDate, string project)
+        public async Task<Balancesheet> ReportBalancesheet(string startDate, string endDate, string project)
         {
             var parameters = new List<(string, object)>();
 
@@ -40,12 +39,12 @@ namespace HesabfaAPISampleCode.Services
             {
                 parameters.Add(("project", project));
             }
-            var result = BaseService.Post<Balancesheet>("report/balancesheet", parameters);
+            var result = await BaseService.Post<Balancesheet>("report/balancesheet", parameters);
 
             return result.Result;
         }
 
-        public List<DebtorsCreditors> ReportDebtorsCreditors(string startDate, string endDate, string project)
+        public async Task<List<DebtorCreditor>> ReportDebtorsCreditors(string startDate, string endDate, string project)
         {
             var parameters = new List<(string, object)>();
 
@@ -64,12 +63,12 @@ namespace HesabfaAPISampleCode.Services
                 parameters.Add(("project", project));
             }
 
-            var result = BaseService.Post<List<DebtorsCreditors>>("report/debtorscreditors", parameters);
+            var result = await BaseService.Post<List<DebtorCreditor>>("report/debtorscreditors", parameters);
 
             return result.Result;
         }
 
-        public List<Inventory> ReportInventory(string startDate, string endDate, string project)
+        public async Task<List<Inventory>> ReportInventory(string startDate, string endDate, string project)
         {
             var parameters = new List<(string, object)>();
 
@@ -87,12 +86,12 @@ namespace HesabfaAPISampleCode.Services
             {
                 parameters.Add(("project", project));
             }
-            var result = BaseService.Post<List<Inventory>>("report/inventory", parameters);
+            var result = await BaseService.Post<List<Inventory>>("report/inventory", parameters);
 
             return result.Result;
         }
 
-        public ProfitAndLossStatement ReportProfitAndLossStatement(string startDate, string endDate, string project)
+        public async Task<ProfitAndLossStatement> ReportProfitAndLossStatement(string startDate, string endDate, string project)
         {
             var parameters = new List<(string, object)>();
 
@@ -110,12 +109,12 @@ namespace HesabfaAPISampleCode.Services
             {
                 parameters.Add(("project", project));
             }
-            var result = BaseService.Post<ProfitAndLossStatement>("report/profitandlossstatement", parameters);
+            var result = await BaseService.Post<ProfitAndLossStatement>("report/profitandlossstatement", parameters);
 
             return result.Result;
         }
 
-        public List<TrialBalance> ReportTrialBalance(string startDate, string endDate, string project)
+        public async Task<List<TrialBalance>> ReportTrialBalance(string startDate, string endDate, string project)
         {
             var parameters = new List<(string, object)>();
 
@@ -133,12 +132,12 @@ namespace HesabfaAPISampleCode.Services
             {
                 parameters.Add(("project", project));
             }
-            var result = BaseService.Post<List<TrialBalance>>("report/trialbalance", parameters);
+            var result = await BaseService.Post<List<TrialBalance>>("report/trialbalance", parameters);
 
             return result.Result;
         }
 
-        public T ReportTrialBalanceItems<T>(string startDate, string endDate, string project, string accountPath)
+        public async Task<T> ReportTrialBalanceItems<T>(string startDate, string endDate, string project, string accountPath)
         {
             var parameters = new List<(string, object)>();
 
@@ -161,7 +160,7 @@ namespace HesabfaAPISampleCode.Services
             {
                 parameters.Add(("accountPath", accountPath));
             }
-            var result = BaseService.Post<List<TrialBalanceItem>>("report/trialbalanceitems", parameters);
+            var result = await BaseService.Post<List<TrialBalanceItem>>("report/trialbalanceitems", parameters);
             if (!result.Success)
             {
                 return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };

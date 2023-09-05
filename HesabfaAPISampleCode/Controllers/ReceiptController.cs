@@ -18,33 +18,33 @@ namespace HesabfaAPISampleCode.Controllers
         }
 
         [HttpPost]
-        public IActionResult Get([FromBody] ReceiptRequest jsonBody)
+        public async Task<IActionResult> Get([FromBody] ReceiptRequest jsonBody)
         {
-            var response = receiptService.GetReceipt<object>(jsonBody.type, jsonBody.number);
+            var response = await receiptService.GetReceipt<object>(jsonBody.type, jsonBody.number);
 
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult Delete([FromBody] ReceiptRequest jsonBody)
+        public async Task<IActionResult> Delete([FromBody] ReceiptRequest jsonBody)
         {
-            var response = receiptService.DeleteReceipt<object>(jsonBody.type, jsonBody.number);
+            var response = await receiptService.DeleteReceipt<object>(jsonBody.type, jsonBody.number);
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult GetList([FromBody] int type)
+        public async Task<IActionResult> GetList([FromBody] int type)
         {
-            Receipt response = receiptService.GetReceipts(type);
+            Receipt response = await receiptService.GetReceipts(type);
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }
 
         [HttpPost]
-        public IActionResult Save([FromBody] SaveReceiptItem receipt)
+        public async Task<IActionResult> Save([FromBody] SaveReceiptItem receipt)
         {
-            object response = receiptService.SaveReceipt(receipt);
+            object response = await receiptService.SaveReceipt(receipt);
             var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
             return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
         }

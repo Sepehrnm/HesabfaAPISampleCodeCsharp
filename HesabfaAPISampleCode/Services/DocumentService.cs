@@ -6,10 +6,10 @@ namespace HesabfaAPISampleCode.Services
 {
     public interface IDocumentService
     {
-        object GetList(int take);
-        Document Get(int number);
-        object Delete(int number);
-        T Save<T>(Document document);
+        Task<object> GetList(int take);
+        Task<Document> Get(int number);
+        Task<object> Delete(int number);
+        Task<T> Save<T>(Document document);
     }
     public class DocumentService : IDocumentService
     {
@@ -19,7 +19,7 @@ namespace HesabfaAPISampleCode.Services
             this.BaseService = BaseService;
         }
 
-        public object GetList(int take)
+        public async Task<object> GetList(int take)
         {
             dynamic queryInfo = new System.Dynamic.ExpandoObject();
             queryInfo.SortBy = "Date";
@@ -27,27 +27,27 @@ namespace HesabfaAPISampleCode.Services
             queryInfo.Take = take;
             queryInfo.Skip = 0;
 
-            var result = BaseService.Post<object>("document/getdocuments", ("queryInfo", queryInfo));
+            var result = await BaseService.Post<object>("document/getdocuments", ("queryInfo", queryInfo));
 
             return result.Result;
         }
 
-        public Document Get(int number)
+        public async Task<Document> Get(int number)
         {
-            var result = BaseService.Post<Document>("document/get", ("number", number));
+            var result = await BaseService.Post<Document>("document/get", ("number", number));
 
             return result.Result;
         }
 
-        public object Delete(int number)
+        public async Task<object> Delete(int number)
         {
-            var result = BaseService.Post<object>("document/delete", ("number", number));
+            var result = await BaseService.Post<object>("document/delete", ("number", number));
             return result;
         }
 
-        public T Save<T>(Document document)
+        public async Task<T> Save<T>(Document document)
         {
-            var result = BaseService.Post<Document>("document/save", ("document", document));
+            var result = await BaseService.Post<Document>("document/save", ("document", document));
 
             if (!result.Success)
             {
