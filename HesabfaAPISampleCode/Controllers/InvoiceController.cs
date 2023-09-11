@@ -1,9 +1,6 @@
 ﻿using HesabfaAPISampleCode.Models;
 using HesabfaAPISampleCode.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Text;
-using System.Text.Json.Nodes;
 
 namespace HesabfaAPISampleCode.Controllers
 {
@@ -20,67 +17,50 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public async Task<IActionResult> Get([FromBody] InvoiceRequest jsonBody)
         {
-            var response = await invoiceService.GetInvoice(jsonBody.Number, jsonBody.Type);
-            return Ok(response);
+            return Ok(await invoiceService.GetInvoice(jsonBody.Number, (int)jsonBody.Type));
         }
 
         [HttpPost]
         public async Task<IActionResult> GetById([FromBody] int id)
         {
-            var response = await invoiceService.GetInvoiceById(id);
-            return Ok(response);
+            return Ok(await invoiceService.GetInvoiceById(id));
         }
 
         [HttpPost]
         public async Task<IActionResult> GetList([FromBody] int type)
         {
-            Invoice response = await invoiceService.GetInvoicesList(type);
-            var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response.List));
-            return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
+            return Ok(await invoiceService.GetInvoicesList(type));
         }
 
         [HttpPost]
         public async Task<IActionResult> GetOnlineInvoiceURL([FromBody] InvoiceRequest jsonBody)
         {
-            OnlineInvoiceURL response = await invoiceService.GetOnlineInvoiceURL(jsonBody.Number, jsonBody.Type);
-            var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
-            return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
+            var response = await invoiceService.GetOnlineInvoiceURL(jsonBody.Number, (int)jsonBody.Type);
+            return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> SavePayment([FromBody] PaymentRequest jsonBody)
         {
-            var response = await invoiceService.SavePayment<object>(jsonBody);
-
-            return Ok(response);
+            return Ok(await invoiceService.SavePayment(jsonBody));
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete([FromBody] InvoiceRequest jsonBody)
         {
-            var response = await invoiceService.Delete(jsonBody.Number, jsonBody.Type);
-            return Ok(response);
+            return Ok(await invoiceService.Delete(jsonBody.Number, (int)jsonBody.Type));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save([FromBody] InvoiceItem invoice)
+        public async Task<IActionResult> Save([FromBody] Invoice invoice)
         {
-            var response = await invoiceService.Save<object>(invoice);
-            if (response is InvoiceItem)
-            {
-                return Ok(response as InvoiceItem);
-            }
-            else
-            {
-                return Ok(response);
-            }
+            return Ok(await invoiceService.Save(invoice));
         }
 
         [HttpPost]
         public async Task<IActionResult> SaveWarehouseReceipt([FromBody] WarehouseReceipt receipt)
         {
-            var response = await invoiceService.SaveWarehouseReceipt<object>(receipt);
-            return Ok(response);
+            return Ok(await invoiceService.SaveWarehouseReceipt(receipt));
         }
     }
 }

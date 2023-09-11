@@ -12,8 +12,14 @@
                         <input id="number" class="form-control" name="number" />
                     </div>
                     <div class="form-group">
-                        <label for="type">نوع فاکتور </label>
-                        <input id="type" class="form-control" name="type" />
+                        <label for="type" class="form-label">نوع فاکتور </label>
+                        <select id="type" name="type" class="form-select">
+                            <option value="0">فروش</option>
+                            <option value="1">خرید</option>
+                            <option value="2">برگشت از فروش</option>
+                            <option value="3">برگشت از خرید</option>
+                            <option value="4">ضایعات</option>
+                        </select>
                     </div>
                     <br />
                     <button type="button" class="btn btn-primary submitButton">نمایش</button>

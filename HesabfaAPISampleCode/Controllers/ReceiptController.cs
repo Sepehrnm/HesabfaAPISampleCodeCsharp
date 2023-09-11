@@ -1,9 +1,6 @@
 ﻿using HesabfaAPISampleCode.Models;
 using HesabfaAPISampleCode.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Text;
-using System.Text.Json.Nodes;
 
 namespace HesabfaAPISampleCode.Controllers
 {
@@ -20,33 +17,25 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public async Task<IActionResult> Get([FromBody] ReceiptRequest jsonBody)
         {
-            var response = await receiptService.GetReceipt<object>(jsonBody.type, jsonBody.number);
-
-            var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
-            return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
+            return Ok(await receiptService.GetReceipt((int)jsonBody.Type, jsonBody.Number));
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete([FromBody] ReceiptRequest jsonBody)
         {
-            var response = await receiptService.DeleteReceipt<object>(jsonBody.type, jsonBody.number);
-            return Ok(response);
+            return Ok(await receiptService.DeleteReceipt((int)jsonBody.Type, jsonBody.Number));
         }
 
         [HttpPost]
         public async Task<IActionResult> GetList([FromBody] int type)
         {
-            Receipt response = await receiptService.GetReceipts(type);
-            var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
-            return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
+            return Ok(await receiptService.GetReceipts(type));
         }
 
         [HttpPost]
         public async Task<IActionResult> Save([FromBody] SaveReceiptItem receipt)
         {
-            object response = await receiptService.SaveReceipt(receipt);
-            var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
-            return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
+            return Ok(await receiptService.SaveReceipt(receipt));
         }
     }
 }

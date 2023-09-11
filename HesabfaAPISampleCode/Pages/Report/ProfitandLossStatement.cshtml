@@ -48,7 +48,7 @@
             })
             .then(data => {
                 var list = [];
-                formatProfitAndLossStatementData(data.Accounts, list, 1, 0)
+                formatProfitAndLossStatementData(data.accounts, list, 1, 0)
                 $('#simple-treeview').dxTreeList({
                     dataSource: list,
                     keyExpr: 'id',
@@ -56,34 +56,34 @@
                     rtlEnabled: true,
                     columns: [
                         {
-                            dataField: 'Account',
+                            dataField: 'account',
                             caption: 'حساب',
                             cellTemplate: function (container, options) {
-                                $('<div>').text(options.data.Account.Name).appendTo(container);
+                                $('<div>').text(options.data.account.name).appendTo(container);
                             }
                         },
                         {
-                            dataField: 'Balance',
+                            dataField: 'balance',
                             caption: 'تراز حساب'
                         },
                         {
-                            dataField: 'Credit',
+                            dataField: 'credit',
                             caption: 'گردش بستانکار'
                         },
                         {
-                            dataField: 'Debit',
+                            dataField: 'debit',
                             caption: 'گردش بدهکار'
                         },
                         {
-                            dataField: 'TotalCredit',
+                            dataField: 'totalCredit',
                             caption: 'تراز - بستانکار'
                         },
                         {
-                            dataField: 'TotalDebit',
+                            dataField: 'totalDebit',
                             caption: 'تراز - بدهکار'
                         },
                         {
-                            dataField: 'TotalBalance',
+                            dataField: 'totalBalance',
                             caption: 'تراز کل حساب'
                         },
                     ]

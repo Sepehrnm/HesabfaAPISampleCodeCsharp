@@ -1,6 +1,4 @@
 ﻿using HesabfaAPISampleCode.Models;
-using RestSharp;
-using Newtonsoft.Json;
 
 namespace HesabfaAPISampleCode.Services
 {
@@ -15,7 +13,7 @@ namespace HesabfaAPISampleCode.Services
         Task<List<Project>> GetProjects();
         Task<List<Salesman>> GetSalesmen();
         Task<List<CurrencyTable>> GetCurrencyTable();
-        Task<object> SetCurrencyTable(Array table);
+        Task<bool> SetCurrencyTable(Array table);
         Task<BusinessInfo> GetBusinessInfo();
         Task<FiscalYear> GetFiscalYear();
         Task<List<Account>> GetAccounts();
@@ -26,133 +24,94 @@ namespace HesabfaAPISampleCode.Services
     }
     public class SettingService : ISettingService
     {
-        private readonly IBaseService BaseService;
+        private readonly IBaseService baseService;
         public SettingService(IBaseService baseService)
         {
-            this.BaseService = baseService;
+            this.baseService = baseService;
         }
 
         public async Task<List<Bank>> GetBanks()
         {
-            var result = await BaseService.Post<List<Bank>>("setting/GetBanks");
-
-            return result.Result;
+            return await baseService.Post<List<Bank>>("setting/GetBanks");
         }
 
         public async Task<List<Cash>> GetCashes()
         {
-            var result = await BaseService.Post<List<Cash>>("setting/GetCashes");
-
-            return result.Result;
+            return await baseService.Post<List<Cash>>("setting/GetCashes");
         }
 
         public async Task<List<PettyCash>> GetPettyCashes()
         {
-            var result = await BaseService.Post<List<PettyCash>>("setting/GetPettyCashes");
-
-            return result.Result;
+            return await baseService.Post<List<PettyCash>>("setting/GetPettyCashes");
         }
 
         public async Task<CurrencyValue> GetCurrency()
         {
-            var result = await BaseService.Post<CurrencyValue>("setting/GetCurrency");
-
-            return result.Result;
+            return await baseService.Post<CurrencyValue>("setting/GetCurrency");
         }
 
         public async Task<List<FiscalYearList>> GetFiscalYears()
         {
-            var result = await BaseService.Post<List<FiscalYearList>>("setting/GetFiscalYears");
-
-            return result.Result;
+            return await baseService.Post<List<FiscalYearList>>("setting/GetFiscalYears");
         }
-
-        //public List<Warehouse> GetWarehouses()
-        //{
-        //    var result = BaseService.Post<List<Warehouse>>("setting/GetWarehouses");
-
-        //    return result.Result;
-        //}
 
         public async Task<List<Warehouse>> GetWarehouses()
         {
-            var result = await BaseService.Post<List<Warehouse>>("setting/GetWarehouses");
-            return result.Result;
+            return await baseService.Post<List<Warehouse>>("setting/GetWarehouses");
         }
 
         public async Task<List<Project>> GetProjects()
         {
-            var result = await BaseService.Post<List<Project>>("setting/GetProjects");
-
-            return result.Result;
+            return await baseService.Post<List<Project>>("setting/GetProjects");
         }
 
         public async Task<List<Salesman>> GetSalesmen()
         {
-            var result = await BaseService.Post<List<Salesman>>("setting/GetSalesmen");
-
-            return result.Result;
+            return await baseService.Post<List<Salesman>>("setting/GetSalesmen");
         }
 
         public async Task<List<CurrencyTable>> GetCurrencyTable()
         {
-            var result = await BaseService.Post<List<CurrencyTable>>("setting/GetCurrencyTable");
-
-            return result.Result;
+            return await baseService.Post<List<CurrencyTable>>("setting/GetCurrencyTable");
         }
 
-        public async Task<object> SetCurrencyTable(Array table)
+        public async Task<bool> SetCurrencyTable(Array table)
         {
-            var result = await BaseService.Post<object>("setting/SetCurrencyTable", ("Table", table));
-
-            return result.Result;
+            return await baseService.Post<bool>("setting/SetCurrencyTable", ("Table", table));
         }
         public async Task<BusinessInfo> GetBusinessInfo()
         {
-            var result = await BaseService.Post<BusinessInfo>("setting/GetBusinessInfo");
-
-            return result.Result;
+            return await baseService.Post<BusinessInfo>("setting/GetBusinessInfo");
         }
 
         public async Task<FiscalYear> GetFiscalYear()
         {
-            var result = await BaseService.Post<FiscalYear>("setting/GetFiscalYear");
-
-            return result.Result;
+            return await baseService.Post<FiscalYear>("setting/GetFiscalYear");
         }
 
         public async Task<List<Account>> GetAccounts()
         {
-            var result = await BaseService.Post<List<Account>>("setting/GetAccounts");
-
-            return result.Result;
+            return await baseService.Post<List<Account>>("setting/GetAccounts");
         }
 
         public async Task<Category> GetProductCategories()
         {
-            var result = await BaseService.Post<Category>("setting/GetProductCategories");
-
-            return result.Result;
+            return await baseService.Post<Category>("setting/GetProductCategories");
         }
 
         public async Task<Category> GetServiceCategories()
         {
-            var result = await BaseService.Post<Category>("setting/GetServiceCategories");
-
-            return result.Result;
+            return await baseService.Post<Category>("setting/GetServiceCategories");
         }
 
         public async Task<Category> GetContactCategories()
         {
-            var result = await BaseService.Post<Category>("setting/GetContactCategories");
-
-            return result.Result;
+            return await baseService.Post<Category>("setting/GetContactCategories");
         }
 
         public async Task<List<UserLog>> GetLastChanges(int start)
         {
-            var result = await BaseService.Post<List<UserLog>>("setting/GetChanges", ("start", start));
-            return result.Result;
+            return await baseService.Post<List<UserLog>>("setting/GetChanges", ("start", start));
         }
     }
 }

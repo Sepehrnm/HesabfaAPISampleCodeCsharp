@@ -1,66 +1,44 @@
 ﻿using HesabfaAPISampleCode.Models;
-using NPOI.POIFS.Crypt.Dsig;
-using NPOI.SS.Formula.Functions;
 
 namespace HesabfaAPISampleCode.Services
 {
     public interface IContactService
     {
-        Task<ContactList> GetContactList();
-        Task<T> GetContact<T>(string code);
+        Task<ListResult<Contact>> GetContactList();
+        Task<Contact> GetContact(string code);
         Task<List<Contact>> GetContactById(Array idList);
-        Task<T> SaveContact<T>(object contact);
-        Task<object> DeleteContact(string code);
-        Task<T> GetContactLink<T>(string code, bool showAllAccounts, int days);
+        Task<Contact> SaveContact(SaveContactRequest contact);
+        Task<bool> DeleteContact(string code);
+        Task<ContactLink> GetContactLink(string code, bool showAllAccounts, int days);
     }
     public class ContactService : IContactService
     {
-        private readonly IBaseService BaseService;
-        public ContactService(IBaseService BaseService)
+        private readonly IBaseService baseService;
+        public ContactService(IBaseService baseService)
         {
-            this.BaseService = BaseService;
+            this.baseService = baseService;
         }
 
-        public async Task<T> GetContact<T>(string code)
+        public async Task<Contact> GetContact(string code)
         {
-            var result = await BaseService.Post<Contact>("contact/get", ("code", code));
-            if(!result.Success)
-            {
-                return (T)(object)new { Success = false , ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
-            } else
-            {
-                return (T)(object)(Contact)result.Result;
-            }
+            return await baseService.Post<Contact>("contact/get", ("code", code));
         }
 
         public async Task<List<Contact>> GetContactById(Array idList)
         {
-            var result = await BaseService.Post<List<Contact>>("contact/getById", ("idList", idList));
-
-            return result.Result;
+            return await baseService.Post<List<Contact>>("contact/getById", ("idList", idList));
         }
 
-        public async Task<T> SaveContact<T>(object contact)
+        public async Task<Contact> SaveContact(SaveContactRequest contact)
         {
-            var result = await BaseService.Post<Contact>("contact/save", ("contact", contact));
-
-            if (!result.Success)
-            {
-                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
-            }
-            else
-            {
-                return (T)(object)(Contact)result.Result;
-            }
+            return await baseService.Post<Contact>("contact/save", ("contact", contact));
         }
 
-        public async Task<object> DeleteContact(string code)
+        public async Task<bool> DeleteContact(string code)
         {
-            var result = await BaseService.Post<object>("contact/delete", ("code", code));
-
-            return result;
+            return await baseService.Post<bool>("contact/delete", ("code", code));
         }
-        public async Task<T> GetContactLink<T>(string code, bool showAllAccounts, int days)
+        public async Task<ContactLink> GetContactLink(string code, bool showAllAccounts, int days)
         {
             var parameters = new List<(string, object)>
             {
@@ -69,19 +47,10 @@ namespace HesabfaAPISampleCode.Services
                 ("days", days)
             };
 
-            var result = await BaseService.Post<ContactLink>("contact/getContactLink", parameters);
-
-            if (!result.Success)
-            {
-                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
-            }
-            else
-            {
-                return (T)(object)(ContactLink)result.Result;
-            }
+            return await baseService.Post<ContactLink>("contact/getContactLink", parameters);
         }
 
-        public async Task<ContactList> GetContactList()
+        public async Task<ListResult<Contact>> GetContactList()
         {
             dynamic queryInfo = new System.Dynamic.ExpandoObject();
             queryInfo.SortBy = "Code";
@@ -89,9 +58,7 @@ namespace HesabfaAPISampleCode.Services
             queryInfo.Take = 20000;
             queryInfo.Skip = 0;
 
-            var result = await BaseService.Post<ContactList>("contact/getcontacts", ("queryInfo", queryInfo));
-
-            return result.Result;
+            return await baseService.Post<ListResult<Contact>>("contact/getcontacts", ("queryInfo", queryInfo));
         }
     }
 }

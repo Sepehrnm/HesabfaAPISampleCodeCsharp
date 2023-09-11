@@ -37,7 +37,7 @@
                 return response.json();
             })
             .then(data => {
-                initializeGetReceiptsListPage(data.List);
+                initializeGetReceiptsListPage(data.list);
             })
             .catch(error => console.error('Error Occured.', error));
     })

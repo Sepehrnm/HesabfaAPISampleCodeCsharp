@@ -62,7 +62,8 @@
             })
             .then(data => {
                 var list = [];
-                formatBalanceSheetData(data.Accounts, list, 1, 0);
+                
+                formatBalanceSheetData(data.accounts, list, 1, 0);
 
                 $('#simple-treeview').dxTreeList({
                     dataSource: list,
@@ -71,43 +72,43 @@
                     rtlEnabled: true,
                     columns: [
                         {
-                            dataField: 'Account',
+                            dataField: 'account',
                             caption: 'حساب',
                             cellTemplate: function (container, options) {
-                                $('<div>').text(options.data.Account.Name).appendTo(container);
+                                $('<div>').text(options.data.account.name).appendTo(container);
                             }
                         },
                         {
-                            dataField: 'Balance',
+                            dataField: 'balance',
                             caption: 'تراز حساب'
                         },
                         {
-                            dataField: 'Credit',
+                            dataField: 'credit',
                             caption: 'گردش بستانکار'
                         },
                         {
-                            dataField: 'Debit',
+                            dataField: 'debit',
                             caption: 'گردش بدهکار'
                         },
                         {
-                            dataField: 'TotalCredit',
+                            dataField: 'totalCredit',
                             caption: 'تراز - بستانکار'
                         },
                         {
-                            dataField: 'TotalDebit',
+                            dataField: 'totalDebit',
                             caption: 'تراز - بدهکار'
                         },
                         {
-                            dataField: 'TotalBalance',
+                            dataField: 'totalBalance',
                             caption: 'تراز کل حساب'
                         },
                     ]
                 });
 
-                $("#assets").text("سرجمع دارایی ها:" + "\t \t" + data.Assets);
-                $("#equity").text("بدهی ها:" + "\t \t" + data.Equity);
-                $("#liabilities").text("حقوق صاحبان سهام:" + "\t \t" + data.Liabilities);
-                $("#profitOrLoss").text("سود و زیان:" + "\t \t" + data.ProfitOrLoss);
+                $("#assets").text("سرجمع دارایی ها:" + "\t \t" + data.assets);
+                $("#equity").text("بدهی ها:" + "\t \t" + data.equity);
+                $("#liabilities").text("حقوق صاحبان سهام:" + "\t \t" + data.liabilities);
+                $("#profitOrLoss").text("سود و زیان:" + "\t \t" + data.profitOrLoss);
             })
             .catch(error => console.error('Error Occured.', error));
     })

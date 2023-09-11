@@ -185,7 +185,6 @@
                 return response.json();
             })
             .then(data => {
-                console.log(data)
                 if (data.invoiceNumber) {
                     $(".Error-Container").css("display", "none");
                     alert("حواله انبار ثبت گردید");

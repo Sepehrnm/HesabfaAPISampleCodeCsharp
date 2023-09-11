@@ -29,7 +29,7 @@
             return response.json();
         })
         .then(data => {
-            formatServiceCategories(data)
+            formatServiceCategories(data.root);
         })
         .catch(error => console.error('Error Occured.', error));
 </script>

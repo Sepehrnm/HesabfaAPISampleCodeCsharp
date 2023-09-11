@@ -1,18 +1,16 @@
 ﻿using HesabfaAPISampleCode.Models;
-using NPOI.SS.Formula.Functions;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace HesabfaAPISampleCode.Services
 {
     public interface IItemService
     {
         Task<Product> GetItems();
-        Task<T> GetItem<T>(string code);
-        Task<T> GetItemByBarcode<T>(string barcode);
+        Task<ProductItem> GetItem(string code);
+        Task<ProductItem> GetItemByBarcode(string barcode);
         Task<List<QuantityItem>> GetQuantity(int warehouseCode, Array codes);
-        Task<T> GetItemById<T>(Array idList);
-        Task<T> Save<T>(object item);
-        Task<T> Delete<T>(string code);
+        Task<List<ProductItem>> GetItemById(Array idList);
+        Task<ProductItem> Save(object item);
+        Task<bool> Delete(string code);
         Task<object> UpdateOpeningQuantity(object items);
 
     }
@@ -29,40 +27,20 @@ namespace HesabfaAPISampleCode.Services
             {
                 SortBy = "Code",
                 SortDesc = true,
-                Take = 200000,
+                Take = 200,
                 Skip = 0
             };
 
-            var result = await baseService.Post<Product>("item/getitems", ("queryInfo", queryInfo));
-
-            return result.Result;
+            return await baseService.Post<Product>("item/getitems", ("queryInfo", queryInfo));
         }
-        public async Task<T> GetItem<T>(string code)
+        public async Task<ProductItem> GetItem(string code)
         {
-            var result = await baseService.Post<ProductItem>("item/get", ("code", code));
-
-            if (!result.Success)
-            {
-                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
-            }
-            else
-            {
-                return (T)(object)(ProductItem)result.Result;
-            }
+            return await baseService.Post<ProductItem>("item/get", ("code", code));
         }
 
-        public async Task<T> GetItemByBarcode<T>(string barcode)
+        public async Task<ProductItem> GetItemByBarcode(string barcode)
         {
-            var result = await baseService.Post<ProductItem>("item/getByBarcode", ("barcode", barcode));
-
-            if (!result.Success)
-            {
-                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
-            }
-            else
-            {
-                return (T)(object)(ProductItem)result.Result;
-            }
+            return await baseService.Post<ProductItem>("item/getByBarcode", ("barcode", barcode));
         }
 
         public async Task<List<QuantityItem>> GetQuantity(int warehouseCode, Array codes)
@@ -79,58 +57,27 @@ namespace HesabfaAPISampleCode.Services
                 parameters.Add(("codes", codes));
             }
 
-            var result = await baseService.Post<List<QuantityItem>>("item/GetQuantity", parameters);
-
-            return result.Result;
+            return await baseService.Post<List<QuantityItem>>("item/GetQuantity", parameters);
         }
 
-        public async Task<T> GetItemById<T>(Array idList)
+        public async Task<List<ProductItem>> GetItemById(Array idList)
         {
-            var result = await baseService.Post<List<ProductItem>>("item/getById", ("idList", idList));
-
-            if (!result.Success)
-            {
-                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
-            }
-            else
-            {
-                return (T)(object)(List<ProductItem>)result.Result;
-            }
+            return await baseService.Post<List<ProductItem>>("item/getById", ("idList", idList));
         }
 
-        public async Task<T> Save<T>(object item)
+        public async Task<ProductItem> Save(object item)
         {
-            var result = await baseService.Post<ProductItem>("item/save", ("item", item));
-
-            if (!result.Success)
-            {
-                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
-            }
-            else
-            {
-                return (T)(object)(ProductItem)result.Result;
-            }
+            return await baseService.Post<ProductItem>("item/save", ("item", item));
         }
 
-        public async Task<T> Delete<T>(string code)
+        public async Task<bool> Delete(string code)
         {
-            var result = await baseService.Post<object>("item/delete", ("code", code));
-
-            if (!result.Success)
-            {
-                return (T)(object)new { Success = false, ErrorCode = result.ErrorCode, ErrorMessage = result.ErrorMessage };
-            }
-            else
-            {
-                return (T)(object)(object)result;
-            }
+            return await baseService.Post<bool>("item/delete", ("code", code));
         }
 
         public async Task<object> UpdateOpeningQuantity(object items)
         {
-            var result = await baseService.Post<object>("item/UpdateOpeningQuantity", ("items", items));
-
-            return result.Success;
+            return await baseService.Post<object>("item/UpdateOpeningQuantity", ("items", items));
         }
     }
 }

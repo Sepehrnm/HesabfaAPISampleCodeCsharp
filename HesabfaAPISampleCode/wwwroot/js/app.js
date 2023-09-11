@@ -37,10 +37,10 @@ function initializeGetTrialBalanceListPage(data) {
             pageSize: 25,
         },
         columns: [
-            { caption: "نام حساب", dataField: "accountName" },
-            { caption: "مسیر حساب", dataField: "accountPath" },
+            { caption: "نام حساب", dataField: "account.name" },
+            { caption: "مسیر حساب", dataField: "account.path" },
             {
-                caption: "نوع حساب", dataField: "accountType", lookup: {
+                caption: "نوع حساب", dataField: "account.accountType", lookup: {
                     dataSource: [
                         { id: '0', text: 'عمومی' },
                         { id: '1', text: 'صندوق' },
@@ -87,7 +87,7 @@ function initializeGetTrialBalanceListPage(data) {
                 }
             },
             {
-                caption: "نوع حساب اصلی", dataField: "mainAccountType", lookup: {
+                caption: "نوع حساب اصلی", dataField: "account.mainAccountType", lookup: {
                     dataSource: [
                         { id: '1', text: 'دارایی ها' },
                         { id: '2', text: 'بدهی ها' },
@@ -162,7 +162,7 @@ function initializeGetChangesPage(data) {
 function initializeGetProductListPage(data) {
     $('#productGridContainer').dxDataGrid({
         dataSource: data,
-        keyExpr: 'Code',
+        keyExpr: 'code',
         rtlEnabled: true,
         columnMinWidth: 150,
         filterRow: {
@@ -192,7 +192,7 @@ function initializeGetProductListPage(data) {
 function initializeGetContactListPage(data) {
     $('#contactGridContainer').dxDataGrid({
         dataSource: data,
-        keyExpr: "Code",
+        keyExpr: "code",
         rtlEnabled: true,
         columnMinWidth: 150,
         filterRow: {
@@ -345,8 +345,97 @@ function initializeGetDebtorsCreditorsListPage(data) {
 function initializeGetInvoicesListPage(data) {
     $('#invoicesGridContainer').dxDataGrid({
         dataSource: data,
-        keyExpr: 'Number',
+        keyExpr: 'number',
         rtlEnabled: true,
+        responsive: true,
+        columnHidingEnabled: true,
+        columns: [
+            {
+                dataField: 'number',
+                caption: 'شماره فاکتور',
+            },
+            {
+                dataField: 'reference',
+                caption: 'ارجاع',
+            },
+            {
+                dataField: 'date',
+                caption: 'تاریخ',
+            },
+            {
+                dataField: 'dueDate',
+                caption: 'تاریخ سررسید',
+            },
+            {
+                dataField: 'contactCode',
+                caption: 'کد شخص',
+            },
+            {
+                dataField: 'contactTitle',
+                caption: 'عنوان شخص',
+            },
+            {
+                dataField: 'sum',
+                caption: 'جمع مبلغ فاکتور',
+            },
+            {
+                dataField: 'note',
+                caption: 'یادداشت',
+            },
+            {
+                dataField: 'sent',
+                caption: 'وضعیت ارسال فاکتور',
+            },
+            {
+                dataField: 'tag',
+                caption: 'Tag',
+            },
+            {
+                dataField: 'freight',
+                caption: 'هزینه حمل و نقل',
+            },
+            {
+                dataField: 'warehouseReceiptStatus',
+                caption: 'وضعیت رسید یا حواله انبار فاکتور',
+                lookup: {
+                    dataSource: [
+                        { id: '0', text: 'رسید یا حواله انبار صادر نشده است' },
+                        { id: '1', text: 'رسید یا حواله انبار ناقص است' },
+                        { id: '2', text: 'رسید یا حواله انبار کامل است' },
+                    ],
+                    valueExpr: 'id',
+                    displayExpr: 'text'
+                }
+            },
+            {
+                dataField: 'project',
+                caption: 'پروژه',
+            },
+            {
+                dataField: 'salesmanCode',
+                caption: 'کد فروشنده',
+            },
+            {
+                dataField: 'salesmanPercent',
+                caption: 'درصد پورسانت فروشنده',
+            },
+            {
+                dataField: 'currency',
+                caption: 'واحد پول',
+            },
+            {
+                dataField: 'currencyRate',
+                caption: 'نرخ برابری ارز به ارز پایه',
+            },
+            {
+                dataField: 'invoiceItems',
+                caption: 'اقلام فاکتور',
+                cellTemplate: function (container, options) {
+                    var content = options.data.invoiceItems.map(item => `کد کالا: ${item.itemCode}-توضیحات: ${item.description}-تعداد: ${item.quantity}-قیمت: ${item.unitPrice}-تخفیف: ${item.discount}-مالیات: ${item.tax}`).join("<br>");
+                    $('<div>').html(content).css("white-space", "pre-wrap").appendTo(container);
+                }
+            },
+        ],
         columnMinWidth: 150,
         filterRow: {
             visible: true
@@ -371,8 +460,61 @@ function initializeGetInvoicesListPage(data) {
 function initializeGetReceiptsListPage(data) {
     $('#receiptsGridContainer').dxDataGrid({
         dataSource: data,
-        keyExpr: 'Id',
+        responsive: true,
+        columnHidingEnabled: true,
+        keyExpr: 'number',
         rtlEnabled: true,
+        columns: [
+            {
+                dataField: 'number',
+                caption: 'شماره رسید',
+            },
+            {
+                dataField: 'dateTime',
+                caption: 'تاریخ رسید',
+            }, {
+                dataField: 'description',
+                caption: 'توضیحات',
+            }, {
+                dataField: 'amount',
+                caption: 'مبلغ رسید',
+            }, {
+                dataField: 'currency',
+                caption: 'واحد پول رسید',
+            }, {
+                dataField: 'project',
+                caption: 'پروژه',
+            },
+            {
+                dataField: 'items',
+                caption: 'اقلام فاکتور',
+                cellTemplate: function (container, options) {
+                    $('<div>').text(options.data.items.map(item => `${item.contact.id}-${item.contact.code}-${item.contact.name}-${item.amount}-${item.description}`)).appendTo(container);
+                }
+            },
+            {
+                dataField: 'transactions',
+                caption: 'تراکنش ها',
+                cellTemplate: function (container, options) {
+                    var div = $('<div>');
+                    options.data.transactions.forEach(function (item) {
+                        var field = ``;
+                        field += 'مبلغ: ' + item.amount + '<br>';
+                        if (item.bank) {
+                            field += 'کد بانک: ' + item.bank.code + ' -نام بانک: ' + item.bank.name;
+                        }
+                        if (item.cash) {
+                            field += 'کد صندوق: ' + item.cash.code + ' -نام صندوق: ' + item.cash.name;
+                        }
+                        if (item.pettycash) {
+                            field += 'کد تنخواه گردان: ' + item.pettycash.code + '-نام تنخواه گردان: ' + item.pettycash.name;
+                        }
+                        div.append(field + '<br>');
+                    });
+                    div.appendTo(container);
+                }
+            },
+        ],
         columnMinWidth: 150,
         filterRow: {
             visible: true
@@ -397,8 +539,73 @@ function initializeGetReceiptsListPage(data) {
 function initializeGetDocumentListPage(data) {
     $('#documentsGridContainer').dxDataGrid({
         dataSource: data,
-        keyExpr: 'Id',
+        keyExpr: 'id',
         rtlEnabled: true,
+        responsive: true,
+        columns: [
+            {
+                dataField: 'number',
+                caption: 'شماره سند',
+            },
+            {
+                dataField: 'reference',
+                caption: 'ارجاع',
+            },
+            {
+                dataField: 'date',
+                caption: 'تاریخ',
+            },
+            {
+                dataField: 'description',
+                caption: 'توضیحات',
+            },
+            {
+                dataField: 'project',
+                caption: 'پروژه',
+            },
+            {
+                dataField: 'debit',
+                caption: 'بدهکار',
+            },
+            {
+                dataField: 'credit',
+                caption: 'بستانکار',
+            },
+            {
+                dataField: 'status',
+                caption: 'وضعیت سند',
+                lookup: {
+                    dataSource: [
+                        { id: '0', text: 'پیش نویس' },
+                        { id: '1', text: 'تایید شده' },
+                    ],
+                    valueExpr: 'id',
+                    displayExpr: 'text'
+                }
+            },
+            {
+                dataField: 'transactions',
+                caption: 'تراکنش ها',
+                cellTemplate: function (container, options) {
+                    var div = $('<div>');
+                    options.data.transactions.forEach(function (item) {
+                        var field = ``;
+                        field += 'مبلغ: ' + item.amount + '<br>';
+                        if (item.bank) {
+                            field += 'کد بانک: ' + item.bank.code + ' -نام بانک: ' + item.bank.name;
+                        }
+                        if (item.cash) {
+                            field += 'کد صندوق: ' + item.cash.code + ' -نام صندوق: ' + item.cash.name;
+                        }
+                        if (item.pettycash) {
+                            field += 'کد تنخواه گردان: ' + item.pettycash.code + '-نام تنخواه گردان: ' + item.pettycash.name;
+                        }
+                        div.append(field + '<br>');
+                    });
+                    div.appendTo(container);
+                }
+            },
+        ],
         columnMinWidth: 150,
         filterRow: {
             visible: true
@@ -428,18 +635,18 @@ function formatContactCategories(data) {
     function showCategory(item, parentElement, level) {
         let name = document.createElement("div");
         name.className = "category-content";
-        name.id = item.FullPath;
-        name.innerHTML = `<img src="../assets/dropdown.svg" class="dropdown-icon" /><span id="${item.FullPath}">${item.Name}</span>`;
+        name.id = item.fullPath;
+        name.innerHTML = `<img src="../assets/dropdown.svg" class="dropdown-icon" /><span id="${item.fullPath}">${item.name}</span>`;
         name.style.paddingRight = `${level * 10}px`;
 
         parentElement.appendChild(name);
 
-        if (item.Children) {
+        if (item.children) {
             let childWrapper = document.createElement("div");
             childWrapper.style.display = "none";
             parentElement.appendChild(childWrapper);
 
-            item.Children.forEach((child) => {
+            item.children.forEach((child) => {
                 showCategory(child, childWrapper, level + 1);
             });
         }
@@ -466,17 +673,17 @@ function formatProductCategories(data) {
         let name = document.createElement("div");
         name.className = "category-content";
         name.id = item.FullPath;
-        name.innerHTML = `<img src="../assets/dropdown.svg" class="dropdown-icon" /><span id="${item.FullPath}">${item.Name}</span>`;
+        name.innerHTML = `<img src="../assets/dropdown.svg" class="dropdown-icon" /><span id="${item.fullPath}">${item.name}</span>`;
         name.style.paddingRight = `${level * 10}px`;
 
         parentElement.appendChild(name);
 
-        if (item.Children) {
+        if (item.children) {
             let childWrapper = document.createElement("div");
             childWrapper.style.display = "none";
             parentElement.appendChild(childWrapper);
 
-            item.Children.forEach((child) => {
+            item.children.forEach((child) => {
                 showCategory(child, childWrapper, level + 1);
             });
         }
@@ -502,18 +709,18 @@ function formatServiceCategories(data) {
     function showCategory(item, parentElement, level) {
         let name = document.createElement("div");
         name.className = "category-content";
-        name.id = item.FullPath;
-        name.innerHTML = `<img src="../assets/dropdown.svg" class="dropdown-icon" /><span id="${item.FullPath}">${item.Name}</span>`;
+        name.id = item.fullPath;
+        name.innerHTML = `<img src="../assets/dropdown.svg" class="dropdown-icon" /><span id="${item.fullPath}">${item.name}</span>`;
         name.style.paddingRight = `${level * 10}px`;
 
         parentElement.appendChild(name);
 
-        if (item.Children) {
+        if (item.children) {
             let childWrapper = document.createElement("div");
             childWrapper.style.display = "none";
             parentElement.appendChild(childWrapper);
 
-            item.Children.forEach((child) => {
+            item.children.forEach((child) => {
                 showCategory(child, childWrapper, level + 1);
             });
         }
@@ -536,7 +743,7 @@ function formatBalanceSheetData(data, ret, id, parentId) {
         d.id = id++;
         d.parentId = parentId;
         ret.push(d);
-        id = formatBalanceSheetData(d.Children, ret, id, d.id);
+        id = formatBalanceSheetData(d.children, ret, id, d.id);
     }
     return id;
 }
@@ -546,7 +753,7 @@ function formatProfitAndLossStatementData(data, ret, id, parentId) {
         d.id = id++;
         d.parentId = parentId;
         ret.push(d);
-        id = formatBalanceSheetData(d.Children, ret, id, d.id);
+        id = formatBalanceSheetData(d.children, ret, id, d.id);
     }
     return id;
 }
