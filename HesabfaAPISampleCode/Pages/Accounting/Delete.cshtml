@@ -32,9 +32,7 @@
                 return response.json();
             })
             .then(data => {
-                console.log(data)
-
-                if(data.Result) {
+                if(data) {
                     alert("سند حذف گردید");
                 } else {
                     alert("خطا در عملیات");
