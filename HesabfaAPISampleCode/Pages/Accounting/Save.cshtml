@@ -104,7 +104,8 @@
             for (let j = 1; j < i; j++) {
                 transaction = {
                     "AccountPath": $(`#accountPath${j}`).val(),
-                    "Description": parseFloat($(`#amount${j}`).val()),
+                    "Amount": parseInt($(`#amount${j}`).val()),
+                    "Description": $(`#description`).val(),
                     "Type": 0,
                 };
 
