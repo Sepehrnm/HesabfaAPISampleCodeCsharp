@@ -17,7 +17,10 @@
                     </div>
                     <div class="form-group" style="width:100%;">
                         <label for="itemType" class="form-label">نوع</label>
-                        <input id="itemType" class="form-control" name="itemType" />
+                        <select class="form-select" name="itemType" id="itemType">
+                            <option value="0">کالا</option>
+                            <option value="1">خدمات</option>
+                        </select>
                     </div>
                     <div class="form-group" style="width:100%;">
                         <label for="barcode" class="form-label">بارکد کالا/خدمات</label>
@@ -129,7 +132,7 @@
                     $(".Error-Container").css("direction", "ltr");
                     $(".Error-Container").text(`ErrorCode: ${data.errorCode} ErrorMessage: ${data.errorMessage}`);
                 }
-                if(data.id) {
+                if(data.code) {
                     $(".Error-Container").css("display", "none");
                     alert("آیتم ذخیره گردید");
                 }

@@ -32,7 +32,11 @@
                 </div>
                 <div class="form-group" style="width:100%;">
                     <label for="contactType" class="form-label">نوع شخص</label>
-                    <input id="contactType" class="form-control" name="contactType" />
+                    <select name="contactType" id="contactType" class="form-select">
+                        <option value="0">نامشخص</option>
+                        <option value="1">حقیقی</option>
+                        <option value="2">حقوقی</option>
+                    </select>
                 </div>
             </div>
             <div class="d-flex gap-2 align-items-center justify-content-evenly">
@@ -116,54 +120,42 @@
 <script type="text/javascript">
     $('.submitButton').on('click', () => {
 
-        let code = $('#code').val();
-        let name = $('#name').val();
-        let company = $('#company').val();
-        let firstName = $('#firstName').val();
-        let lastName = $('#lastName').val();
-        let contactType = $('#contactType').val();
-        let nationalCode = $('#nationalCode').val();
-        let economicCode = $('#economicCode').val();
-        let registrationNumber = $('#registrationNumber').val();
-        let address = $('#address').val();
-        let city = $('#city').val();
-        let state = $('#state').val();
-        let postalCode = $('#postalCode').val();
-        let phone = $('#phone').val();
-        let fax = $('#fax').val();
-        let mobile = $('#mobile').val();
-        let email = $('#email').val();
-        let website = $('#website').val();
-        let note = $('#note').val();
-        let contactCredit = $('#contactCredit').val();
-        let taxType = $('#taxType').val();
-        let active = $('#active').val();
+        let requestBody = {};
 
-
-        let requestBody = {
-            code: code,
-            name: name,
-            company: company,
-            firstName: firstName,
-            lastName: lastName,
-            contactType: contactType,
-            nationalCode: nationalCode,
-            economicCode: economicCode,
-            registrationNumber: registrationNumber,
-            address: address,
-            city: city,
-            state: state,
-            postalCode: postalCode,
-            phone: phone,
-            fax: fax,
-            mobile: mobile,
-            email: email,
-            website: website,
-            note: note,
-            contactCredit: contactCredit,
-            taxType: taxType,
-            active: active,
+        const assignValue = (key, selector) => {
+            const value = $(selector).val();
+            if (value) {
+                requestBody[key] = value;
+            }
         };
+
+        assignValue('Code', '#code');
+        assignValue('Name', '#name');
+        assignValue('Company', '#company');
+        assignValue('FirstName', '#firstName');
+        assignValue('LastName', '#lastName');
+        requestBody['ContactType'] = parseInt($('#contactType').val());
+        assignValue('NationalCode', '#nationalCode');
+        assignValue('EconomicCode', '#economicCode');
+        assignValue('RegistrationNumber', '#registrationNumber');
+        assignValue('Address', '#address');
+        assignValue('City', '#city');
+        assignValue('State', '#state');
+        assignValue('PostalCode', '#postalCode');
+        assignValue('Phone', '#phone');
+        assignValue('Fax', '#fax');
+        assignValue('Mobile', '#mobile');
+        assignValue('Email', '#email');
+        assignValue('Website', '#website');
+        assignValue('Note', '#note');
+        assignValue('ContactCredit', '#contactCredit');
+        if ($('#taxType').val()) requestBody['TaxType'] = parseInt($('#taxType').val());
+        if ($('#taxType').val()){
+            if ($('#taxType').val().toLowerCase() == 'true') 
+                requestBody['Active'] = true; 
+            else 
+                requestBody['Active'] = false;
+        }
 
         fetch("/api/Contact/Save", {
             method: 'POST',
@@ -184,7 +176,7 @@
                     $(".Error-Container").css("display", "block");
                     $(".Error-Container").addClass("alert alert-danger");
                     $(".Error-Container").css("direction", "ltr");
-                    $(".Error-Container").text(`ErrorCode: ${data.errorCode} ErrorMessage: ${data.errorMessage}`);
+                    $(".Error-Container").text(`Error Occurred`);
                 }
             })
             .catch(error => console.error('Error Occured.', error));

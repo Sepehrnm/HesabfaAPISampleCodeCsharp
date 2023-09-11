@@ -33,6 +33,7 @@
                 return response.json();
             })
             .then(data => {
+                console.log(data)
                 if(!data.success) {
                     $(".Error-Container").css("display", "block");
                     $(".Error-Container").addClass("alert alert-danger");

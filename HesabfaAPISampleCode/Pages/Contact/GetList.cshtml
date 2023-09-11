@@ -24,7 +24,7 @@
             return response.json();
         })
         .then(data => {
-            initializeGetContactListPage(data)
+            initializeGetContactListPage(data.list)
         })
         .catch(error => console.error('Error Occured.', error));
 </script>

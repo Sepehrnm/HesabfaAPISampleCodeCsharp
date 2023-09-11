@@ -47,9 +47,19 @@
     $('.submitButton').on('click', () => {
 
         let code = $('#code').val();
-        let showAllAccounts = $('#showAllAccounts').val() ? $('#showAllAccounts').val() : false;
+        let showAllAccounts;
+
+        if ($('#showAllAccounts').val()) {
+            if ($('#showAllAccounts').val().toLowerCase() == 'true') showAllAccounts = true;
+            if ($('#showAllAccounts').val().toLowerCase() == 'false') showAllAccounts = false;
+        } else {
+            showAllAccounts = false;
+        }
+
         let days = parseInt($('#days').val()) ? parseInt($('#days').val()) : 30;
         let requestBody = { code: code, showAllAccounts: showAllAccounts, days: days };
+
+        console.log(requestBody)
 
         fetch("/api/Contact/GetContactLink", {
             method: 'POST',

@@ -24,7 +24,7 @@
             return response.json();
         })
         .then(data => {
-            initializeGetProductListPage(data.List);
+            initializeGetProductListPage(data);
         })
         .catch(error => console.error('Error Occured.', error));
 </script>

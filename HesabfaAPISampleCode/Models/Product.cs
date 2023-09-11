@@ -2,6 +2,6 @@
 {
     public class Product
     {
-        public Object? List { get; set; }
+        public List<ProductItem> List { get; set; }
     }
 }

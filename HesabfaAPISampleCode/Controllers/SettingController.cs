@@ -2,10 +2,7 @@
 using HesabfaAPISampleCode.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NPOI.SS.Formula.Functions;
 using System.Text;
-using System.Text.Json.Nodes;
 
 namespace HesabfaAPISampleCode.Controllers
 {
@@ -22,123 +19,103 @@ namespace HesabfaAPISampleCode.Controllers
         [HttpPost]
         public async Task<IActionResult> SetCurrencyTable([FromBody] List<CurrencyTable> table)
         {
-            var response = await settingService.SetCurrencyTable(table.ToArray());
-            return Ok(response);
+            return Ok(await settingService.SetCurrencyTable(table.ToArray()));
         }
 
         [HttpPost]
         public async Task<IActionResult> GetCurrencyTable()
         {
-            List<CurrencyTable> table = await settingService.GetCurrencyTable();
-            return Ok(table);
+            return Ok(await settingService.GetCurrencyTable());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetFiscalYears()
         {
-            List<FiscalYearList> list = await settingService.GetFiscalYears();
-            return Ok(list);
+            return Ok(await settingService.GetFiscalYears());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetBanks()
         {
-            List<Bank> banks = await settingService.GetBanks();
-            return Ok(banks);
+            return Ok(await settingService.GetBanks());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetCashes()
         {
-            List<Cash> cashes = await settingService.GetCashes();
-            return Ok(cashes);
+            return Ok(await settingService.GetCashes());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetPettyCashes()
         {
-            List<PettyCash> pettyCashes = await settingService.GetPettyCashes();
-            return Ok(pettyCashes);
+            return Ok(await settingService.GetPettyCashes());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetAccounts()
         {
-            List<Account> accounts = await settingService.GetAccounts();
-            return Ok(accounts);
+            return Ok(await settingService.GetAccounts());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetSalesmen()
         {
-            List<Salesman> salesmen = await settingService.GetSalesmen();
-            return Ok(salesmen);
+            return Ok(await settingService.GetSalesmen());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetWarehouses()
         {
-            List<Warehouse> warehouses = await settingService.GetWarehouses();
-            return Ok(warehouses);
+            return Ok(await settingService.GetWarehouses());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetCurrency()
         {
-            CurrencyValue currency = await settingService.GetCurrency();
-            return Ok(currency);
+            return Ok(await settingService.GetCurrency());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetProjects()
         {
-            List<Project> projects = await settingService.GetProjects();
-            return Ok(projects);
+            return Ok(await settingService.GetProjects());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetFiscalYear()
         {
-            FiscalYear fiscalYear = await settingService.GetFiscalYear();
-            return Ok(fiscalYear);
+            return Ok(await settingService.GetFiscalYear());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetBusinessInfo()
         {
-            BusinessInfo businessInfo = await settingService.GetBusinessInfo();
-            return Ok(businessInfo);
+            return Ok(await settingService.GetBusinessInfo());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetProductCategories()
         {
-            Category categories = await settingService.GetProductCategories();
-            var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(categories.Root));
-            return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
+            return Ok(await settingService.GetProductCategories());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetContactCategories()
         {
-            Category categories = await settingService.GetContactCategories();
-            var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(categories.Root));
-            return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
+            return Ok(await settingService.GetContactCategories());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetServiceCategories()
         {
-            Category categories = await settingService.GetServiceCategories();
-            var jsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(categories.Root));
-            return new FileContentResult(jsonBytes, "application/json; charset=utf-8");
+            return Ok(await settingService.GetServiceCategories());
         }
 
         [HttpPost]
         public async Task<IActionResult> GetLastChanges([FromBody] int start)
         {
-            List<UserLog> userLogs = await settingService.GetLastChanges(start);
-            return Ok(userLogs);
+            return Ok(await settingService.GetLastChanges(start));
         }
 
     }

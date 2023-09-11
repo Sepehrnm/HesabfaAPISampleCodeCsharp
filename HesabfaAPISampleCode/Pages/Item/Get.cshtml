@@ -19,7 +19,6 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>کد حسابداری کالا یا خدمات</th>
                                 <th>نام کالا یا خدمات</th>
                                 <th>بارکد کالا یا خدمات</th>
@@ -61,12 +60,11 @@
                 return response.json();
             })
             .then(data => {
-                if(data.id) {
+                if(data.code) {
                     $(".Error-Container").css("display", "none");
                     document.getElementById("tbody").innerHTML = ``;
                     let tr =
                         `<tr>
-                            <td>${data.id}</td>
                             <td>${data.code}</td>
                             <td>${data.name}</td>
                             <td>${data.barcode}</td>

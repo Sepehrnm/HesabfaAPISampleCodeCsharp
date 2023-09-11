@@ -27,6 +27,21 @@ builder.Services.AddSingleton<IDocumentService, DocumentService>();
 
 var app = builder.Build();
 
+// Exception Handler Middleware
+app.Use(async (context, next) =>
+{
+	try
+	{
+        await next.Invoke();
+	}
+	catch (Exception ex)
+	{
+        await context.Response.WriteAsync(ex.Message);
+        context.Response.StatusCode = 400;
+        throw;
+	}
+});
+
 //Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

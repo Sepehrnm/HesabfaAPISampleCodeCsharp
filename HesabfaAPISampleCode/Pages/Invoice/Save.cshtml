@@ -38,13 +38,9 @@
                         <input type="text" class="form-control" id="note">
                     </div>
                     <div class="form-group">
-                        <label for="sent" class="form-label">وضعیت ارسال</label>
-                        <input type="text" class="form-control" id="sent">
-                    </div>
-                    <div class="form-group">
                         <label for="invoiceType" class="form-label">نوع فاکتور</label>
                         <select name="invoiceType" id="invoiceType" class="form-select">
-                            <option>انتخاب کنید</option>
+                            <option value="-1">انتخاب کنید</option>
                             <option value="0">فروش</option>
                             <option value="1">خرید</option>
                             <option value="2">برگشت از فروش</option>
@@ -57,7 +53,7 @@
                     <div class="form-group">
                         <label for="status" class="form-label">وضعیت فاکتور</label>
                         <select name="status" id="status" class="form-select">
-                            <option>انتخاب کنید</option>
+                            <option value="-1">انتخاب کنید</option>
                             <option value="0">پیش نویس</option>
                             <option value="1">منتظر تایید</option>
                             <option value="2">تایید شده</option>
@@ -71,7 +67,7 @@
                     <div class="form-group">
                         <label for="warehouseReceiptStatus" class="form-label">وضعیت رسید/حواله انبار</label>
                         <select class="form-select" id="warehouseReceiptStatus">
-                            <option>انتخاب کنید</option>
+                            <option value="-1">انتخاب کنید</option>
                             <option value="0">رسید یا حواله انبار صادر نشده است</option>
                             <option value="1">رسید یا حواله انبار ناقص است</option>
                             <option value="2">رسید یا حواله انبار کامل است</option>
@@ -187,8 +183,13 @@
 
         const assignValue = (key, selector) => {
             const value = $(selector).val();
-            if (value) {
-                data[key] = value;
+            const intValues = ["InvoiceType", "Status", "Freight", "WarehouseReceiptStatus", "SalesmenPercent", "SalesmenCode"];
+            if (value && value != -1) {
+                if (intValues.includes(key)) {
+                    data[key] = parseInt(value);
+                } else {
+                    data[key] = value;
+                }
             }
         };
 
@@ -199,7 +200,6 @@
         assignValue('ContactCode', '#contactCode');
         assignValue('ContactTitle', '#contactTitle');
         assignValue('Note', '#note');
-        assignValue('Sent', '#sent');
         assignValue('InvoiceType', '#invoiceType');
         assignValue('Status', '#status');
         assignValue('Freight', '#freight');
@@ -214,10 +214,10 @@
                 Description: $(`#description${i}`).val(),
                 ItemCode: $(`#itemCode${i}`).val(),
                 Unit: $(`#unit${i}`).val(),
-                Quantity: $(`#quantity${i}`).val(),
-                UnitPrice: $(`#unitPrice${i}`).val(),
-                Discount: $(`#discount${i}`).val(),
-                Tax: $(`#tax${i}`).val()
+                Quantity: parseInt($(`#quantity${i}`).val()),
+                UnitPrice: parseInt($(`#unitPrice${i}`).val()),
+                Discount: parseInt($(`#discount${i}`).val()),
+                Tax: parseInt($(`#tax${i}`).val())
             };
             if ($(`#rowNumber${i}`).val()) invoiceItem.RowNumber = $(`#rowNumber${i}`).val();
             

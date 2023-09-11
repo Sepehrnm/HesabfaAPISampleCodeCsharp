@@ -36,11 +36,12 @@
                 return response.json();
             })
             .then(data => {
+                console.log(data)
                 if(!data.success) {
                     $(".Error-Container").css("display", "block");
                     $(".Error-Container").addClass("alert alert-danger");
                     $(".Error-Container").css("direction", "ltr");
-                    $(".Error-Container").text(`ErrorCode: ${data.errorCode} ErrorMessage: ${data.errorMessage}`);
+                    $(".Error-Container").text(`Error Occured`);
                 }
                 if(data.Result == true) {
                     $(".Error-Container").css("display", "none");

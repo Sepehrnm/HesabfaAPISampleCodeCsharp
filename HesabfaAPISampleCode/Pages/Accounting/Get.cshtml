@@ -35,59 +35,59 @@
             .then(data => {
                 $('#simple-treeview').dxTreeList({
                     dataSource: [data],
-                    keyExpr: "Id",
+                    keyExpr: "id",
                     rtlEnabled: true,
                     columns: [
                         {
-                            dataField: 'Number',
+                            dataField: 'number',
                             caption: 'شماره سند',
                         },
                         {
-                            dataField: 'Reference',
+                            dataField: 'reference',
                             caption: 'ارجاع'
                         },
                         {
-                            dataField: 'Date',
+                            dataField: 'date',
                             caption: 'تاریخ'
                         },
                         {
-                            dataField: 'Description',
+                            dataField: 'description',
                             caption: 'توضیحات',
                             minWidth: 200,
                         },
                         {
-                            dataField: 'Project',
+                            dataField: 'project',
                             caption: 'پروژه'
                         },
                         {
-                            dataField: 'Debit',
+                            dataField: 'debit',
                             caption: 'بدهکار'
                         },
                         {
-                            dataField: 'Credit',
+                            dataField: 'credit',
                             caption: 'بستانکار'
                         },
                         {
-                            dataField: 'Status',
+                            dataField: 'status',
                             caption: 'وضعیت سند'
                         },
                         {
-                            dataField: 'Transactions',
+                            dataField: 'transactions',
                             caption: 'تراکنش ها',
                             cellTemplate: function (container, options) {
-                                var transactions = options.data.Transactions;
+                                var transactions = options.data.transactions;
                                 var div = $('<div>').addClass('transaction-container');
 
                                 transactions.forEach(function (transaction) {
-                                    var accountPath = transaction.AccountPath;
-                                    var amount = transaction.Amount;
-                                    var cashCode = transaction.CashCode;
-                                    var bankCode = transaction.BankCode;
-                                    var contactCode = transaction.ContactCode;
-                                    var currency = transaction.Currency;
-                                    var currencyAmount = transaction.CurrencyAmount;
-                                    var description = transaction.Description;
-                                    var pettyCashCode = transaction.PettyCashCode;
+                                    var accountPath = transaction.accountPath;
+                                    var amount = transaction.amount;
+                                    var cashCode = transaction.cashCode;
+                                    var bankCode = transaction.bankCode;
+                                    var contactCode = transaction.contactCode;
+                                    var currency = transaction.currency;
+                                    var currencyAmount = transaction.currencyAmount;
+                                    var description = transaction.description;
+                                    var pettyCashCode = transaction.pettyCashCode;
                                     var info = transaction.Info;
 
                                     var transactionInfo = $('<div>').addClass('transaction-info');

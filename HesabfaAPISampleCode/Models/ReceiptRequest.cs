@@ -1,10 +1,11 @@
-﻿using NPOI.Util;
+﻿using HesabfaAPISampleCode.Models.Enumarations;
+using NPOI.Util;
 
 namespace HesabfaAPISampleCode.Models
 {
     public class ReceiptRequest
     {
-        public int type { get; set; }
-        public int number { get; set; }
+        public ReceiptType Type { get; set; }
+        public int Number { get; set; }
     }
 }

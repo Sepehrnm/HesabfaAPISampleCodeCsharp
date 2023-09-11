@@ -84,15 +84,15 @@
                 
                 }
 
-                if(data.Id) {
+                if(data.number) {
                     $(".Error-Container").css("display", "none");
 
-                    const amount = data.Amount;
-                    const currency = data.Currency;
-                    const dateTime = data.DateTime;
-                    const description = data.Description;
-                    const number = data.Number;
-                    const project = data.Project;
+                    const amount = data.amount;
+                    const currency = data.currency;
+                    const dateTime = data.dateTime;
+                    const description = data.description;
+                    const number = data.number;
+                    const project = data.project;
                     const tr = `
                         <tr id="tableRow">
                             <td>${number}</td>
@@ -107,10 +107,10 @@
 
                     document.getElementById("tbody").innerHTML += tr;
 
-                    data.Items.map(item => {
-                        const contactId = item.Contact.Id;
-                        const contactCode = item.Contact.Code;
-                        const contactName = item.Contact.Name;
+                    data.items.map(item => {
+                        const contactId = item.contact.id;
+                        const contactCode = item.contact.code;
+                        const contactName = item.contact.name;
                         let itemsCell = 
                         `
                             <td>
@@ -125,12 +125,12 @@
                         document.getElementById("tableRow").innerHTML += itemsCell;
                     });
                     var td = document.createElement('td');
-                    data.Transactions.map(transaction => {
+                    data.transactions.map(transaction => {
                         Object.keys(transaction).forEach(function(key, index) {
                             if (typeof transaction[key] === "object" && transaction[key]) {
-                                const id = transaction[key].Id;
-                                const code = transaction[key].Code;
-                                const name = transaction[key].Name;
+                                const id = transaction[key].id;
+                                const code = transaction[key].code;
+                                const name = transaction[key].name;
                                 let itemsCell = `
                                     <div>
                                         ${id}

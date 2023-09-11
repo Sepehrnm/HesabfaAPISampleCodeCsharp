@@ -30,7 +30,7 @@
             return response.json();
         })
         .then(data => {
-            formatProductCategories(data)
+            formatProductCategories(data.root)
         })
         .catch(error => console.error('Error Occured.', error));
 </script>
