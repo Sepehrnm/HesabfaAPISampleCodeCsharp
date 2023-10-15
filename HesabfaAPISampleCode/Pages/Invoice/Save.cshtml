@@ -55,9 +55,7 @@
                         <select name="status" id="status" class="form-select">
                             <option value="-1">انتخاب کنید</option>
                             <option value="0">پیش نویس</option>
-                            <option value="1">منتظر تایید</option>
-                            <option value="2">تایید شده</option>
-                            <option value="3">پرداخت شده</option>
+                            <option value="1">تایید شده</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -214,7 +212,7 @@
                 Description: $(`#description${i}`).val(),
                 ItemCode: $(`#itemCode${i}`).val(),
                 Unit: $(`#unit${i}`).val(),
-                Quantity: parseInt($(`#quantity${i}`).val()),
+                Quantity: $(`#quantity${i}`).val(),
                 UnitPrice: parseInt($(`#unitPrice${i}`).val()),
                 Discount: parseInt($(`#discount${i}`).val()),
                 Tax: parseInt($(`#tax${i}`).val())
@@ -225,8 +223,6 @@
         }
 
         data.InvoiceItems = invoiceItems;
-
-        assignValue('Currency', '#currency');
 
         assignValue('Currency', '#currency');
         assignValue('CurrencyRate', '#currencyRate');

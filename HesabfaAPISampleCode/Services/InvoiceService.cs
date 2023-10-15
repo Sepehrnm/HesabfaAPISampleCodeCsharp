@@ -10,7 +10,7 @@ namespace HesabfaAPISampleCode.Services
         Task<OnlineInvoiceURL> GetOnlineInvoiceURL(int number, int type);
         Task<bool> SavePayment(PaymentRequest paymentRequest);
         Task<bool> Delete(int number, int type);
-        Task<Invoice> Save(Invoice invoice);
+        Task<InvoiceResponse> Save(Invoice invoice);
         Task<WarehouseReceipt> SaveWarehouseReceipt(WarehouseReceipt receipt);
     }
     public class InvoiceService : IInvoiceService
@@ -98,9 +98,9 @@ namespace HesabfaAPISampleCode.Services
             return await baseService.Post<bool>("invoice/delete", parameters);
         }
 
-        public async Task<Invoice> Save(Invoice invoice)
+        public async Task<InvoiceResponse> Save(Invoice invoice)
         {
-            return await baseService.Post<Invoice>("invoice/save", ("invoice", invoice));
+            return await baseService.Post<InvoiceResponse>("invoice/save", ("invoice", invoice));
         }
 
         public async Task<WarehouseReceipt> SaveWarehouseReceipt(WarehouseReceipt receipt)
