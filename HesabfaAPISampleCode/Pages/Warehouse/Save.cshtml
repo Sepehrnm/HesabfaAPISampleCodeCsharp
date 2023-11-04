@@ -1,0 +1,201 @@
+﻿@page
+@model HesabfaAPISampleCode.Pages.Warehouse.SaveModel
+@{
+    ViewData["Title"] = "ذخیره رسید و حواله انبار";
+    <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex gap-2">
+                        <div class="form-group">
+                            <label for="deleteOldReceipts" class="form-label">حذف رسید یا حواله قدیمی</label>
+                            <select name="deleteOldReceipts" id="deleteOldReceipts" class="form-select">
+                                <option selected value="false">انتخاب کنید</option>
+                                <option value="true">بله</option>
+                                <option value="false">خیر</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="warehouseCode" class="form-label">کد انبار</label>
+                            <input type="text" class="form-control" id="warehouseCode">
+                        </div>
+                        <div class="form-group">
+                            <label for="destinationWarehouseCode" class="form-label">کد حواله انتقال</label>
+                            <input type="text" class="form-control" id="destinationWarehouseCode">
+                        </div>
+                        <div class="form-group">
+                            <label for="invoiceNumber" class="form-label">شماره فاکتور</label>
+                            <input type="text" class="form-control" id="invoiceNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="invoiceType" class="form-label">نوع فاکتور</label>
+                            <select name="invoiceType" id="invoiceType" class="form-select">
+                                <option selected value="-1">انتخاب کنید</option>
+                                <option value="0">فروش</option>
+                                <option value="1">خرید</option>
+                                <option value="2">برگشت از فروش</option>
+                                <option value="3">برگشت از خرید</option>
+                                <option value="4">ضایعات</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <div class="form-group">
+                            <label for="date" class="form-label">تاریخ حواله</label>
+                            <input type="text" class="form-control" id="date">
+                        </div>
+                        <div class="form-group">
+                            <label for="notes" class="form-label">یادداشت و توضیحات</label>
+                            <input type="text" class="form-control" id="notes">
+                        </div>
+                        <div class="form-group">
+                            <label for="freight" class="form-label">هزینه حمل</label>
+                            <input type="text" class="form-control" id="freight">
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <div class="form-group">
+                            <label for="delivery" class="form-label">تحویل (در محل انبار)</label>
+                            <input type="text" class="form-control" id="delivery">
+                        </div>
+                        <div class="form-group">
+                            <label for="project" class="form-label">پروژه</label>
+                            <input type="text" class="form-control" id="project">
+                        </div>
+                    </div>
+                    <br>
+                    <table class="table-striped table table-light">
+                        <thead>
+                            <tr>
+                                <th>
+                                    کد کالا
+                                    <span style="color: red;font-size: 1.2rem;">*</span>
+                                </th>
+                                <th>
+                                    تعداد
+                                    <span style="color: red;font-size: 1.2rem;">*</span>
+                                </th>
+                                <th>
+                                    ارجاع
+                                </th>
+                                <th>
+                                    توضیحات
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="quantity-tbody">
+                            <tr>
+                                <td>
+                                    <input type="hidden" value="1" name="counter" class="counter">
+                                    <input class="accounting-input" type="text" id="itemCode1" required />
+                                </td>
+                                <td>
+                                    <input type="text" id="quantity1" required />
+                                </td>
+                                <td>
+                                    <input type="text" id="reference1" />
+                                </td>
+                                <td>
+                                    <input type="text" id="note1" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="buttons-container" style="justify-content: flex-end;">
+                        <button id="deleteRow" class="deleteRow btn btn-danger m-2"><span class="m-2">-</span>حذف ردیف</button>
+                        <button id="addNewRow" class="addNewRow btn btn-secondary m-2"><span class="m-2">+</span>افزودن ردیف</button>
+                    </div>
+                    <br>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <button class="btn btn-primary submitButton">ذخیره</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+}
+
+<script>
+    var i = 2;
+    $(document).ready(() => {
+        $("#addNewRow").on('click', (e) => {
+            e.preventDefault();
+            let element = `
+                <tr id="element-${i}">
+                    <input type="hidden" value="${i}" class="counter">
+                    <td><input type="text" id="itemCode${i}" class="accounting-input" required /></td>
+                    <td><input type="text" id="quantity${i}" required /></td>
+                    <td><input type="text" id="reference${i}" required /></td>
+                    <td><input type="text" id="notes${i}" /></td>
+                </tr>`;
+            ++i;
+            $(".quantity-tbody").append(element);
+        });
+
+        $("#deleteRow").on('click', (e) => {
+            e.preventDefault();
+            if (i > 2) {
+                $(`.quantity-tbody`).children().last().remove();
+                i--;
+            }
+        });
+    });
+
+    $(".submitButton").on("click", () => {
+        let data = {};
+        let counter = i;
+        let item;
+        let items = [];
+
+        const assignValue = (key, selector) => {
+            const value = $(selector).val();
+            if (value) {
+                data[key] = value;
+            }
+        };
+
+        assignValue('deleteOldReceipts', '#deleteOldReceipts');
+        assignValue('Date', '#date');
+        assignValue('Notes', '#notes');
+        assignValue('Freight', '#freight');
+        assignValue('Delivery', '#delivery');
+        assignValue('Project', '#project');
+
+        for (let j = 1; j < counter; j++) {
+            item = {
+                'ItemCode': $(`#itemCode${j}`).val(),
+                'Quantity': $(`#quantity${j}`).val(),
+            }
+            if ($(`#reference${j}`).val()) item.Reference = $(`#reference${j}`).val();
+            if ($(`#notes${j}`).val()) item.Notes = $(`#notes${j}`).val();
+
+            items.push(item);
+        }
+
+        data = {
+            'WarehouseCode': $("#warehouseCode").val(),
+            'InvoiceNumber': $("#invoiceNumber").val(),
+            'InvoiceType': parseInt($("#invoiceType").val()),
+            'Items': items
+        };
+
+        assignValue('DestinationWarehouseCode', '#destinationWarehouseCode');
+
+        fetch("/api/Warehouse/Save", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.number) {
+                    alert("حواله انبار ثبت گردید");
+                } 
+            })
+
+    })
+
+</script>

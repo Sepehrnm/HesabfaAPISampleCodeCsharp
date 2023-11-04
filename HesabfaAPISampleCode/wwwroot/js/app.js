@@ -757,3 +757,221 @@ function formatProfitAndLossStatementData(data, ret, id, parentId) {
     }
     return id;
 }
+
+function initializeReceiptPage(data) {
+    $('#gridContainer').dxDataGrid({
+        dataSource: [data],
+        keyExpr: 'id',
+        rtlEnabled: true,
+        responsive: true,
+        columnHidingEnabled: true,
+        filterRow: {
+            visible: true
+        },
+        paging: {
+            pageSize: 10,
+        },
+        focusedRowEnabled: true,
+        showColumnLines: true,
+        showRowLines: true,
+        rowAlternationEnabled: true,
+        showBorders: true,
+        headerFilter: {
+            visible: true,
+        },
+        groupPanel: {
+            visible: true,
+        },
+        columns: [
+            {
+                dataField: "id",
+                caption: "ID",
+            },
+            {
+                dataField: "date",
+                caption: "تاریخ حواله",
+            },
+            {
+                dataField: "delivery",
+                caption: "تحویل",
+            },
+            {
+                dataField: "invoiceNumber",
+                caption: "شماره فاکتور",
+            },
+            {
+                dataField: "project",
+                caption: "پروژه",
+            },
+            {
+                dataField: "receiving",
+                caption: "دریافت شده (رسید ورود به انبار یا حواله خروج از انبار)",
+            },
+            {
+                dataField: "notes",
+                caption: "یادداشت و توضیحات",
+            },
+            {
+                dataField: "destinationWarehouseCode",
+                caption: "کد حواله انتقال",
+            },
+            {
+                dataField: "invoiceType",
+                caption: "نوع فاکتور",
+            },
+            {
+                dataField: "items",
+                caption: "آیتم های موجود",
+                cellTemplate: function (container, options) {
+                    var content = options.data.items.map(item => `<div> کد کالا: ${item.itemCode} ارجاع: ${item.reference} توضیحات: ${item.notes}  موجودی: ${item.quantity}</div>`).join("<br>");
+                    $('<div>').html(content).css("white-space", "pre-wrap").appendTo(container);
+                }
+            },
+        ],
+    });
+}
+
+function initializeReceiptsListPage(data) {
+    $('#gridContainer').dxDataGrid({
+        dataSource: data.list,
+        keyExpr: 'number',
+        rtlEnabled: true,
+        responsive: true,
+        columnHidingEnabled: true,
+        filterRow: {
+            visible: true
+        },
+        paging: {
+            pageSize: 10,
+        },
+        focusedRowEnabled: true,
+        showColumnLines: true,
+        showRowLines: true,
+        rowAlternationEnabled: true,
+        showBorders: true,
+        headerFilter: {
+            visible: true,
+        },
+        groupPanel: {
+            visible: true,
+        },
+        columns: [
+            {
+                dataField: "id",
+                caption: "ID",
+            },
+            {
+                dataField: "number",
+                caption: "شماره حواله",
+            },
+            {
+                dataField: "date",
+                caption: "تاریخ حواله",
+            },
+            {
+                dataField: "delivery",
+                caption: "تحویل",
+            },
+            {
+                dataField: "invoiceNumber",
+                caption: "شماره فاکتور",
+            },
+            {
+                dataField: "project",
+                caption: "پروژه",
+            },
+            {
+                dataField: "receiving",
+                caption: "دریافت شده (رسید ورود به انبار یا حواله خروج از انبار)",
+            },
+            {
+                dataField: "notes",
+                caption: "یادداشت و توضیحات",
+            },
+            {
+                dataField: "destinationWarehouseCode",
+                caption: "کد حواله انتقال",
+            },
+            {
+                dataField: "invoiceType",
+                caption: "نوع فاکتور",
+            },
+            {
+                dataField: "items",
+                caption: "آیتم های موجود",
+                cellTemplate: function (container, options) {
+                    var content = options.data.items.map(item => `<div> کد کالا: ${item.itemCode} ارجاع: ${item.reference} توضیحات: ${item.notes}  موجودی: ${item.quantity}</div>`).join("<br>");
+                    $('<div>').html(content).css("white-space", "pre-wrap").appendTo(container);
+                }
+            },
+        ],
+    });
+}
+
+function initializeReceiptsByIDListPage(data) {
+    $('#gridContainer').dxDataGrid({
+        dataSource: data,
+        keyExpr: 'number',
+        rtlEnabled: true,
+        responsive: true,
+        columnHidingEnabled: true,
+        paging: {
+            pageSize: 10,
+        },
+        focusedRowEnabled: true,
+        showColumnLines: true,
+        showRowLines: true,
+        rowAlternationEnabled: true,
+        showBorders: true,
+        groupPanel: {
+            visible: true,
+        },
+        columns: [
+            {
+                dataField: "id",
+                caption: "ID",
+            },
+            {
+                dataField: "date",
+                caption: "تاریخ حواله",
+            },
+            {
+                dataField: "delivery",
+                caption: "تحویل",
+            },
+            {
+                dataField: "invoiceNumber",
+                caption: "شماره فاکتور",
+            },
+            {
+                dataField: "project",
+                caption: "پروژه",
+            },
+            {
+                dataField: "receiving",
+                caption: "دریافت شده (رسید ورود به انبار یا حواله خروج از انبار)",
+            },
+            {
+                dataField: "notes",
+                caption: "یادداشت و توضیحات",
+            },
+            {
+                dataField: "destinationWarehouseCode",
+                caption: "کد حواله انتقال",
+            },
+            {
+                dataField: "invoiceType",
+                caption: "نوع فاکتور",
+            },
+            {
+                dataField: "items",
+                caption: "آیتم های موجود",
+                cellTemplate: function (container, options) {
+                    var content = options.data.items.map(item => `<div> کد کالا: ${item.itemCode} ارجاع: ${item.reference} توضیحات: ${item.notes}  موجودی: ${item.quantity}</div>`).join("<br>");
+                    $('<div>').html(content).css("white-space", "pre-wrap").appendTo(container);
+                }
+            },
+        ],
+    });
+}
+

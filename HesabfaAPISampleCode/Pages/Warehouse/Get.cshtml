@@ -1,0 +1,42 @@
+﻿@page
+@model HesabfaAPISampleCode.Pages.Warehouse.GetModel
+@{
+    ViewData["Title"] = "دریافت حواله انبار";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="Error-Container"></div>
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="number">شماره رسید یا حواله مورد نظر</label>
+                        <input id="number" type="text" name="number" class="form-control" />
+                    </div>
+                    <br />
+                    <button type="button" class="btn btn-primary submitButton">نمایش</button>
+                </div>
+                <div id="gridContainer"></div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $('.submitButton').on('click', () => {
+
+        fetch("/api/Warehouse/Get", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify($('#number').val())
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                initializeReceiptPage(data);
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+
+</script>
