@@ -4,8 +4,8 @@ namespace HesabfaAPISampleCode.Models
 {
     public class DocumentTransaction
     {
-        public string AccountPath { get; set; }
-        public string Description { get; set; }
+        public string? AccountPath { get; set; }
+        public string? Description { get; set; }
         public decimal Amount { get; set; }
         public TransactionType Type { get; set; }
         //public string ContactCode { get; set; }

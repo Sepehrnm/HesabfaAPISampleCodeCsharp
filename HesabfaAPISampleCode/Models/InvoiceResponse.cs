@@ -6,20 +6,20 @@ namespace HesabfaAPISampleCode.Models
     {
         public string? Number { get; set; }
         public string? Reference { get; set; }
-        public string? Date { get; set; }
-        public string? DueDate { get; set; }
+        public DateTime? Date { get; set; }
+        public DateTime? DueDate { get; set; }
         public string? ContactCode { get; set; }
         public string? ContactTitle { get; set; }
         public string? Sum { get; set; }
         public string? Note { get; set; }
-        public bool? Sent { get; set; }
+        public bool Sent { get; set; }
         public InvoiceType? InvoiceType { get; set; }
         public InvoiceStatuts? Status { get; set; }
         public string? Tag { get; set; }
         public decimal? Freight { get; set; }
         public WarehouseReceiptStatus? WarehouseReceiptStatus { get; set; }
         public string? Project { get; set; }
-        public int? SalesmanCode { get; set; }
+        public string? SalesmanCode { get; set; }
         public decimal? SalesmanPercent { get; set; }
         public string? Currency { get; set; }
         public decimal? CurrencyRate { get; set; }
@@ -30,16 +30,11 @@ namespace HesabfaAPISampleCode.Models
     {
         public int RowNumber { get; set; }
         public string? Description { get; set; }
-        public Item? Item { get; set; }
+        public object? Item { get; set; }
         public string? Unit { get; set; }
         public decimal Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
         public decimal Tax { get; set; }
-    }
-
-    public class Item
-    {
-        public string? Code { get; set; }
     }
 }

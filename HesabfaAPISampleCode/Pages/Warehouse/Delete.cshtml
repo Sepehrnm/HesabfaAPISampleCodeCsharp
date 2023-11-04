@@ -1,0 +1,50 @@
+﻿@page
+@model HesabfaAPISampleCode.Pages.Warehouse.DeleteModel
+@{
+    ViewData["Title"] = "حذف رسید و حواله انبار";
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="Error-Container"></div>
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="form-group">
+                        <label for="number">شماره رسید یا حواله مورد نظر</label>
+                        <input id="number" type="text" name="number" class="form-control" />
+                    </div>
+                    <br />
+                    <button type="button" class="btn btn-danger submitButton">حذف</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $('.submitButton').on('click', () => {
+
+        fetch("/api/Warehouse/Delete", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify($('#number').val())
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+                if (!data.errors) {
+                    alert("آیتم حذف گردید");
+                } else {
+                    $(".Error-Container").css("display", "block");
+                    $(".Error-Container").addClass("alert alert-danger");
+                    $(".Error-Container").css("direction", "ltr");
+                    $(".Error-Container").text(`Status: ${data.status} - Title: ${data.title}`);
+                }
+
+            })
+            .catch(error => console.error('Error Occured.', error));
+    })
+
+</script>

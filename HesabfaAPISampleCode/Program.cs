@@ -23,6 +23,7 @@ builder.Services.AddSingleton<IInvoiceService, InvoiceService>();
 builder.Services.AddSingleton<IReceiptService, ReceiptService>();
 builder.Services.AddSingleton<IReportService, ReportService>();
 builder.Services.AddSingleton<IDocumentService, DocumentService>();
+builder.Services.AddSingleton<IWarehouseService, WarehouseService>();
 
 
 var app = builder.Build();

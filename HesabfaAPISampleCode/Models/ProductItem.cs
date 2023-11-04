@@ -18,6 +18,6 @@ namespace HesabfaAPISampleCode.Models
         public string? Tag { get; set; }
         public string? Description { get; set; }
         public string? ProductCode { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
     }
 }
